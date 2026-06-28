@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+// Multi-page navigation helper
+var __ARKA_ROUTES = {"login": "login.html", "signup-admin": "signup-admin.html", "signup-client": "signup-client.html", "landing": "landing.html", "admin-dashboard": "admin-dashboard.html", "admin-calendar": "admin-calendar.html", "admin-chat": "admin-chat.html", "admin-client-detail": "admin-client-detail.html", "admin-client-detail-gw": "admin-client-detail-gw.html", "admin-client-detail-is": "admin-client-detail-is.html", "admin-client-detail-cr": "admin-client-detail-cr.html", "admin-view-documents": "admin-view-documents.html", "client-portal": "client-portal.html", "admin-new-request": "admin-new-request.html", "admin-create-request": "admin-create-request.html", "admin-doc-request": "admin-doc-request.html", "admin-completed-assessment": "admin-completed-assessment.html"};
+function arkaNav(target) {
+  var fname = __ARKA_ROUTES[target];
+  if (fname) window.location.href = fname;
+}
+// Intercept any remaining parent.postMessage arka-nav calls
+window.parent = window.parent || {};
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>.ark-attn-header,.ark-attn-item,.ark-attn-count,.ark-rc-tag,.ark-recent{display:none!important}</style>
+<title>Arka — Crestline Retail</title>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #1a5c3a;
+  --green-mid: #2d7a50;
+  --green-light: #4caf7d;
+  --green-pale: #e8f5ee;
+  --score-good: #2d7a50;
+  --score-warn: #d97706;
+  --score-bad: #dc2626;
+  --sidebar-w: 220px;
+  --topbar-h: 64px;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  --border: #e5e7eb;
+  --border-mid: #d1d5db;
+  --white: #ffffff;
+  --bg: #f7f8fa;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── TOPBAR ─── */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 24px; z-index: 100; gap: 16px;
+}
+.logo {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700; font-size: 22px;
+  color: var(--green); letter-spacing: -0.5px;
+  min-width: calc(var(--sidebar-w) - 24px);
+}
+.search-bar {
+  flex: 1; max-width: 480px;
+  height: 38px;
+  background: var(--gray-50, #f9fafb);
+  border: 1px solid var(--gray-200, #e5e7eb); border-radius: 999px;
+  padding: 0 16px 0 40px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: var(--text); outline: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: 12px center;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search-bar:focus { border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,0.1); }
+.search-bar::placeholder { color: #9ca3af; }
+.topbar-icons { margin-left: auto; display: flex; align-items: center; gap: 18px; }
+.icon-btn {
+  width: 36px; height: 36px; border: none; background: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; color: var(--text-muted); transition: background 0.15s;
+}
+.icon-btn:hover { background: var(--bg); }
+.avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--green); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  position: fixed; top: var(--topbar-h); left: 0; bottom: 0;
+  width: var(--sidebar-w); background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 20px 0; overflow-y: auto; z-index: 90;
+}
+.sidebar-menu { list-style: none; }
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px; font-size: 13.5px; font-weight: 500;
+  color: var(--text-muted); cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.sidebar-item:hover { background: var(--green-pale); color: var(--green); }
+.sidebar-item.active { color: var(--green); background: var(--green-pale); }
+.sidebar-item svg { flex-shrink: 0; opacity: 0.7; }
+.sidebar-item.active svg { opacity: 1; }
+.sidebar-divider { height: 1px; background: var(--border); margin: 10px 0; }
+.sidebar-section {
+  padding: 8px 20px 4px; font-size: 11px; font-weight: 600;
+  color: var(--text-light); letter-spacing: 0.5px; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.recent-client { padding: 6px 20px 6px 32px; font-size: 12px; color: var(--text-muted); cursor: pointer; transition: color 0.15s; }
+.recent-client:hover { color: var(--green); }
+.recent-client .rc-name { font-weight: 500; color: var(--text); font-size: 12.5px; }
+.recent-client .rc-tag { font-size: 11px; color: var(--text-light); }
+
+/* ─── MAIN ─── */
+.main { margin-left: var(--sidebar-w); margin-top: var(--topbar-h); padding: 28px 32px 60px; }
+
+/* ─── BACK ─── */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--text-muted);
+  cursor: pointer; margin-bottom: 20px; transition: color 0.15s;
+}
+.back-link:hover { color: var(--green); }
+
+/* ─── CLIENT HEADER ─── */
+.client-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px; gap: 16px;
+}
+.client-identity { display: flex; align-items: center; gap: 14px; }
+.client-icon {
+  width: 52px; height: 52px; background: var(--green-pale);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.client-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 32px; font-weight: 600; color: var(--text); line-height: 1.15;
+  letter-spacing: -0.3px;
+}
+.client-meta { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+/* ─── CONTACT DROPDOWN ─── */
+.contact-trigger {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-left: 12px;
+  padding: 4px 10px;
+  border: 1.5px solid var(--border-mid);
+  border-radius: 20px; background: var(--white);
+  font-size: 12px; font-weight: 500; color: var(--text-muted);
+  cursor: pointer; transition: all 0.15s;
+  position: relative;
+}
+.contact-trigger:hover { border-color: var(--green); color: var(--green); }
+.contact-trigger.open { border-color: var(--green); color: var(--green); background: var(--green-pale); }
+.contact-trigger svg { transition: transform 0.2s; }
+.contact-trigger.open svg { transform: rotate(180deg); }
+
+.contact-dropdown {
+  position: absolute;
+  top: calc(100% + 8px); left: 0;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  padding: 16px 18px;
+  min-width: 280px; z-index: 50;
+  display: none;
+  animation: dropIn 0.15s ease;
+}
+.contact-dropdown.open { display: block; }
+@keyframes dropIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+
+.contact-dropdown-title {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--text-light); margin-bottom: 12px;
+}
+.contact-line { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.contact-line:last-child { margin-bottom: 0; }
+.contact-icon { color: var(--green-mid); flex-shrink: 0; margin-top: 1px; }
+.contact-label { font-size: 11px; color: var(--text-light); }
+.contact-value { font-size: 13px; font-weight: 500; color: var(--text); }
+.contact-divider { height: 1px; background: var(--border); margin: 12px 0; }
+.map-link { font-size: 12px; color: var(--green); cursor: pointer; margin-top: 4px; font-weight: 500; }
+
+.header-actions { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+.btn-outline {
+  padding: 8px 16px; border: 1.5px solid var(--border-mid);
+  background: var(--white); border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  color: var(--text); cursor: pointer; transition: all 0.15s;
+}
+.btn-outline:hover { border-color: var(--green); color: var(--green); }
+.btn-green {
+  padding: 8px 16px; border: none;
+  background: var(--green); border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  color: white; cursor: pointer; transition: background 0.15s;
+}
+.btn-green:hover { background: var(--green-mid); }
+
+/* ─── PRIORITY ALERT ─── */
+.priority-alert {
+  display: flex; align-items: center; gap: 10px;
+  background: #fffbeb; border: 1px solid #fbbf24;
+  border-radius: var(--radius-sm);
+  padding: 10px 16px; margin-bottom: 18px;
+  font-size: 13px; color: #92400e;
+}
+.priority-alert svg { flex-shrink: 0; color: #d97706; }
+.priority-alert strong { font-weight: 600; }
+
+/* ─── PROGRESS TIMELINE ─── */
+.timeline-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 32px;
+  margin-bottom: 22px; box-shadow: var(--shadow-sm);
+}
+.timeline-track { display: flex; align-items: flex-start; position: relative; }
+
+.timeline-step { flex: 1; text-align: center; position: relative; }
+
+/* connecting lines between steps */
+.timeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 11px; left: calc(50% + 14px); right: calc(-50% + 14px);
+  height: 2px; z-index: 0;
+}
+.timeline-step.done:not(:last-child)::after { background: var(--green-light); }
+.timeline-step.active:not(:last-child)::after { background: var(--border); }
+.timeline-step.pending:not(:last-child)::after { background: var(--border); }
+
+.step-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  margin: 0 auto 10px; position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+/* DONE — solid green with checkmark */
+.step-dot.done { background: var(--green); }
+.step-dot.done svg { color: white; }
+
+/* ACTIVE — green border, pulsing */
+.step-dot.active {
+  background: white; border: 2.5px solid var(--green);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+.step-dot.active::after {
+  content: '';
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green); position: absolute;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26,92,58,0.25); }
+  50% { box-shadow: 0 0 0 5px rgba(26,92,58,0); }
+}
+
+/* PENDING — gray empty circle */
+.step-dot.pending { background: var(--bg); border: 2px solid var(--border-mid); }
+
+.step-label {
+  font-size: 11.5px; font-weight: 500;
+  color: var(--text-muted); margin-bottom: 3px;
+}
+.timeline-step.done .step-label { color: var(--green); font-weight: 600; }
+.timeline-step.active .step-label { color: var(--text); font-weight: 600; }
+
+.step-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--text);
+}
+.timeline-step.pending .step-value { color: var(--text-light); }
+.step-sublabel { font-size: 10.5px; color: var(--text-light); margin-top: 2px; }
+
+/* ─── ASSESSMENT SECTION ─── */
+.assessment-title {
+  font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* ─── MASTER-DETAIL ─── */
+.master-detail {
+  display: grid; grid-template-columns: 260px 1fr;
+  gap: 14px; align-items: start;
+}
+
+/* ─── DOMAIN LIST (LEFT) ─── */
+.domain-list {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  position: sticky; top: calc(var(--topbar-h) + 20px);
+}
+.domain-list-header {
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.domain-list-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--text-light); letter-spacing: 0.8px; text-transform: uppercase;
+}
+.domain-item {
+  display: flex; align-items: center;
+  padding: 13px 16px; cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.15s; gap: 12px; position: relative;
+}
+.domain-item:last-of-type { border-bottom: none; }
+.domain-item:hover { background: var(--bg); }
+.domain-item.active {
+  background: var(--green-pale);
+  border-left: 3px solid var(--green);
+  padding-left: 13px;
+}
+.domain-icon-wrap {
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  background: var(--bg); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 15px;
+}
+.domain-item.active .domain-icon-wrap { background: white; }
+.domain-info { flex: 1; min-width: 0; }
+.domain-name {
+  font-size: 12.5px; font-weight: 600; color: var(--text); line-height: 1.3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.domain-item.active .domain-name { color: var(--green); }
+.domain-sub { font-size: 11px; color: var(--text-light); margin-top: 1px; }
+.domain-score-badge { font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+
+/* domain list footer — viz button */
+.domain-list-footer {
+  padding: 12px 16px; border-top: 1px solid var(--border);
+}
+.btn-viz-inline {
+  width: 100%; padding: 8px;
+  border: 1.5px solid var(--green);
+  background: var(--white); border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--green); cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-viz-inline:hover { background: var(--green-pale); }
+
+/* ─── DETAIL PANEL (RIGHT) ─── */
+.detail-panel { display: flex; flex-direction: column; gap: 14px; }
+.detail-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 24px;
+  box-shadow: var(--shadow-sm); animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.detail-card-header { margin-bottom: 18px; }
+.detail-card-title { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+.detail-card-desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+
+/* ─── CHART ─── */
+.chart-legend { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; float: right; }
+.legend-bar { width: 140px; height: 8px; border-radius: 4px; background: linear-gradient(to right, #22c55e, #f59e0b, #ef4444); }
+.legend-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+.chart-wrap { clear: both; }
+.bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.bar-row:last-child { margin-bottom: 0; }
+.bar-label { width: 140px; text-align: right; font-size: 12px; color: var(--text-muted); flex-shrink: 0; line-height: 1.3; }
+.bar-track { flex: 1; height: 28px; background: var(--bg); border-radius: 6px; overflow: hidden; }
+.bar-fill {
+  height: 100%; border-radius: 6px;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 10px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  font-size: 12px; font-weight: 600; color: white;
+}
+.bar-axis { display: flex; justify-content: space-between; padding: 4px 0 0 152px; font-size: 10px; color: var(--text-light); }
+
+/* ─── GAP CARD ─── */
+.gap-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px;
+  box-shadow: var(--shadow-sm); animation: fadeIn 0.2s ease;
+}
+.gap-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.gap-title { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; }
+.priority-tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.priority-high { background: #fef2f2; color: var(--score-bad); }
+.priority-mid { background: #fffbeb; color: var(--score-warn); }
+.priority-low { background: var(--green-pale); color: var(--green); }
+
+.gap-stats { display: flex; gap: 0; margin-bottom: 14px; }
+.gap-stat {
+  flex: 1; text-align: center; padding: 10px 0;
+  border-right: 1px solid var(--border);
+}
+.gap-stat:last-child { border-right: none; }
+.gap-stat-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.gap-stat-value { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 20px; color: var(--text); }
+.gap-stat-value.urgent { color: var(--score-bad); }
+.gap-stat-value.warn { color: var(--score-warn); }
+
+.gap-progress-wrap { position: relative; margin-bottom: 6px; }
+.gap-track { height: 10px; background: var(--bg); border-radius: 5px; overflow: visible; position: relative; }
+.gap-fill { height: 100%; border-radius: 5px; background: linear-gradient(to right, var(--green-light), var(--green)); transition: width 0.6s; }
+.gap-target-line {
+  position: absolute; top: -4px; bottom: -4px;
+  width: 2px; background: var(--score-warn);
+  border-radius: 1px; transition: left 0.6s;
+}
+.gap-target-label {
+  position: absolute; top: -20px;
+  font-size: 10px; font-weight: 600; color: var(--score-warn);
+  transform: translateX(-50%);
+  transition: left 0.6s;
+}
+.gap-progress-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-light); margin-top: 4px; }
+
+/* ─── RECO + NEXT STEPS ─── */
+.reco-panel, .next-steps {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px;
+  box-shadow: var(--shadow-sm); animation: fadeIn 0.2s ease;
+}
+.reco-title, .next-steps-title {
+  font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 4px;
+}
+.reco-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.gap-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  border-radius: 4px; padding: 2px 7px; margin-bottom: 14px;
+}
+.gap-badge.urgent { color: var(--score-bad); background: #fef2f2; }
+.gap-badge.warn { color: var(--score-warn); background: #fffbeb; }
+.gap-badge.ok { color: var(--score-good); background: var(--green-pale); }
+
+.reco-list { list-style: none; margin-bottom: 16px; }
+.reco-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--text); line-height: 1.4;
+}
+.reco-item:last-child { border-bottom: none; }
+.reco-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.reco-timeline {
+  background: var(--bg); border-radius: var(--radius-sm);
+  padding: 10px 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5;
+}
+
+/* consultant notes */
+.notes-area {
+  width: 100%; margin-top: 14px;
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 10px 12px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; color: var(--text); resize: none; outline: none;
+  transition: border-color 0.15s; min-height: 72px;
+  background: var(--bg);
+}
+.notes-area:focus { border-color: var(--green-light); background: white; }
+.notes-area::placeholder { color: var(--text-light); }
+.notes-label { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 12px; margin-bottom: 4px; }
+
+/* approve button */
+.approve-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
+}
+.approve-note { font-size: 11.5px; color: var(--text-muted); }
+.btn-approve {
+  padding: 9px 18px; border: none;
+  background: var(--green); border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+  color: white; cursor: pointer; transition: background 0.15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-approve:hover { background: var(--green-mid); }
+
+.next-steps-title { margin-bottom: 14px; }
+.step-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+.step-item:last-child { margin-bottom: 0; }
+.step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--green); color: white; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+}
+.step-text { font-size: 13px; color: var(--text); line-height: 1.4; }
+.step-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* data freshness */
+.freshness-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--text-light);
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 12px; padding: 3px 9px;
+}
+.freshness-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-light); }
+
+/* score colors */
+.score-good { color: var(--score-good); }
+.score-warn { color: var(--score-warn); }
+.score-bad  { color: var(--score-bad); }
+
+/* ─── RADAR MODAL ─── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45); z-index: 200;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: 16px;
+  width: 620px; max-width: 95vw; padding: 28px;
+  position: relative; animation: modalIn 0.2s ease;
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid var(--border); background: var(--white);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--text-muted); transition: all 0.15s;
+}
+.modal-close:hover { background: var(--bg); }
+.modal-title { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--green); }
+.radar-layout { display: flex; gap: 24px; align-items: center; }
+.radar-svg-wrap { flex: 1; }
+.radar-sidebar { width: 160px; flex-shrink: 0; }
+.global-score-label { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+.global-score-val { font-family: 'Sora', sans-serif; font-size: 36px; font-weight: 700; color: var(--green); }
+.rating-label { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: var(--green); margin-top: 8px; }
+.rating-desc { font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
+
+/* === Arka unified sidebar v2 === */
+/* Needs Attention block */
+
+/* === Issue #4: filter dropdown overflow fix on dashboard ===
+   The dropdown is positioned with `position:absolute; top: calc(100% + 8px)`. When the
+   parent `.toolbar-actions` has any nested overflow context (e.g. flex with overflow
+   hidden), the bottom of the dropdown gets clipped. Push z-index up + drop max-height
+   + scroll if it ever does need to spill. */
+.filter-dropdown { z-index: 1000 !important; max-height: calc(100vh - 240px) !important; overflow-y: auto !important; }
+/* Make sure no parent clips it */
+.toolbar-actions, .clients-toolbar, 
+
+
+/* v24 hard fix: date fields must match full-width SaaS fields */
+input.text-date-field {
+  display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  height: 56px !important;
+  padding: 0 20px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 17px !important;
+  line-height: 56px !important;
+  color: #1f2937 !important;
+  background: #ffffff !important;
+  border: 1.5px solid #dfe5e2 !important;
+  border-radius: 14px !important;
+}
+
+input.text-date-field::placeholder {
+  color: #6b7280 !important;
+}
+
+.filter-date-row,
+.date-filter-row,
+.last-updated-row,
+.filter-date-wrap,
+.date-field,
+.filter-field,
+.filter-section .field {
+  display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
+
+
+
+/* ark nav/attn */
+
+
+
+
+
+
+.ark-divider { height: 1px !important; background: #e5e7eb !important; margin: 14px 14px !important; }
+
+
+.ark-recent { padding: 8px 20px !important; cursor: pointer !important; transition: background .12s !important; }
+.ark-recent:hover { background: #f7f8fa !important; }
+.ark-rc-name { font-size: 13px !important; color: #111827 !important; font-weight: 500 !important; line-height: 1.3 !important; margin-bottom: 1px !important; }
+.ark-rc-tag { font-size: 11px !important; color: #9ca3af !important; }
+.ark-attn-header { display: flex !important; align-items: center !important; gap: 8px !important; padding: 8px 20px 6px !important; font-size: 11px !important; font-weight: 600 !important; color: #9ca3af !important; letter-spacing: 0.5px !important; text-transform: uppercase !important; }
+.ark-attn-count { background: #ef4444 !important; color: #fff !important; font-size: 10px !important; font-weight: 600 !important; padding: 1px 6px !important; border-radius: 99px !important; letter-spacing: 0 !important; }
+.ark-attn-item { margin: 3px 10px !important; padding: 9px 11px !important; border-radius: 8px !important; cursor: pointer !important; transition: background .12s !important; border-left: 3px solid transparent !important; background: transparent !important; }
+.ark-attn-item:hover { background: #f7f8fa !important; }
+.ark-attn-item.critical { border-left-color: #ef4444 !important; }
+.ark-attn-item.warning  { border-left-color: #f59e0b !important; }
+.ark-attn-item.info     { border-left-color: #3b82f6 !important; }
+.ark-attn-company { font-size: 13px !important; color: #111827 !important; font-weight: 600 !important; line-height: 1.3 !important; margin-bottom: 2px !important; }
+.ark-attn-reason  { font-size: 11px !important; color: #6b7280 !important; line-height: 1.35 !important; }
+
+
+/* v41 fix: Admin home filter dropdown follows the Filter button instead of drifting over the table */
+#filterDropdown.filter-dropdown.open {
+  display: block !important;
+  right: auto !important;
+  transform: none !important;
+}
+#filterDropdown .filter-range-date input.text-date-field,
+#filterDropdown .filter-range-date input.filter-date {
+  height: 44px !important;
+  line-height: 44px !important;
+  font-size: 14px !important;
+  padding: 0 14px !important;
+}
+
+</style>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style data-arka-rating>
+.global-score-val{color:#2563eb !important;}
+.rating-label{color:#2563eb !important;}
+</style>
+
+<style data-arka-nav="1">
+.ark-sidebar-fixed{position:fixed!important;top:64px!important;left:0!important;bottom:0!important;width:220px!important;background:#ffffff!important;border-right:1px solid #e5e7eb!important;padding:12px 0 16px!important;overflow-y:auto!important;z-index:100!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;}
+.ark-sidebar-fixed *{box-sizing:border-box!important;}
+.ark-sidebar-fixed .ark-nav-item{display:flex!important;align-items:center!important;gap:12px!important;padding:10px 20px!important;font-size:14px!important;font-weight:400!important;color:#4b5563!important;cursor:pointer!important;border-radius:8px!important;margin:1px 8px!important;text-decoration:none!important;transition:background .12s,color .12s!important;white-space:nowrap!important;font-family:'DM Sans',sans-serif!important;}
+.ark-sidebar-fixed .ark-nav-item:hover{background:#f3f4f6!important;color:#111827!important;}
+.ark-sidebar-fixed .ark-nav-item.active{color:#14532d!important;background:#f0fdf4!important;font-weight:500!important;}
+.ark-sidebar-fixed .ark-nav-item svg{flex-shrink:0!important;opacity:0.7!important;width:17px!important;height:17px!important;}
+.ark-sidebar-fixed .ark-nav-item.active svg{opacity:1!important;}
+.ark-sidebar-fixed .nav-divider{height:1px!important;background:#e5e7eb!important;margin:14px 14px!important;}
+.ark-sidebar-fixed .nav-section-label{font-size:11px!important;font-weight:600!important;text-transform:uppercase!important;letter-spacing:0.5px!important;color:#9ca3af!important;padding:8px 20px 6px!important;font-family:'DM Sans',sans-serif!important;}
+.ark-sidebar-fixed .client-acc{margin:2px 0!important;}
+.ark-sidebar-fixed .acc-header{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:9px 12px!important;border-radius:8px!important;cursor:pointer!important;transition:background .12s!important;user-select:none!important;min-height:38px!important;margin:0 8px!important;}
+.ark-sidebar-fixed .acc-header:hover{background:#f7f8fa!important;}.ark-sidebar-fixed .acc-header.active{background:#f0fdf4!important;color:#14532d!important;border-left:none!important;padding-left:12px!important;}.ark-sidebar-fixed .acc-header.active .acc-name{color:#14532d!important;font-weight:700!important;}
+.ark-sidebar-fixed .acc-header.has-actions:hover{background:#f0fdf4!important;}
+.ark-sidebar-fixed .acc-name{font-size:12.5px!important;font-weight:500!important;color:#111827!important;flex:1!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-family:'DM Sans',sans-serif!important;}
+.ark-sidebar-fixed .acc-star{color:#f59e0b!important;font-size:11px!important;margin-left:3px!important;}
+.ark-sidebar-fixed .acc-right{display:flex!important;align-items:center!important;gap:4px!important;flex-shrink:0!important;width:44px!important;justify-content:flex-end!important;height:20px!important;}
+.ark-sidebar-fixed .acc-count{background:#ef4444!important;color:#fff!important;font-size:9px!important;font-weight:700!important;padding:1px 5px!important;border-radius:99px!important;min-width:16px!important;text-align:center!important;flex-shrink:0!important;}
+.ark-sidebar-fixed .acc-chevron{display:inline-block!important;transition:transform .2s!important;width:12px!important;height:12px!important;flex-shrink:0!important;position:relative!important;}
+.ark-sidebar-fixed .acc-chevron::after{content:""!important;display:block!important;width:6px!important;height:6px!important;border-right:1.5px solid #9ca3af!important;border-bottom:1.5px solid #9ca3af!important;transform:rotate(45deg)!important;margin:1px auto 0!important;}
+.ark-sidebar-fixed .acc-link{font-size:12px!important;color:#9ca3af!important;opacity:0!important;transition:opacity .12s!important;padding:2px 4px!important;border-radius:4px!important;}
+.ark-sidebar-fixed .acc-header:hover .acc-link{opacity:1!important;}
+.ark-sidebar-fixed .acc-link:hover{background:#e5e7eb!important;color:#374151!important;}
+.ark-sidebar-fixed .acc-body{padding:2px 0 6px 0!important;}
+.ark-sidebar-fixed .acc-action-item{padding:7px 12px 7px 16px!important;font-size:11.5px!important;color:#374151!important;cursor:pointer!important;border-left:3px solid transparent!important;margin:1px 0!important;transition:background .1s!important;border-radius:0 6px 6px 0!important;line-height:1.35!important;}
+.ark-sidebar-fixed .acc-action-item:hover{background:#f7f8fa!important;}
+header.topbar{position:fixed!important;top:0!important;left:0!important;right:0!important;height:64px!important;background:#fff!important;border-bottom:1px solid #e5e7eb!important;display:flex!important;align-items:center!important;padding:0 24px!important;gap:24px!important;z-index:200!important;}
+header.topbar .logo{min-width:auto!important;font-family:'Sora',serif!important;font-size:26px!important;font-weight:700!important;color:#14532d!important;letter-spacing:-0.5px!important;text-decoration:none!important;flex-shrink:0!important;}
+header.topbar .search-wrap{flex:1!important;max-width:480px!important;margin:0 auto!important;position:relative!important;}
+</style>
+<style>
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: #f3f4f6; }
+  .icon-btn.active { background: #f0fdf4; color: #15803d; }
+  .icon-btn[data-tooltip]::after, .icon-btn[data-tooltip]:hover::after { content: none !important; display: none !important; }
+  .icon-btn:focus, .icon-btn:focus-visible { outline: none !important; box-shadow: none !important; }
+  .icon-btn:hover { background: #f3f4f6 !important; }
+  .notif-dot {
+    position: absolute;
+    top: 7px; right: 7px;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .avatar-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+    cursor: pointer;
+    background: #dcfce7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #166534;
+    transition: border-color 0.15s;
+  }
+  .avatar-btn:hover { border-color: #16a34a; }
+  .panel {
+    display: none;
+    position: fixed;
+    top: 64px;
+    right: 0;
+    width: 360px;
+    bottom: 0;
+    background: #fff;
+    border-left: 1px solid #e5e7eb;
+    z-index: 99999;
+    flex-direction: column;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+    animation: slideIn 0.2s ease;
+  }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+  }
+  .panel-count {
+    font-size: 12px;
+    font-weight: 500;
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .panel-close {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background 0.12s;
+  }
+  .panel-close:hover { background: #f3f4f6; color: #374151; }
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .panel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-right { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 18px 16px; display:flex; flex-direction:column; min-height:0; min-width:0; overflow:visible; }
+  .panel-company-pills { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:14px; overflow:hidden; }
+  .panel-mode-header { margin-bottom:12px; }
+  .panel-mode-company { font-family:'DM Sans',sans-serif; font-weight:600; font-size:14px; color:#111827; }
+  .panel-mode-sub { font-size:11px; color:#6b7280; margin-top:2px; }
+  .panel-view-all { display:flex; align-items:center; gap:6px; padding:5px 8px; margin-top:6px; font-size:12px; font-weight:600; color:#16a34a; cursor:pointer; border-radius:6px; background:none; border:none; font-family:'DM Sans',sans-serif; transition:background .12s; }
+  .panel-view-all:hover { background:#f0fdf4; }
+  .panel-view-all-icon { width:18px; height:18px; border-radius:50%; background:#16a34a; color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; line-height:1; flex-shrink:0; }
+  .panel-btn-row{display:flex;gap:8px;margin-top:12px;}
+  .panel-btn{flex:1;padding:9px 6px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .12s;border:1.5px solid #166534;}
+  .panel-btn-outline{background:#fff;color:#166534;}
+  .panel-btn-outline:hover{background:#f0fdf4;}
+  .panel-btn-solid{background:#166534;color:#fff;}
+  .panel-btn-solid:hover{background:#14532d;}
+  .panel-btn:disabled{opacity:0.5;cursor:not-allowed;background:#f3f4f6;border-color:#d1d5db;color:#9ca3af;}
+  .overlay-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+  }
+  .overlay-backdrop.open { display: block; }
+  .profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(64px + 8px);
+    right: 24px;
+    width: 280px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 300;
+    overflow: hidden;
+    animation: fadeDown 0.15s ease;
+  }
+  .profile-dropdown.open { display: block; }
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .profile-avatar-lg {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .profile-name { font-size: 14px; font-weight: 600; color: #111827; }
+  .profile-email { font-size: 12px; color: #9ca3af; }
+  .profile-menu {
+    padding: 8px 0;
+  }
+  .profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .profile-menu-item:hover { background: #f9fafb; }
+  .profile-menu-item svg { color: #9ca3af; flex-shrink: 0; }
+  .profile-menu-divider {
+    height: 1px;
+    background: #f3f4f6;
+    margin: 4px 0;
+  }
+  .profile-menu-item.danger { color: #ef4444; }
+  .profile-menu-item.danger svg { color: #ef4444; }
+  .notif-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+    position: relative;
+  }
+  .notif-item:hover { background: #f9fafb; }
+  .notif-item.unread { background: #f0fdf4; }
+  .notif-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .notif-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .notif-icon.ai { background: #eff6ff; color: #1d4ed8; }
+  .notif-icon.task { background: #f0fdf4; color: #15803d; }
+  .notif-icon.doc { background: #fffbeb; color: #b45309; }
+  .notif-icon.alert { background: #fef2f2; color: #ef4444; }
+  .notif-content { flex: 1; min-width: 0; }
+  .notif-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 3px;
+  }
+  .notif-time {
+    font-size: 11px;
+    color: #9ca3af;
+  }
+  .msg-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .msg-item:hover { background: #f9fafb; }
+  .msg-item.unread { background: #f0fdf4; }
+  .msg-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .msg-content { flex: 1; min-width: 0; }
+  .msg-name { font-size: 13px; font-weight: 500; color: #111827; }
+  .msg-preview {
+    font-size: 12px;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .msg-time { font-size: 11px; color: #9ca3af; }
+  .view-all-btn {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #15803d;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .view-all-btn:hover { background: #f0fdf4; }
+  .unread { background: #f0fdf4; }
+  .unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .online-dot {
+    position: absolute;
+    bottom: 1px; right: 1px;
+    width: 9px; height: 9px;
+    background: #22c55e;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+
+  .panel.open { display: flex; }
+  .profile-dropdown.open { display: block; }
+
+  /* Override any conflicting rules with high specificity */
+  #notifPanel.open, #msgPanel.open { display: flex !important; }
+  #profileDropdown.open { display: block !important; }
+  #notifPanel { z-index: 99999 !important; }
+  #msgPanel { z-index: 99999 !important; }
+  #profileDropdown { z-index: 99999 !important; }
+  .breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#6b7280;margin-bottom:20px}
+  .breadcrumb a{color:#6b7280;text-decoration:none;transition:color .15s}
+  .breadcrumb a:hover{color:#15803d}
+
+  .breadcrumb .current{color:#111827;font-weight:500}
+</style>
+</head>
+
+<script>
+(function(){
+  if (window.__arkaBridgeInstalled) return;
+  window.__arkaBridgeInstalled = true;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (!href || href === '#' || href.charAt(0) === '#' || /^https?:/.test(href) || /^javascript:/.test(href) || /^mailto:/.test(href)) return;
+    var clean = href.split('?')[0].split('#')[0].split('/').pop();
+    var map = window.__arkaRouteMap || {};
+    if (map[clean]) { e.preventDefault(); arkaNav(map[clean]); }
+  }, true);
+})();
+</script>
+
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar" style="position:fixed;top:0;left:0;right:0;height:64px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;padding:0 24px;gap:24px;z-index:100;">
+  <a href='admin-dashboard.html' class="logo" style="font-family:'Sora',serif;font-size:26px;font-weight:700;color:#14532d;letter-spacing:-0.5px;text-decoration:none;flex-shrink:0;">Arka</a>
+  <div class="search-wrap" style="flex:1;max-width:480px;margin:0 auto;position:relative;">
+    <svg style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#9ca3af;" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><path d="m11 11 3 3"/></svg>
+    <input class="search-input" type="text" placeholder="Search clients, reports, team..." style="width:100%;height:38px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:999px;padding:0 16px 0 38px;font-family:'DM Sans',sans-serif;font-size:14px;color:#374151;outline:none;transition:border-color .15s;">
+  </div>
+  <div class="topbar-actions" style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+    <button id="notifBtn" style="width:38px;height:38px;border-radius:10px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#6b7280;position:relative;transition:background .15s;" onclick="if(typeof togglePanel==='function')togglePanel('notifPanel',this);else if(typeof xTogglePanel==='function')xTogglePanel('notifPanel',this);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span style="position:absolute;top:7px;right:7px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid #fff;"></span></button>
+    <button id="msgBtn" style="width:38px;height:38px;border-radius:10px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#6b7280;position:relative;transition:background .15s;" onclick="if(typeof togglePanel==='function')togglePanel('msgPanel',this);else if(typeof xTogglePanel==='function')xTogglePanel('msgPanel',this);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+    <button id="profileBtn" style="width:36px;height:36px;border-radius:50%;border:2px solid #e5e7eb;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#14532d;cursor:pointer;font-family:'DM Sans',sans-serif;" onclick="if(typeof toggleDropdown==='function')toggleDropdown('profileDropdown');else if(typeof xToggleDrop==='function')xToggleDrop('profileDropdown');">AX</button>
+  </div>
+</header>
+<div class="profile-dropdown" id="profileDropdown">
+  <div class="profile-header">
+    <div class="profile-avatar-lg">AX</div>
+    <div>
+      <div class="profile-name">Alex Chen</div>
+      <div class="profile-email">alex.chen@arka.com</div>
+    </div>
+  </div>
+  <div class="profile-menu">
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      View Profile
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      My Reports
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Privacy & Security
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      Help Center
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item danger">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
+    <div class="profile-menu-item" onclick="resetPrototype()" style="color:#dc2626;border-top:1px solid #f3f4f6;margin-top:4px;padding-top:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      Reset Prototype
+    </div>
+  </div>
+</div>
+<div class="overlay-backdrop" id="notifBackdrop" onclick="closePanel('notifPanel', 'notifBtn')"></div>
+<div class="panel" id="notifPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Notifications</span>
+      <span class="panel-count">4 new</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('notifPanel', 'notifBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="notif-item unread" onclick="window.location.href='admin-completed-assessment.html'">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Assessment Completed</div>
+        <div class="notif-desc">Innovate Solutions — gap analysis ready for your review.</div>
+        <div class="notif-time">10:30 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-client-detail.html'">
+      <div class="notif-icon doc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Documents Uploaded</div>
+        <div class="notif-desc">TechStarter Inc. uploaded 3 new documents — review required.</div>
+        <div class="notif-time">9:40 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-calendar.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Interview Summary Ready</div>
+        <div class="notif-desc">Quantum Labs — AI generated interview summary available.</div>
+        <div class="notif-time">Yesterday · 4:15 PM</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-view-documents.html'">
+      <div class="notif-icon alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Document Re-uploaded</div>
+        <div class="notif-desc">Stellar Industries — client re-uploaded the compliance file for review.</div>
+        <div class="notif-time">2 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-client-detail-gw.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Survey Milestone Reached</div>
+        <div class="notif-desc">GlobalWorks Ltd — 80% of employees completed the survey.</div>
+        <div class="notif-time">3 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-dashboard.html'"">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Client Onboarded</div>
+        <div class="notif-desc">Vista Group has been assigned to you — account setup complete.</div>
+        <div class="notif-time">Apr 28, 2026</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE PANEL -->
+
+<div class="overlay-backdrop" id="msgBackdrop" onclick="closePanel('msgPanel', 'msgBtn')"></div>
+<div class="panel" id="msgPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Messages</span>
+      <span class="panel-count">2 unread</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('msgPanel', 'msgBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">SC <span class="online-dot"></span></div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Sarah Chen</span>
+          <span class="msg-time">3m ago</span>
+        </div>
+        <div class="msg-preview">Can we review the Q3 report before the client call?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">MJ</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Mike Johnson</span>
+          <span class="msg-time">35m ago</span>
+        </div>
+        <div class="msg-preview">Updated the presentation for Zenith Partners</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">AL</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Anna Lee</span>
+          <span class="msg-time">2h ago</span>
+        </div>
+        <div class="msg-preview">Meeting moved to 2pm tomorrow — confirmed?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">DP</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">David Park</span>
+          <span class="msg-time">Yesterday</span>
+        </div>
+        <div class="msg-preview">HR forms for Innovate Solutions need your signature</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="view-all-btn" onclick="window.location.href='admin-chat.html'">Open Messages →</button>
+  </div>
+</div>
+<script>
+(function(){
+  if (window.__arkaAdminPanelsV2) return;
+  window.__arkaAdminPanelsV2 = true;
+
+  function closeAllPanels() {
+    ['notifPanel','msgPanel'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBackdrop','msgBackdrop'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBtn','msgBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    });
+    const pd = document.getElementById('profileDropdown');
+    if (pd) pd.classList.remove('open');
+  }
+
+  function togglePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    // btnRef can be a string ID or a DOM element (TV2 passes the element directly)
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    const isOpen = panel.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) {
+      panel.classList.add('open');
+      panel.classList.add('xopen');  // for pages using xopen convention
+      backdrop && backdrop.classList.add('open');
+      btn && btn.classList.add('active');
+    }
+  }
+
+  function closePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    panel.classList.remove('open');
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    backdrop && backdrop.classList.remove('open');
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    btn && btn.classList.remove('active');
+  }
+
+  // Mutual exclusion: closing other panels before opening new one
+  
+
+  function toggleDropdown(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isOpen = el.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) el.classList.add('open');
+  }
+
+  // Mutual exclusion for profile dropdown
+  var _origToggleDropdown = toggleDropdown;
+  toggleDropdown = function(id) {
+    // Close panels first
+    ['notifPanel','msgPanel'].forEach(function(pid) {
+      var el = document.getElementById(pid);
+      var bd = document.getElementById(pid.replace('Panel','Backdrop'));
+      if (el && el.classList.contains('open')) {
+        el.classList.remove('open');
+        if (bd) bd.classList.remove('open');
+      }
+    });
+    _origToggleDropdown(id);
+  };
+
+  window.togglePanel = togglePanel;
+  window.closePanel = closePanel;
+  window.toggleDropdown = toggleDropdown;
+})();
+</script>
+
+<!-- SIDEBAR -->
+<aside class="ark-sidebar-fixed">
+  <div class="ark-nav-item" onclick="window.location.href='admin-dashboard.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-chat.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-calendar.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendar</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-new-request.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Create Request</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-completed-assessment.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Completed Assessment</div>
+  <div class="nav-divider"></div>
+  <div class="nav-section-label">My Clients</div>
+  <div class="client-acc">
+    <div class="acc-header" onclick="window.location.href='admin-client-detail.html'" style="cursor:pointer;">
+      <span class="acc-name">TechCorp Inc.<span class="acc-star">★</span></span>
+    </div>
+  </div>
+  <div class="client-acc">
+    <div class="acc-header active" onclick="window.location.href='admin-client-detail-cr.html'" style="cursor:pointer;">
+      <span class="acc-name">Crestline Retail<span class="acc-star">★</span></span>
+    </div>
+  </div>
+  <div class="client-acc">
+    <div class="acc-header" onclick="window.location.href='admin-client-detail-gw.html'" style="cursor:pointer;">
+      <span class="acc-name">GlobalWorks Ltd.</span>
+    </div>
+  </div>
+  <div class="client-acc">
+    <div class="acc-header" onclick="window.location.href='admin-client-detail-is.html'" style="cursor:pointer;">
+      <span class="acc-name">Innovate Solutions</span>
+    </div>
+  </div>
+</aside>
+
+
+<!-- MAIN -->
+<!-- MAIN -->
+<main class="main">
+
+  <div class="breadcrumb">
+      <a href='admin-dashboard.html'>Dashboard</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      <span class="current">Crestline Retail</span>
+    </div>
+    
+
+  <!-- CLIENT HEADER -->
+  <div class="client-header">
+    <div class="client-identity">
+      <div class="client-icon">
+        <svg width="26" height="26" fill="none" stroke="#1a5c3a" stroke-width="1.6" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:0">
+          <div class="client-name">Crestline Retail</div>
+          <!-- CONTACT DROPDOWN TRIGGER -->
+          <div class="contact-trigger" id="contactTrigger" onclick="toggleContact()">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Contact Info
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+
+            <!-- DROPDOWN -->
+            <div class="contact-dropdown" id="contactDropdown">
+              <div class="contact-dropdown-title">Contact Information</div>
+              <div class="contact-line">
+                <span class="contact-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.94 3.4 2 2 0 0 1 3.9 1.22h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.69 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.05-1.05a2 2 0 0 1 2.11-.45c.91.33 1.85.57 2.81.69A2 2 0 0 1 22 16.92z"/></svg></span>
+                <div>
+                  <div class="contact-label">Phone</div>
+                  <div class="contact-value">(214) 555-0377</div>
+                </div>
+              </div>
+              <div class="contact-line">
+                <span class="contact-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+                <div>
+                  <div class="contact-label">Email</div>
+                  <div class="contact-value">mark.ellis@crestlineretail.com</div>
+                </div>
+              </div>
+              <div class="contact-divider"></div>
+              <div class="contact-line">
+                <span class="contact-icon"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                <div>
+                  <div class="contact-label">Headquarters</div>
+                  <div class="contact-value">400 Terry Ave N<br>Seattle, WA 98109</div>
+                  <div class="map-link">Open in Maps →</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:inline-flex;align-items:center;gap:8px;margin-left:12px;"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;font-family:'Sora',sans-serif;white-space:nowrap;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;"><span style="width:7px;height:7px;border-radius:50%;background:#3b82f6;"></span>In Progress</span></div>
+        </div>
+        <div class="client-meta">Retail &nbsp;·&nbsp; 2,150 Employees &nbsp;·&nbsp; Assigned: Mark Ellis</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-outline" onclick="openCrestlineDocTaskPrompt(); return false;">View Documents</button>
+      <button class="btn-green">↓ Export Report</button>
+    </div>
+  </div>
+
+
+
+
+  <!-- Crestline document request prompt: no published document request yet -->
+  <div id="crestlineDocTaskModal" style="position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:9999;">
+    <div style="width:465px;max-width:calc(100vw - 40px);background:#fff;border-radius:15px;box-shadow:0 24px 80px rgba(15,23,42,.24);border:1px solid #e5e7eb;padding:26px 33px 27px;text-align:left;">
+      <div style="display:flex;align-items:center;gap:22px;margin-bottom:28px;">
+        <div style="width:48px;height:48px;border-radius:50%;background:#fff7ed;color:#ea580c;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#111827;line-height:1.2;white-space:nowrap;">No published document request</div>
+      </div>
+      <div style="font-size:15px;color:#6b7280;line-height:1.55;margin:0 0 24px 0;">Crestline Retail does not have a published document request yet. Would you like to create the request now?</div>
+      <div style="display:flex;justify-content:center;align-items:center;gap:26px;width:100%;">
+        <button type="button" onclick="closeCrestlineDocTaskPrompt()" style="width:143px;height:42px;padding:0;border-radius:13px;border:1.5px solid #cfd6df;background:#fff;color:#374151;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;">Cancel</button>
+        <button type="button" onclick="goEditCrestlineDocTask()" style="width:143px;height:42px;padding:0;border-radius:13px;border:0;background:#0f5f3f;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;">Create Request</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="assessment-title">Assessment Progress</div>
+  <!-- TIMELINE -->
+  <div class="timeline-card">
+    <div class="timeline-track"><div class="timeline-step done"><div class="step-dot done"><svg width="12" height="12" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="step-label">Interviews</div><div class="step-value">3/3</div><div class="step-sublabel">Completed</div></div><div class="timeline-step active"><div class="step-dot active"></div><div class="step-label">Surveys</div><div class="step-value">18/40</div><div class="step-sublabel">In Progress</div></div><div class="timeline-step pending"><div class="step-dot pending"></div><div class="step-label">Documents</div><div class="step-value">0/21</div><div class="step-sublabel">Drafted · not published yet</div></div><div class="timeline-step pending"><div class="step-dot pending"></div><div class="step-label">Score</div><div class="step-value">—</div><div class="step-sublabel">Pending</div></div><div class="timeline-step pending"><div class="step-dot pending"></div><div class="step-label">AI Assessment</div><div class="step-value">—</div><div class="step-sublabel">Pending</div></div></div>
+  </div>
+
+  <!-- ASSESSMENT TITLE -->
+  <div class="assessment-title">Score Cards</div>
+  <div style="background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:52px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;">
+    <div style="width:60px;height:60px;border-radius:50%;background:#eef7f1;display:flex;align-items:center;justify-content:center;color:#0f5f3f;"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></div>
+    <div style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:#111827;">Assessment in progress</div>
+    <div style="font-size:13.5px;color:#6b7280;max-width:460px;line-height:1.65;">Scores are generated automatically once document submission reaches the required threshold. The engagement is currently active — the overall score and full domain breakdown will unlock here as soon as enough documents are submitted.</div>
+    <span style="margin-top:4px;font-size:11.5px;font-weight:600;padding:5px 12px;border-radius:999px;background:#eff6ff;color:#1d4ed8;">Status: In Progress</span>
+  </div>
+
+<script>
+function openCrestlineDocTaskPrompt(){
+  var modal = document.getElementById('crestlineDocTaskModal');
+  if (modal) modal.style.display = 'flex';
+}
+function closeCrestlineDocTaskPrompt(){
+  var modal = document.getElementById('crestlineDocTaskModal');
+  if (modal) modal.style.display = 'none';
+}
+function goEditCrestlineDocTask(){
+  closeCrestlineDocTaskPrompt();
+  try{
+    localStorage.setItem('arkaCreateReqCompany','crestline');
+    localStorage.removeItem('arkaDocReqViewCompany');
+    localStorage.removeItem('arkaRequestDraft');
+    localStorage.removeItem('arkaDocsCompany');
+    localStorage.removeItem('arkaShowReqPrompt');
+    localStorage.removeItem('arkaOpenDocTaskPrompt');
+  }catch(e){}
+  window.location.href='admin-new-request.html';
+}
+(function(){
+  try {
+    if (localStorage.getItem('arkaOpenDocTaskPrompt') === 'crestline') {
+      localStorage.removeItem('arkaOpenDocTaskPrompt');
+      setTimeout(openCrestlineDocTaskPrompt, 80);
+    }
+  } catch(e) {}
+})();
+
+const domains = {
+  pm: {
+    title: 'Performance Management',
+    desc: 'Effectiveness of the organization, evaluates employees, and drives continuous improvement.',
+    priority: 'High Priority', priorityClass: 'priority-high',
+    bars: [
+      { label: 'Goal Setting\n& Alignment', score: 3 },
+      { label: 'Feedback\n& Communication', score: 3.5 },
+      { label: 'Manager Training\n& Support', score: 3 },
+      { label: 'Performance Metrics\n& Management', score: 3 },
+      { label: 'Recognition\n& Rewards', score: 2.5 },
+      { label: 'Development\n& Career Growth', score: 3.5 },
+    ],
+    current: 62, target: 90, gap: 28,
+    recos: [
+      { color:'#22c55e', text:'Implement quarterly performance check-ins' },
+      { color:'#3b82f6', text:'Provide manager training on coaching and feedback' },
+      { color:'#f59e0b', text:'Link performance results with development plans' },
+    ],
+    timeline: 'Estimated Timeline: 3–6 months\nBased on organizational size and current capability level.',
+    steps: [
+      { t:'Roll out unified performance templates', s:'Standardize goal-setting and review tools.' },
+      { t:'Train managers on coaching', s:'Improve feedback quality and consistency.' },
+      { t:'Establish regular progress tracking', s:'Monthly team check-ins recommended.' },
+      { t:'Define career pathways', s:'Connect performance to development.' },
+    ]
+  },
+  ro: {
+    title: 'Recruitment & Onboarding',
+    desc: 'Attracting, hiring, and integrating new employees effectively into the organization.',
+    priority: 'High Priority', priorityClass: 'priority-high',
+    bars: [
+      { label: 'Job Description\nDesign', score: 3.5 },
+      { label: 'Candidate\nSourcing', score: 3 },
+      { label: 'Interview\nProcess', score: 3.5 },
+      { label: 'Offer &\nNegotiation', score: 3.5 },
+      { label: 'Onboarding\nExperience', score: 3 },
+      { label: 'Retention\nStrategy', score: 3 },
+    ],
+    current: 65, target: 90, gap: 25,
+    recos: [
+      { color:'#22c55e', text:'Standardize job description templates' },
+      { color:'#3b82f6', text:'Implement structured onboarding program' },
+      { color:'#f59e0b', text:'Create 30-60-90 day plans for new hires' },
+    ],
+    timeline: 'Estimated Timeline: 2–4 months\nDepends on current onboarding infrastructure.',
+    steps: [
+      { t:'Audit current hiring process', s:'Identify bottlenecks and drop-off points.' },
+      { t:'Build structured onboarding checklist', s:'Week 1 through month 3.' },
+      { t:'Train hiring managers on interviews', s:'Reduce bias and improve consistency.' },
+    ]
+  },
+  od: {
+    title: 'Org Design & Talent Development',
+    desc: 'Organizational structure, career pathing, and developing employee capabilities.',
+    priority: 'Low Priority', priorityClass: 'priority-low',
+    bars: [
+      { label: 'Org Structure\nClarity', score: 3 },
+      { label: 'Career Path\nDevelopment', score: 2.5 },
+      { label: 'Succession\nPlanning', score: 3.5 },
+    ],
+    current: 60, target: 90, gap: 30,
+    recos: [
+      { color:'#22c55e', text:'Document reporting structures and org charts' },
+      { color:'#3b82f6', text:'Define career ladder for each department' },
+      { color:'#f59e0b', text:'Identify high-potential employees for succession' },
+    ],
+    timeline: 'Estimated Timeline: 4–8 months\nLonger timeline due to org-wide scope.',
+    steps: [
+      { t:'Create current-state org chart', s:'Visualize all reporting relationships.' },
+      { t:'Define role levels and titles', s:'Establish consistent naming conventions.' },
+      { t:'Build career development plans', s:'For each role family.' },
+    ]
+  },
+  ce: {
+    title: 'Culture & Engagement',
+    desc: 'Building a positive, inclusive workplace culture that motivates and retains employees.',
+    priority: 'Low Priority', priorityClass: 'priority-low',
+    bars: [
+      { label: 'Culture\nAssessment', score: 4 },
+      { label: 'Employee\nEngagement', score: 3.5 },
+      { label: 'DEI\nInitiatives', score: 3 },
+      { label: 'Recognition\nPrograms', score: 3.5 },
+      { label: 'Feedback\nCulture', score: 4 },
+    ],
+    current: 72, target: 90, gap: 18,
+    recos: [
+      { color:'#22c55e', text:'Conduct annual employee engagement surveys' },
+      { color:'#3b82f6', text:'Launch formal DEI committee' },
+      { color:'#f59e0b', text:'Implement peer recognition program' },
+    ],
+    timeline: 'Estimated Timeline: 2–3 months\nCulture initiatives can begin immediately.',
+    steps: [
+      { t:'Launch pulse survey', s:'Understand current employee sentiment.' },
+      { t:'Define company values formally', s:'Document and communicate widely.' },
+      { t:'Create recognition framework', s:'Monthly and annual recognition cadence.' },
+    ]
+  },
+  cb: {
+    title: 'Compensation & Benefits',
+    desc: 'Pay equity, competitive compensation structures, and benefits programs.',
+    priority: 'High Priority', priorityClass: 'priority-high',
+    bars: [
+      { label: 'Pay\nEquity', score: 3 },
+      { label: 'Market\nCompetitiveness', score: 3.5 },
+      { label: 'Benefits\nStructure', score: 3 },
+      { label: 'Bonus &\nIncentives', score: 2.5 },
+      { label: 'Workers\nCompensation', score: 3.5 },
+      { label: 'Total Rewards\nStrategy', score: 3 },
+      { label: 'Transparency\n& Communication', score: 3 },
+    ],
+    current: 61, target: 90, gap: 29,
+    recos: [
+      { color:'#22c55e', text:'Conduct market compensation benchmarking' },
+      { color:'#3b82f6', text:'Perform pay equity audit across all roles' },
+      { color:'#f59e0b', text:'Design transparent compensation bands' },
+    ],
+    timeline: 'Estimated Timeline: 3–5 months\nRequires data gathering and analysis phase.',
+    steps: [
+      { t:'Pull compensation data for all roles', s:'Benchmark against industry surveys.' },
+      { t:'Identify pay gaps by gender and tenure', s:'Prioritize equity remediation.' },
+      { t:'Communicate new pay philosophy', s:'Increase trust through transparency.' },
+    ]
+  },
+  er: {
+    title: 'Employee Relations & Compliance',
+    desc: 'Managing employee issues, compliance with labor law, and disciplinary processes.',
+    priority: 'High Priority', priorityClass: 'priority-high',
+    bars: [
+      { label: 'Complaint\nHandling', score: 3.5 },
+      { label: 'Disciplinary\nProcess', score: 3 },
+      { label: 'Labor Law\nCompliance', score: 3.5 },
+      { label: 'HR Policy\nDocumentation', score: 3 },
+    ],
+    current: 65, target: 90, gap: 25,
+    recos: [
+      { color:'#22c55e', text:'Update employee handbook with current policies' },
+      { color:'#3b82f6', text:'Train managers on progressive discipline process' },
+      { color:'#f59e0b', text:'Establish formal grievance handling procedure' },
+    ],
+    timeline: 'Estimated Timeline: 1–3 months\nPolicy updates can proceed immediately.',
+    steps: [
+      { t:'Audit all HR policies for compliance', s:'Check against state and federal law.' },
+      { t:'Update employee handbook', s:'Distribute updated version to all staff.' },
+      { t:'Conduct manager compliance training', s:'Focus on documentation requirements.' },
+    ]
+  }
+};
+
+function getBarColor(score) {
+  if (score >= 4) return '#22c55e';
+  if (score >= 3) return '#f59e0b';
+  return '#ef4444';
+}
+
+function getGapBadgeClass(gap) {
+  if (gap >= 15) return 'urgent';
+  if (gap >= 8) return 'warn';
+  return 'ok';
+}
+
+function getGapValueClass(gap) {
+  if (gap >= 15) return 'urgent';
+  if (gap >= 8) return 'warn';
+  return '';
+}
+
+function renderDomain(key) {
+  const d = domains[key];
+
+  document.getElementById('domainTitle').textContent = d.title;
+  document.getElementById('domainDesc').textContent = d.desc;
+  document.getElementById('consultantNotes').value = '';
+
+  // bars (Chart.js — destroy+recreate for guaranteed visual refresh)
+  window.__renderCdBars && window.__renderCdBars(d);
+
+  // gap
+  document.getElementById('gapPriority').textContent = d.priority;
+  document.getElementById('gapPriority').className = 'priority-tag ' + d.priorityClass;
+  document.getElementById('gapCurrent').textContent = d.current + '%';
+  document.getElementById('gapTarget').textContent = d.target + '%';
+
+  const gapEl = document.getElementById('gapDiff');
+  gapEl.textContent = d.gap + '%';
+  gapEl.className = 'gap-stat-value ' + getGapValueClass(d.gap);
+
+  document.getElementById('gapBar').style.width = d.current + '%';
+  document.getElementById('gapTargetLine').style.left = d.target + '%';
+  document.getElementById('gapTargetLabel').style.left = d.target + '%';
+  document.getElementById('gapTargetLabel').textContent = 'Target ' + d.target + '%';
+  document.getElementById('gapCurrentLabel').textContent = d.current + '%';
+  document.getElementById('gapTargetLabelBottom').textContent = 'Target: ' + d.target + '%';
+
+  // reco badge color
+  const badge = document.getElementById('recoBadge');
+  badge.textContent = 'Gap to close: ' + d.gap + '%';
+  badge.className = 'gap-badge ' + getGapBadgeClass(d.gap);
+
+  document.getElementById('recoMeta').textContent = `Current Score: ${d.current}% — Target: ${d.target}%`;
+
+  const recoList = document.getElementById('recoList');
+  recoList.innerHTML = '';
+  d.recos.forEach(r => {
+    recoList.innerHTML += `<li class="reco-item"><div class="reco-dot" style="background:${r.color}"></div>${r.text}</li>`;
+  });
+
+  const tParts = d.timeline.split('\n');
+  document.getElementById('recoTimeline').innerHTML = `<strong>${tParts[0]}</strong><br>${tParts[1]}`;
+
+  const stepsEl = document.getElementById('nextStepsList');
+  stepsEl.innerHTML = '';
+  d.steps.forEach((s, i) => {
+    stepsEl.innerHTML += `<div class="step-item"><div class="step-num">${i+1}</div><div><div class="step-text">${s.t}</div><div class="step-sub">${s.s}</div></div></div>`;
+  });
+}
+
+function selectDomain(el, key) {
+  document.querySelectorAll('.domain-item').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+  renderDomain(key);
+}
+
+// Contact dropdown
+function toggleContact() {
+  const trigger = document.getElementById('contactTrigger');
+  const dropdown = document.getElementById('contactDropdown');
+  trigger.classList.toggle('open');
+  dropdown.classList.toggle('open');
+}
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const trigger = document.getElementById('contactTrigger');
+  if (!trigger.contains(e.target)) {
+    trigger.classList.remove('open');
+    document.getElementById('contactDropdown').classList.remove('open');
+  }
+});
+
+// Approve action
+function approveSection() {
+  const btn = document.querySelector('.btn-approve');
+  btn.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Published ✓`;
+  btn.style.background = '#2d7a50';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Approve & Publish`;
+    btn.style.background = '';
+    btn.disabled = false;
+  }, 2500);
+}
+
+// init
+if (document.getElementById('domainTitle')) renderDomain('pm');
+</script>
+
+<script>
+(function initClientDetailCharts(){
+  if (typeof Chart === 'undefined') { setTimeout(initClientDetailCharts, 100); return; }
+  Chart.defaults.font.family = 'DM Sans, system-ui, sans-serif';
+  Chart.defaults.color = '#6b7280';
+
+  // Color helper (mirrors page-script getBarColor — duplicated here for safety)
+  function colorFor(score){ if (score>=4) return '#22c55e'; if (score>=3) return '#f59e0b'; return '#ef4444'; }
+
+  // Build / rebuild the per-domain horizontal bar chart.
+  // Uses destroy + recreate so domain switches always render the new dataset.
+  window.__renderCdBars = function(d){
+    if (!d || !d.bars) return;
+    const ctx = document.getElementById('cd-bar-chart');
+    if (!ctx) return;
+    if (window.cdBarChart) { try { window.cdBarChart.destroy(); } catch(e){} window.cdBarChart = null; }
+    window.cdBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: d.bars.map(b => (b.label || '').replace(/\n/g, ' ')),
+        datasets: [{
+          data: d.bars.map(b => b.score),
+          backgroundColor: d.bars.map(b => colorFor(b.score)),
+          borderRadius: 6,
+          barThickness: d.bars.length > 5 ? 18 : 24,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 380 },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => `Score: ${c.parsed.x}/5` } }
+        },
+        scales: {
+          x: { beginAtZero: true, max: 5, grid: { color: '#f3f4f6' }, ticks: { stepSize: 1, font: { size: 11 } } },
+          y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+        }
+      }
+    });
+  };
+
+  // Build the radar (six-domain overview) — based on per-domain `current` field.
+  window.__renderCdRadar = function(){
+    const ctx = document.getElementById('cd-radar-chart');
+    if (!ctx || window.cdRadarChart) return;
+    // Pull data from the page's `domains` constant via dataset attribute fallback values.
+    const series = (window.cdRadarSeries && window.cdRadarSeries.length)
+      ? window.cdRadarSeries
+      : [
+        { label: 'Recruiting & Onboarding', val: 2.85 },
+        { label: 'Performance Mgmt',        val: 2.92 },
+        { label: 'Org Design & Talent',     val: 2.67 },
+        { label: 'Culture & Engagement',    val: 3.00 },
+        { label: 'Compensation & Benefits', val: 2.64 },
+        { label: 'Employee Relations',      val: 2.75 },
+      ];
+    window.cdRadarChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: series.map(s => s.label),
+        datasets: [{
+          label: 'Current',
+          data: series.map(s => s.val),
+          backgroundColor: 'rgba(26, 92, 58, 0.18)',
+          borderColor: '#1a5c3a',
+          borderWidth: 2,
+          pointBackgroundColor: '#1a5c3a',
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          r: { min: 0, max: 5,
+            grid: { color: '#e5e7eb' }, angleLines: { color: '#e5e7eb' },
+            pointLabels: { font: { size: 10 }, color: '#6b7280', padding: 2 },
+            ticks: { stepSize: 1, font: { size: 9 }, color: '#9ca3af', backdropColor: 'transparent' }
+          }
+        }
+      }
+    });
+  };
+
+  // First-time draw: initial domain ('pm') is active by default in the page markup
+  if (typeof domains !== 'undefined' && domains.pm) {
+    window.__renderCdBars(domains.pm);
+  }
+  // Build the radar series from `domains` if available (uses each domain's bars-mean as the score)
+  if (typeof domains !== 'undefined') {
+    const labelMap = {pm:'Performance Mgmt', ro:'Recruiting & Onboarding', od:'Org Design & Talent', ce:'Culture & Engagement', cb:'Compensation & Benefits', er:'Employee Relations'};
+    window.cdRadarSeries = ['ro','pm','od','ce','cb','er'].map(k => {
+      const dm = domains[k];
+      const __tot = (dm && dm.bars) ? dm.bars.length + ((dm.missing && dm.missing.length) || 0) : 0; const avg = __tot ? dm.bars.reduce((a,b)=>a+b.score,0) / __tot : 0;
+      return { label: labelMap[k], val: Math.round(avg*100)/100 };
+    });
+  }
+  window.__renderCdRadar();
+})();
+</script>
+
+
+
+
+
+<script>
+(function(){
+  if (window.__arkaTopbarV2) return;
+  window.__arkaTopbarV2 = true;
+
+  // Canonical CSS (matches dashboard's topbar-actions / icon-btn / notif-dot / avatar-btn).
+  // Uses literal color values (no CSS variable dependency) so it works on any page.
+  var css = ''
+    + '.topbar-actions{display:flex;align-items:center;gap:8px;margin-left:auto;}'
+    + '.topbar-actions .icon-btn{width:38px;height:38px;border-radius:10px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#6b7280;position:relative;transition:background .15s;padding:0;}'
+    + '.topbar-actions .icon-btn:hover{background:#f3f4f6;}'
+    + '.topbar-actions .icon-btn.active{background:#ecfdf5;color:#166534;}'
+    + '.topbar-actions .icon-btn:focus,.topbar-actions .icon-btn:focus-visible{outline:none;box-shadow:none;}'
+    + '.topbar-actions .notif-dot{position:absolute;top:7px;right:7px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid #fff;}'
+    + '.topbar-actions .avatar-btn{width:36px;height:36px;border-radius:50%;border:2px solid #e5e7eb;overflow:hidden;cursor:pointer;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#166534;transition:border-color .15s;padding:0;}'
+    + '.topbar-actions .avatar-btn:hover{border-color:#16a34a;}';
+  var st = document.createElement('style');
+  st.setAttribute('data-arka-topbar', '1');
+  st.textContent = css;
+  document.head.appendChild(st);
+
+  var NOTIF_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+  var MSG_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+
+  var canonicalHTML = ''
+    + '<button class="icon-btn" id="notifBtn" aria-label="Notifications" data-arka="notif">' + NOTIF_SVG + '<span class="notif-dot"></span></button>'
+    + '<button class="icon-btn" id="msgBtn" aria-label="Messages" data-arka="msg">' + MSG_SVG + '</button>'
+    + '<div style="position:relative;" data-arka="avatar-wrap"><button class="avatar-btn" id="profileBtn">AX</button></div>';
+
+  function unify(){
+    // Find ALL candidate topbar containers (newer + older naming both supported)
+    var selectors = ['.topbar-actions', '.ark-tb-icons', '.topbar-icons', '.topbar-right'];
+    var bars = [];
+    selectors.forEach(function(sel){
+      document.querySelectorAll(sel).forEach(function(el){ bars.push(el); });
+    });
+    if (bars.length === 0) return;
+
+    // Keep the FIRST one that's in the header (the visible primary), replace its contents.
+    // Hide all subsequent ones (so duplicates don't show).
+    var primary = bars[0];
+
+    // Try to pick a primary that's actually inside a header/topbar element
+    for (var k = 0; k < bars.length; k++){
+      var b = bars[k];
+      var anc = b.closest('header, .topbar, .top-bar, .header-bar');
+      if (anc) { primary = b; break; }
+    }
+
+    // Normalize primary: ensure it has .topbar-actions class for CSS to apply
+    primary.classList.add('topbar-actions');
+    primary.innerHTML = canonicalHTML;
+    primary.style.setProperty('opacity','1','important');primary.style.transition='opacity .12s';
+
+    // Hide all others
+    bars.forEach(function(b){ if (b !== primary) { b.style.display = 'none'; } });
+
+    // Wire the buttons to use whatever toggle function the page provides.
+    var notif = primary.querySelector('#notifBtn');
+    var msg   = primary.querySelector('#msgBtn');
+    var prof  = primary.querySelector('#profileBtn');
+
+    function bestPanelToggler(){
+      // Pages variously expose: togglePanel / xTogglePanel
+      if (typeof window.togglePanel === 'function')  return window.togglePanel;
+      if (typeof window.xTogglePanel === 'function') return window.xTogglePanel;
+      return null;
+    }
+    function bestDropToggler(){
+      if (typeof window.toggleDropdown === 'function')  return window.toggleDropdown;
+      if (typeof window.xToggleDrop === 'function')     return window.xToggleDrop;
+      return null;
+    }
+
+    var ptog = bestPanelToggler();
+    if (notif) notif.onclick = function(){
+      var f = bestPanelToggler();
+      if (f) { try { f('notifPanel', notif); } catch(e){} }
+    };
+    if (msg) msg.onclick = function(){
+      var f = bestPanelToggler();
+      if (f) { try { f('msgPanel', msg); } catch(e){} }
+    };
+    if (prof) prof.onclick = function(){
+      var f = bestDropToggler();
+      if (f) { try { f('profileDropdown'); } catch(e){} }
+    };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', unify);
+  } else {
+    unify();
+  }
+  // Re-run after a tick in case the page dynamically populates its topbar
+  setTimeout(unify, 200);
+  setTimeout(unify, 800);
+
+  // ── SIDEBAR + SEARCH BAR NORMALIZE ──────────────────────────────────
+  var _sbCss='.client-acc{margin:2px 0}.acc-header{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;cursor:pointer;transition:background .12s;user-select:none;min-height:38px}.acc-header:hover{background:#f7f8fa}.acc-header.has-actions:hover{background:#f0fdf4}.acc-name{font-size:12.5px;font-weight:500;color:#111827;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acc-star{color:#f59e0b;font-size:11px;margin-left:3px}.acc-right{display:flex;align-items:center;gap:4px;flex-shrink:0;width:44px;justify-content:flex-end;height:20px}.acc-count{background:#ef4444;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;min-width:16px;text-align:center;flex-shrink:0}.acc-chevron{display:inline-block;transition:transform .2s;width:12px;height:12px;flex-shrink:0;position:relative;top:0}.acc-chevron::after{content:"";display:block;width:6px;height:6px;border-right:1.5px solid #9ca3af;border-bottom:1.5px solid #9ca3af;transform:rotate(45deg);margin:1px auto 0}.acc-link{font-size:12px;color:#9ca3af;opacity:0;transition:opacity .12s;padding:2px 4px;border-radius:4px}.acc-header:hover .acc-link{opacity:1}.acc-link:hover{background:#e5e7eb;color:#374151}.acc-body{padding:2px 0 6px}.acc-action-item{padding:7px 12px 7px 16px;font-size:11.5px;color:#374151;cursor:pointer;border-left:3px solid transparent;margin:1px 0;transition:background .1s;border-radius:0 6px 6px 0;line-height:1.35}.acc-action-item:hover{background:#f7f8fa}';
+  var _sbNorm='.search-bar{flex:1!important;max-width:480px!important;margin:0 16px!important;height:38px!important;background:#f9fafb!important;border:1px solid #e5e7eb!important;border-radius:999px!important;padding:0 16px 0 40px!important;font-size:14px!important;outline:none!important;color:#374151!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:12px center!important;transition:border-color .15s,box-shadow .15s!important}.search-bar:focus{border-color:#16a34a!important;box-shadow:0 0 0 3px rgba(22,163,74,.1)!important}.search-bar input,.search-input{height:38px!important;background:#f9fafb!important;border:1px solid #e5e7eb!important;border-radius:999px!important;padding:0 16px 0 42px!important;font-size:14px!important;outline:none!important;color:#374151!important}.search-bar input:focus,.search-input:focus{border-color:#16a34a!important;box-shadow:0 0 0 3px rgba(22,163,74,.1)!important}';
+  if(!document.querySelector('style[data-arka-sidebar]')){var _ss=document.createElement('style');_ss.setAttribute('data-arka-sidebar','1');_ss.textContent=_sbCss+_sbNorm;document.head.appendChild(_ss);}
+  var _pa={techcorp:'admin-client-detail',globalworks:'admin-client-detail-gw',innovate:'admin-client-detail-is',crestline:'admin-client-detail-cr'};
+  var _pa2={techcorp:[{t:'Assessment needs review',type:'critical',n:'admin-view-documents'},{t:'3 uploaded docs require review',type:'warning',n:'admin-view-documents'},{t:'Interview scheduled — tomorrow 2PM',type:'info',n:'admin-calendar'}],crestline:[{t:'2 uploaded docs require review',type:'warning',n:'admin-view-documents'},{t:'Survey response rate low',type:'info',n:'admin-client-detail-cr'}],globalworks:[{t:'Final report ready to deliver',type:'critical',n:'admin-view-documents'},{t:'Consultant notes pending',type:'warning',n:'admin-client-detail-gw'}],innovate:[{t:'Onboarding form incomplete',type:'warning',n:'admin-client-detail-is'}]};
+  var _pc=[{id:'techcorp',name:'TechCorp Inc.',starred:true},{id:'crestline',name:'Crestline Retail',starred:true},{id:'globalworks',name:'GlobalWorks Ltd.',starred:false},{id:'innovate',name:'Innovate Solutions',starred:false}];
+  function _bsb(){var el=document.getElementById('sidebarClientList');if(!el||el.getAttribute('data-ark-built')==='1')return;el.setAttribute('data-ark-built','1');el.innerHTML='';var sorted=_pc.slice().sort(function(a,b){return b.starred-a.starred;});sorted.forEach(function(c){var acts=_pa2[c.id]||[],ha=acts.length>0;var w=document.createElement('div');w.className='client-acc';var h=document.createElement('div');h.className='acc-header'+(ha?' has-actions':'');var ns=document.createElement('span');ns.className='acc-name';ns.textContent=c.name;if(c.starred){var s=document.createElement('span');s.className='acc-star';s.textContent=' ★';ns.appendChild(s);}h.appendChild(ns);var r=document.createElement('span');r.className='acc-right';if(ha){var bg=document.createElement('span');bg.className='acc-count';bg.textContent=acts.length;r.appendChild(bg);var cv=document.createElement('span');cv.className='acc-chevron';cv.id='schev-'+c.id;cv.textContent='';r.appendChild(cv);}var lk=document.createElement('span');lk.className='acc-link';lk.title='Open';lk.textContent='↗';lk.addEventListener('click',(function(rt){return function(e){e.stopPropagation();arkaNav(rt);};})((_pa[c.id]||'admin-client-detail')));r.appendChild(lk);h.appendChild(r);if(ha){h.addEventListener('click',(function(id){return function(){var b=document.getElementById('sacc-'+id),ch=document.getElementById('schev-'+id);if(!b)return;var op=b.style.display!=='none';b.style.display=op?'none':'block';if(ch){ch.textContent='';ch.style.transform=op?'':'rotate(180deg)';}};})(c.id));}w.appendChild(h);if(ha){var bd=document.createElement('div');bd.className='acc-body';bd.id='sacc-'+c.id;bd.style.display='none';acts.forEach(function(a){var bc=a.type==='critical'?'#ef4444':a.type==='warning'?'#f59e0b':'#3b82f6';var it=document.createElement('div');it.className='acc-action-item';it.style.borderLeftColor=bc;it.textContent=a.t;it.addEventListener('click',(function(n){return function(){arkaNav(n);};})(a.n));bd.appendChild(it);});w.appendChild(bd);}el.appendChild(w);});var sb=el.closest('aside,.sidebar,.ark-sidebar');if(sb){sb.querySelectorAll('.ark-attn-item,.ark-attn-header').forEach(function(n){try{n.parentNode.removeChild(n);}catch(e){}});}}
+  _bsb();setTimeout(_bsb,300);
+})();
+</script>
+
+
+<script>
+(function(){
+  if (window.__arkaPanelsInjected) return;
+  if (document.getElementById('notifPanel') && document.getElementById('msgPanel')) {
+    window.__arkaPanelsInjected = true;
+    return;
+  }
+
+  // 1. Inject CSS
+  var style = document.createElement('style');
+  style.setAttribute('data-arka-panels', '1');
+  style.textContent = "\n/* ================= ARKA — Notification / Message Panels (transplanted from Dashboard) ================= */\n.panel { display: none; position: fixed; top: 64px; right: 0; width: 360px; bottom: 0; background: #fff; border-left: 1px solid #e5e7eb; z-index: 200; flex-direction: column; box-shadow: -4px 0 24px rgba(0,0,0,0.08); animation: arkaSlideIn 0.2s ease; }\n.panel.open { display: flex !important; }\n@keyframes arkaSlideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }\n.overlay-backdrop { display: none; position: fixed; inset: 0; z-index: 150; background: transparent; }\n.overlay-backdrop.open { display: block; }\n.panel .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid #e5e7eb; flex-shrink: 0; }\n.panel .panel-title { font-size: 15px; font-weight: 600; color: #111827; font-family: 'DM Sans', sans-serif; }\n.panel .panel-action { background: none; border: none; font-size: 13px; color: #6b7280; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-family: 'DM Sans', sans-serif; }\n.panel .panel-action:hover { background: #f3f4f6; color: #166534; }\n.panel .panel-body { flex: 1; overflow-y: auto; }\n.panel .panel-footer { padding: 12px 24px; border-top: 1px solid #e5e7eb; flex-shrink: 0; }\n.panel .panel-footer-btn { width: 100%; padding: 9px; border: 1px solid #e5e7eb; background: #fff; color: #374151; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }\n.panel .panel-footer-btn:hover { background: #f9fafb; border-color: #d1d5db; }\n.panel .notif-item { display: flex; gap: 14px; padding: 14px 24px; cursor: pointer; transition: background 0.1s; border-bottom: 1px solid #f9fafb; position: relative; }\n.panel .notif-item:hover { background: #f9fafb; }\n.panel .notif-item.unread { background: #f0fdf4; }\n.panel .notif-item.unread::before { content: ''; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 50%; background: #16a34a; }\n.panel .notif-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }\n.panel .notif-icon.green { background: #dcfce7; color: #166534; }\n.panel .notif-icon.amber { background: #fef3c7; color: #b45309; }\n.panel .notif-icon.blue { background: #dbeafe; color: #1d4ed8; }\n.panel .notif-icon.red { background: #fee2e2; color: #b91c1c; }\n.panel .notif-content { flex: 1; min-width: 0; }\n.panel .notif-text { font-size: 13px; color: #111827; line-height: 1.45; font-family: 'DM Sans', sans-serif; }\n.panel .notif-text strong { font-weight: 600; }\n.panel .notif-time { font-size: 11.5px; color: #9ca3af; margin-top: 4px; font-family: 'DM Sans', sans-serif; }\n.panel .notif-dismiss { background: none; border: none; color: #d1d5db; cursor: pointer; padding: 4px; opacity: 0; transition: opacity .15s; align-self: flex-start; }\n.panel .notif-item:hover .notif-dismiss { opacity: 1; }\n.panel .notif-dismiss:hover { color: #6b7280; }\n.panel .msg-item { display: flex; gap: 12px; padding: 14px 24px; cursor: pointer; transition: background 0.1s; border-bottom: 1px solid #f9fafb; align-items: center; }\n.panel .msg-item:hover { background: #f9fafb; }\n.panel .msg-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 13px; flex-shrink: 0; }\n.panel .msg-content { flex: 1; min-width: 0; }\n.panel .msg-name { font-size: 13.5px; font-weight: 600; color: #111827; font-family: 'DM Sans', sans-serif; }\n.panel .msg-preview-text { font-size: 12.5px; color: #6b7280; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'DM Sans', sans-serif; }\n.panel .msg-time { font-size: 11px; color: #9ca3af; flex-shrink: 0; font-family: 'DM Sans', sans-serif; }\n.panel .msg-unread-dot { width: 8px; height: 8px; border-radius: 50%; background: #16a34a; flex-shrink: 0; }\n";
+  document.head.appendChild(style);
+
+  // 2. Inject backdrop + panel HTML at body root
+  var wrap = document.createElement('div');
+  wrap.id = 'arkaPanelsRoot';
+  wrap.innerHTML = '<div class="overlay-backdrop" id="notifBackdrop" onclick="closePanel(\'notifPanel\', \'notifBtn\')"></div><div class="overlay-backdrop" id="msgBackdrop" onclick="closePanel(\'msgPanel\', \'msgBtn\')"></div><div class="panel" id="notifPanel">\n  <div class="panel-header">\n    <div style="display:flex;align-items:center;gap:8px;">\n      <span class="panel-title">Notifications</span>\n      <span class="panel-count">4 new</span>\n    </div>\n    <button class="panel-close" onclick="closePanel(\'notifPanel\', \'notifBtn\')">✕</button>\n  </div>\n  <div class="panel-body">\n    <div class="notif-item unread" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-ai-analyze\'},\'*\')">\n      <div class="notif-icon ai">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">Assessment Completed</div>\n        <div class="notif-desc">Innovate Solutions — gap analysis ready for your review.</div>\n        <div class="notif-time">10:30 AM · Today</div>\n      </div>\n    </div>\n    <div class="notif-item unread" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-client-detail\'},\'*\')">\n      <div class="notif-icon doc">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">New Documents Uploaded</div>\n        <div class="notif-desc">TechStarter Inc. uploaded 3 new documents — review required.</div>\n        <div class="notif-time">9:40 AM · Today</div>\n      </div>\n    </div>\n    <div class="notif-item unread" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-client-detail\'},\'*\')">\n      <div class="notif-icon task">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">Interview Summary Ready</div>\n        <div class="notif-desc">Quantum Labs — AI generated interview summary available.</div>\n        <div class="notif-time">Yesterday · 4:15 PM</div>\n      </div>\n    </div>\n    <div class="notif-item" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-ai-analyze\'},\'*\')">\n      <div class="notif-icon alert">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">Document Re-uploaded</div>\n        <div class="notif-desc">Stellar Industries — client re-uploaded the compliance file for review.</div>\n        <div class="notif-time">2 days ago</div>\n      </div>\n    </div>\n    <div class="notif-item" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-client-detail\'},\'*\')">\n      <div class="notif-icon task">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">Survey Milestone Reached</div>\n        <div class="notif-desc">GlobalWorks Ltd — 80% of employees completed the survey.</div>\n        <div class="notif-time">3 days ago</div>\n      </div>\n    </div>\n    <div class="notif-item">\n      <div class="notif-icon ai">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">New Client Onboarded</div>\n        <div class="notif-desc">Vista Group has been assigned to you — account setup complete.</div>\n        <div class="notif-time">Apr 28, 2026</div>\n      </div>\n    </div>\n  </div>\n</div><div class="panel" id="msgPanel">\n  <div class="panel-header">\n    <div style="display:flex;align-items:center;gap:8px;">\n      <span class="panel-title">Messages</span>\n      <span class="panel-count">2 unread</span>\n    </div>\n    <button class="panel-close" onclick="closePanel(\'msgPanel\', \'msgBtn\')">✕</button>\n  </div>\n  <div class="panel-body">\n    <div class="msg-item unread">\n      <div class="msg-avatar">SC <span class="online-dot"></span></div>\n      <div class="msg-content">\n        <div class="msg-top">\n          <span class="msg-name">Sarah Chen</span>\n          <span class="msg-time">3m ago</span>\n        </div>\n        <div class="msg-preview">Can we review the Q3 report before the client call?</div>\n      </div>\n    </div>\n    <div class="msg-item unread">\n      <div class="msg-avatar">MJ</div>\n      <div class="msg-content">\n        <div class="msg-top">\n          <span class="msg-name">Mike Johnson</span>\n          <span class="msg-time">35m ago</span>\n        </div>\n        <div class="msg-preview">Updated the presentation for Zenith Partners</div>\n      </div>\n    </div>\n    <div class="msg-item">\n      <div class="msg-avatar">AL</div>\n      <div class="msg-content">\n        <div class="msg-top">\n          <span class="msg-name">Anna Lee</span>\n          <span class="msg-time">2h ago</span>\n        </div>\n        <div class="msg-preview">Meeting moved to 2pm tomorrow — confirmed?</div>\n      </div>\n    </div>\n    <div class="msg-item">\n      <div class="msg-avatar">DP</div>\n      <div class="msg-content">\n        <div class="msg-top">\n          <span class="msg-name">David Park</span>\n          <span class="msg-time">Yesterday</span>\n        </div>\n        <div class="msg-preview">HR forms for Innovate Solutions need your signature</div>\n      </div>\n    </div>\n  </div>\n  <div class="panel-footer">\n    <button class="view-all-btn" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-chat\'},\'*\')">Open Messages →</button>\n  </div>\n</div>';
+  document.body.appendChild(wrap);
+
+  // 3. Define panel functions on window (idempotent)
+  if (typeof window.togglePanel !== 'function') {
+    window.togglePanel = function(panelId, btnArg){
+      var panel = document.getElementById(panelId);
+      var backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+      // btnArg may be either a string ID (legacy) or an element (newer)
+      var btn = (typeof btnArg === 'string') ? document.getElementById(btnArg)
+              : (btnArg && btnArg.nodeType === 1) ? btnArg
+              : document.getElementById(panelId.replace('Panel', 'Btn'));
+      var isOpen = panel.classList.contains('open');
+      window.closeAllPanels();
+      if (!isOpen) {
+        panel.classList.add('open');
+        backdrop && backdrop.classList.add('open');
+        btn && btn.classList.add('active');
+      }
+    };
+  }
+  if (typeof window.closePanel !== 'function') {
+    window.closePanel = function(panelId, btnArg){
+      document.getElementById(panelId).classList.remove('open');
+      var backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+      backdrop && backdrop.classList.remove('open');
+      var btn = (typeof btnArg === 'string') ? document.getElementById(btnArg) : btnArg;
+      btn && btn.classList && btn.classList.remove('active');
+    };
+  }
+  if (typeof window.closeAllPanels !== 'function') {
+    window.closeAllPanels = function(){
+      ['notifPanel','msgPanel'].forEach(function(id){
+        var el = document.getElementById(id);
+        el && el.classList.remove('open');
+      });
+      ['notifBackdrop','msgBackdrop'].forEach(function(id){
+        var el = document.getElementById(id);
+        el && el.classList.remove('open');
+      });
+      ['notifBtn','msgBtn'].forEach(function(id){
+        var el = document.getElementById(id);
+        el && el.classList.remove('active');
+      });
+    };
+  }
+  if (typeof window.toggleDropdown !== 'function') {
+    window.toggleDropdown = function(id){
+      var el = document.getElementById(id);
+      el && el.classList.toggle('open');
+    };
+  }
+
+  window.__arkaPanelsInjected = true;
+})();
+</script>
+
+<script>
+// Ensure panel buttons are always wired (safety net)
+(function(){
+  function rewire() {
+    var nb = document.getElementById('notifBtn');
+    var mb = document.getElementById('msgBtn');
+    var pb = document.getElementById('profileBtn');
+    if (nb && !nb.__arkaWired) {
+      nb.__arkaWired = true;
+      nb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('notifPanel', nb); };
+    }
+    if (mb && !mb.__arkaWired) {
+      mb.__arkaWired = true;
+      mb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('msgPanel', mb); };
+    }
+    if (pb && !pb.__arkaWired) {
+      pb.__arkaWired = true;
+      pb.onclick = function(e) { e.stopPropagation(); if(window.toggleDropdown) window.toggleDropdown('profileDropdown'); };
+    }
+  }
+  // Wire immediately and after TV2 replaces buttons
+  rewire();
+  setTimeout(rewire, 250);
+  setTimeout(rewire, 900);
+})();
+</script>
+</body>
+</html>

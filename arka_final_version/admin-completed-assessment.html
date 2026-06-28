@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+// Multi-page navigation helper
+var __ARKA_ROUTES = {"login": "login.html", "signup-admin": "signup-admin.html", "signup-client": "signup-client.html", "landing": "landing.html", "admin-dashboard": "admin-dashboard.html", "admin-calendar": "admin-calendar.html", "admin-chat": "admin-chat.html", "admin-client-detail": "admin-client-detail.html", "admin-client-detail-gw": "admin-client-detail-gw.html", "admin-client-detail-is": "admin-client-detail-is.html", "admin-client-detail-cr": "admin-client-detail-cr.html", "admin-view-documents": "admin-view-documents.html", "client-portal": "client-portal.html", "admin-new-request": "admin-new-request.html", "admin-create-request": "admin-create-request.html", "admin-doc-request": "admin-doc-request.html", "admin-completed-assessment": "admin-completed-assessment.html"};
+function arkaNav(target) {
+  var fname = __ARKA_ROUTES[target];
+  if (fname) window.location.href = fname;
+}
+// Intercept any remaining parent.postMessage arka-nav calls
+window.parent = window.parent || {};
+</script>
+<meta charset="UTF-8">
+<title>Arka — Completed Assessment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#16a34a;--green-dark:#14532d;--green-50:#f0fdf4;}
+body{font-family:'DM Sans',sans-serif;background:#f9fafb;color:#111827;}
+header.topbar{position:fixed;top:0;left:0;right:0;height:64px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;padding:0 24px;gap:24px;z-index:200;}
+.logo{font-family:'Sora',serif;font-size:26px;font-weight:700;color:#14532d;letter-spacing:-0.5px;text-decoration:none;flex-shrink:0;min-width:196px;}
+.search-wrap{flex:1;max-width:480px;margin:0 auto;position:relative;}
+.search-wrap input{width:100%;height:38px;padding:0 16px 0 38px;border-radius:999px;border:1px solid #e5e7eb;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;background:#f9fafb;}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9ca3af;}
+.topbar-right{display:flex;align-items:center;gap:12px;margin-left:auto;}
+.ticon{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:#6b7280;}
+.avatar-btn{width:34px;height:34px;border-radius:50%;background:#16a34a;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;}
+.main-content{margin-left:220px;padding:92px 28px 28px;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:#6b7280;margin-bottom:18px;}
+.breadcrumb a{color:#6b7280;text-decoration:none;transition:color .15s;}
+.breadcrumb a:hover{color:#15803d;}
+.breadcrumb .current{color:#111827;font-weight:600;}
+.breadcrumb svg{color:#d1d5db;}
+/* Page header — matches Create Request */
+.ca-banner{display:none;}
+.ca-page-header{display:flex;align-items:center;gap:18px;margin-bottom:24px;}
+.ca-page-icon{width:58px;height:58px;border-radius:16px;background:#f0fdf4;border:1px solid #d1fae5;display:flex;align-items:center;justify-content:center;color:#16a34a;flex-shrink:0;}
+.ca-page-title{font-family:'Sora',sans-serif;font-size:34px;font-weight:700;line-height:1.08;color:#111827;letter-spacing:-1px;}
+.ca-page-sub{font-size:14px;color:#6b7280;margin-top:4px;line-height:1.5;}
+/* Company card */
+.ca-company-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;}
+.ca-card-header{padding:16px 20px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:12px;}
+.ca-co-avatar{width:40px;height:40px;border-radius:9px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#16a34a;flex-shrink:0;}
+.ca-co-name{font-size:17px;font-weight:700;color:#111827;}
+  .ca-co-info { flex:1; min-width:0; }
+  .ca-co-name-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px; }
+  .ca-co-name { font-size:17px; font-weight:700; color:#111827; }
+  .ca-tag { display:inline-flex; align-items:center; padding:3px 10px; border-radius:99px; font-size:12px; font-weight:600; white-space:nowrap; }
+  .ca-tag-completed { background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; }
+  .ca-tag-score { background:#f0fdf4; color:#14532d; border:1px solid #bbf7d0; font-size:12px; }
+  .ca-tag-score strong { font-size:13px; margin-left:2px; }
+  .ca-tag-btn { background:#fff; color:#374151; border:1px solid #d1d5db; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .12s; }
+  .ca-tag-btn:hover { background:#f9fafb; border-color:#9ca3af; }
+  .ca-tag-export { background:#14532d !important; color:#fff !important; border-color:#14532d !important; }
+  .ca-tag-export:hover { background:#166534 !important; }
+.ca-co-meta{font-size:12px;color:#6b7280;margin-top:2px;}
+
+
+
+
+
+/* Main 2-col grid */
+.ca-main-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0;}
+.ca-left-col{padding:20px;border-right:1px solid #f3f4f6;}
+.ca-right-col{padding:20px;}
+.ca-section-label{font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;}
+/* Score bars */
+.ca-scores-list{display:flex;flex-direction:column;gap:8px;}
+.ca-score-row{display:flex;align-items:center;gap:8px;}
+.ca-score-label{font-size:11.5px;color:#374151;width:150px;flex-shrink:0;}
+.ca-score-bar-wrap{flex:1;height:7px;background:#f3f4f6;border-radius:99px;overflow:hidden;}
+.ca-score-bar{height:100%;border-radius:99px;}
+.ca-score-val{font-size:12px;font-weight:700;width:32px;text-align:right;}
+/* Findings */
+.ca-finding{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f9fafb;}
+.ca-finding:last-child{border-bottom:none;}
+.ca-finding-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.ca-finding-text{font-size:12.5px;color:#374151;line-height:1.5;}
+.ca-finding-label{font-size:10px;font-weight:600;margin-top:4px;padding:2px 7px;border-radius:4px;display:inline-block;}
+</style>
+<style data-arka-nav="1">
+.ark-sidebar-fixed{position:fixed!important;top:64px!important;left:0!important;bottom:0!important;width:220px!important;background:#ffffff!important;border-right:1px solid #e5e7eb!important;padding:12px 0 16px!important;overflow-y:auto!important;z-index:100!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;}
+.ark-sidebar-fixed .ark-nav-item{display:flex!important;align-items:center!important;gap:12px!important;padding:10px 20px!important;font-size:14px!important;font-weight:400!important;color:#4b5563!important;cursor:pointer!important;border-radius:8px!important;margin:1px 8px!important;text-decoration:none!important;transition:background .12s,color .12s!important;white-space:nowrap!important;}
+.ark-sidebar-fixed .ark-nav-item:hover{background:#f3f4f6!important;color:#111827!important;}
+.ark-sidebar-fixed .ark-nav-item.active{color:#14532d!important;background:#f0fdf4!important;font-weight:500!important;}
+.ark-sidebar-fixed .ark-nav-item svg{flex-shrink:0!important;opacity:0.7!important;width:17px!important;height:17px!important;}
+.ark-sidebar-fixed .ark-nav-item.active svg{opacity:1!important;}
+.ark-sidebar-fixed .nav-divider{height:1px!important;background:#e5e7eb!important;margin:14px 14px!important;}
+.ark-sidebar-fixed .nav-section-label{font-size:11px!important;font-weight:600!important;text-transform:uppercase!important;letter-spacing:0.5px!important;color:#9ca3af!important;padding:8px 20px 6px!important;}
+.ark-sidebar-fixed .acc-header{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:9px 12px!important;border-radius:8px!important;cursor:pointer!important;transition:background .12s!important;user-select:none!important;min-height:38px!important;}
+.ark-sidebar-fixed .acc-header:hover{background:#f7f8fa!important;}
+.ark-sidebar-fixed .acc-name{font-size:12.5px!important;font-weight:500!important;color:#111827!important;flex:1!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.ark-sidebar-fixed .acc-star{color:#f59e0b!important;font-size:11px!important;margin-left:3px!important;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<style>
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: #f3f4f6; }
+  .icon-btn.active { background: #f0fdf4; color: #15803d; }
+  .icon-btn[data-tooltip]::after, .icon-btn[data-tooltip]:hover::after { content: none !important; display: none !important; }
+  .icon-btn:focus, .icon-btn:focus-visible { outline: none !important; box-shadow: none !important; }
+  .icon-btn:hover { background: #f3f4f6 !important; }
+  .notif-dot {
+    position: absolute;
+    top: 7px; right: 7px;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .avatar-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+    cursor: pointer;
+    background: #dcfce7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #166534;
+    transition: border-color 0.15s;
+  }
+  .avatar-btn:hover { border-color: #16a34a; }
+  .panel {
+    display: none;
+    position: fixed;
+    top: 64px;
+    right: 0;
+    width: 360px;
+    bottom: 0;
+    background: #fff;
+    border-left: 1px solid #e5e7eb;
+    z-index: 99999;
+    flex-direction: column;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+    animation: slideIn 0.2s ease;
+  }
+  .panel.open { display: flex; }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+  }
+  .panel-count {
+    font-size: 12px;
+    font-weight: 500;
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .panel-close {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background 0.12s;
+  }
+  .panel-close:hover { background: #f3f4f6; color: #374151; }
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .panel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-right { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 18px 16px; display:flex; flex-direction:column; min-height:0; min-width:0; overflow:visible; }
+  .panel-company-pills { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:14px; overflow:hidden; }
+  .panel-mode-header { margin-bottom:12px; }
+  .panel-mode-company { font-family:'DM Sans',sans-serif; font-weight:600; font-size:14px; color:#111827; }
+  .panel-mode-sub { font-size:11px; color:#6b7280; margin-top:2px; }
+  .panel-view-all { display:flex; align-items:center; gap:6px; padding:5px 8px; margin-top:6px; font-size:12px; font-weight:600; color:#16a34a; cursor:pointer; border-radius:6px; background:none; border:none; font-family:'DM Sans',sans-serif; transition:background .12s; }
+  .panel-view-all:hover { background:#f0fdf4; }
+  .panel-view-all-icon { width:18px; height:18px; border-radius:50%; background:#16a34a; color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; line-height:1; flex-shrink:0; }
+  .panel-btn-row{display:flex;gap:8px;margin-top:12px;}
+  .panel-btn{flex:1;padding:9px 6px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .12s;border:1.5px solid #166534;}
+  .panel-btn-outline{background:#fff;color:#166534;}
+  .panel-btn-outline:hover{background:#f0fdf4;}
+  .panel-btn-solid{background:#166534;color:#fff;}
+  .panel-btn-solid:hover{background:#14532d;}
+  .panel-btn:disabled{opacity:0.5;cursor:not-allowed;background:#f3f4f6;border-color:#d1d5db;color:#9ca3af;}
+  .overlay-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+  }
+  .overlay-backdrop.open { display: block; }
+  .profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(64px + 8px);
+    right: 24px;
+    width: 280px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 300;
+    overflow: hidden;
+    animation: fadeDown 0.15s ease;
+  }
+  .profile-dropdown.open { display: block; }
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .profile-avatar-lg {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .profile-name { font-size: 14px; font-weight: 600; color: #111827; }
+  .profile-email { font-size: 12px; color: #9ca3af; }
+  .profile-menu {
+    padding: 8px 0;
+  }
+  .profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .profile-menu-item:hover { background: #f9fafb; }
+  .profile-menu-item svg { color: #9ca3af; flex-shrink: 0; }
+  .profile-menu-divider {
+    height: 1px;
+    background: #f3f4f6;
+    margin: 4px 0;
+  }
+  .profile-menu-item.danger { color: #ef4444; }
+  .profile-menu-item.danger svg { color: #ef4444; }
+  .notif-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+    position: relative;
+  }
+  .notif-item:hover { background: #f9fafb; }
+  .notif-item.unread { background: #f0fdf4; }
+  .notif-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .notif-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .notif-icon.ai { background: #eff6ff; color: #1d4ed8; }
+  .notif-icon.task { background: #f0fdf4; color: #15803d; }
+  .notif-icon.doc { background: #fffbeb; color: #b45309; }
+  .notif-icon.alert { background: #fef2f2; color: #ef4444; }
+  .notif-content { flex: 1; min-width: 0; }
+  .notif-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 3px;
+  }
+  .notif-time {
+    font-size: 11px;
+    color: #9ca3af;
+  }
+  .msg-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .msg-item:hover { background: #f9fafb; }
+  .msg-item.unread { background: #f0fdf4; }
+  .msg-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .msg-content { flex: 1; min-width: 0; }
+  .msg-name { font-size: 13px; font-weight: 500; color: #111827; }
+  .msg-preview {
+    font-size: 12px;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .msg-time { font-size: 11px; color: #9ca3af; }
+  .view-all-btn {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #15803d;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .view-all-btn:hover { background: #f0fdf4; }
+  .unread { background: #f0fdf4; }
+  .unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .online-dot {
+    position: absolute;
+    bottom: 1px; right: 1px;
+    width: 9px; height: 9px;
+    background: #22c55e;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+
+  /* Override any conflicting rules with high specificity */
+  #notifPanel.open, #msgPanel.open { display: flex !important; }
+  #profileDropdown.open { display: block !important; }
+  #notifPanel { z-index: 99999 !important; }
+  #msgPanel { z-index: 99999 !important; }
+  #profileDropdown { z-index: 99999 !important; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a href='admin-dashboard.html' class="logo">Arka</a>
+  <div class="search-wrap">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="Search clients, reports, team...">
+  </div>
+  <div class="topbar-actions" style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+    <button class="icon-btn" id="notifBtn" aria-label="Notifications" onclick="event.stopPropagation();if(window.togglePanel)window.togglePanel('notifPanel',this);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="notif-dot"></span></button>
+    <button class="icon-btn" id="msgBtn" aria-label="Messages" onclick="event.stopPropagation();if(window.togglePanel)window.togglePanel('msgPanel',this);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+    <div style="position:relative;"><button class="avatar-btn" id="profileBtn" onclick="event.stopPropagation();if(window.toggleDropdown)window.toggleDropdown('profileDropdown');">AX</button></div>
+  </div>
+  </header>
+<div class="profile-dropdown" id="profileDropdown">
+  <div class="profile-header">
+    <div class="profile-avatar-lg">AX</div>
+    <div>
+      <div class="profile-name">Alex Chen</div>
+      <div class="profile-email">alex.chen@arka.com</div>
+    </div>
+  </div>
+  <div class="profile-menu">
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      View Profile
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      My Reports
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Privacy & Security
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      Help Center
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item danger">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
+    <div class="profile-menu-item" onclick="resetPrototype()" style="color:#dc2626;border-top:1px solid #f3f4f6;margin-top:4px;padding-top:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      Reset Prototype
+    </div>
+  </div>
+</div>
+<div class="overlay-backdrop" id="notifBackdrop" onclick="closePanel('notifPanel', 'notifBtn')"></div>
+<div class="panel" id="notifPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Notifications</span>
+      <span class="panel-count">4 new</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('notifPanel', 'notifBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="notif-item unread" onclick="window.location.href='admin-completed-assessment.html'">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Assessment Completed</div>
+        <div class="notif-desc">Innovate Solutions — gap analysis ready for your review.</div>
+        <div class="notif-time">10:30 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-client-detail.html'">
+      <div class="notif-icon doc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Documents Uploaded</div>
+        <div class="notif-desc">TechStarter Inc. uploaded 3 new documents — review required.</div>
+        <div class="notif-time">9:40 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-calendar.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Interview Summary Ready</div>
+        <div class="notif-desc">Quantum Labs — AI generated interview summary available.</div>
+        <div class="notif-time">Yesterday · 4:15 PM</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-view-documents.html'">
+      <div class="notif-icon alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Document Re-uploaded</div>
+        <div class="notif-desc">Stellar Industries — client re-uploaded the compliance file for review.</div>
+        <div class="notif-time">2 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-client-detail-gw.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Survey Milestone Reached</div>
+        <div class="notif-desc">GlobalWorks Ltd — 80% of employees completed the survey.</div>
+        <div class="notif-time">3 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-dashboard.html'"">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Client Onboarded</div>
+        <div class="notif-desc">Vista Group has been assigned to you — account setup complete.</div>
+        <div class="notif-time">Apr 28, 2026</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE PANEL -->
+
+<div class="overlay-backdrop" id="msgBackdrop" onclick="closePanel('msgPanel', 'msgBtn')"></div>
+<div class="panel" id="msgPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Messages</span>
+      <span class="panel-count">2 unread</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('msgPanel', 'msgBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">SC <span class="online-dot"></span></div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Sarah Chen</span>
+          <span class="msg-time">3m ago</span>
+        </div>
+        <div class="msg-preview">Can we review the Q3 report before the client call?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">MJ</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Mike Johnson</span>
+          <span class="msg-time">35m ago</span>
+        </div>
+        <div class="msg-preview">Updated the presentation for Zenith Partners</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">AL</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Anna Lee</span>
+          <span class="msg-time">2h ago</span>
+        </div>
+        <div class="msg-preview">Meeting moved to 2pm tomorrow — confirmed?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">DP</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">David Park</span>
+          <span class="msg-time">Yesterday</span>
+        </div>
+        <div class="msg-preview">HR forms for Innovate Solutions need your signature</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="view-all-btn" onclick="window.location.href='admin-chat.html'">Open Messages →</button>
+  </div>
+</div>
+<script>
+(function(){
+  if (window.__arkaAdminPanelsV2) return;
+  window.__arkaAdminPanelsV2 = true;
+
+  function closeAllPanels() {
+    ['notifPanel','msgPanel'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBackdrop','msgBackdrop'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBtn','msgBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    });
+    const pd = document.getElementById('profileDropdown');
+    if (pd) pd.classList.remove('open');
+  }
+
+  function togglePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    // btnRef can be a string ID or a DOM element (TV2 passes the element directly)
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    const isOpen = panel.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) {
+      panel.classList.add('open');
+      panel.classList.add('xopen');  // for pages using xopen convention
+      backdrop && backdrop.classList.add('open');
+      btn && btn.classList.add('active');
+    }
+  }
+
+  function closePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    panel.classList.remove('open');
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    backdrop && backdrop.classList.remove('open');
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    btn && btn.classList.remove('active');
+  }
+
+  // Mutual exclusion: closing other panels before opening new one
+  
+
+  function toggleDropdown(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isOpen = el.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) el.classList.add('open');
+  }
+
+  // Mutual exclusion for profile dropdown
+  var _origToggleDropdown = toggleDropdown;
+  toggleDropdown = function(id) {
+    // Close panels first
+    ['notifPanel','msgPanel'].forEach(function(pid) {
+      var el = document.getElementById(pid);
+      var bd = document.getElementById(pid.replace('Panel','Backdrop'));
+      if (el && el.classList.contains('open')) {
+        el.classList.remove('open');
+        if (bd) bd.classList.remove('open');
+      }
+    });
+    _origToggleDropdown(id);
+  };
+
+  window.togglePanel = togglePanel;
+  window.closePanel = closePanel;
+  window.toggleDropdown = toggleDropdown;
+})();
+</script>
+
+<aside class="ark-sidebar-fixed">
+  <div class="ark-nav-item" onclick="window.location.href='admin-dashboard.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-chat.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-calendar.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendar</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-new-request.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Create Request</div>
+  <div class="ark-nav-item active" onclick="window.location.href='admin-completed-assessment.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Completed Assessment</div>
+  <div class="nav-divider"></div>
+  <div class="nav-section-label">My Clients</div>
+  <div class="client-acc">
+    <div class="acc-header" onclick="window.location.href='admin-completed-assessment.html'" style="background:#f0fdf4;border-radius:8px;">
+      <span class="acc-name" style="color:#14532d;font-weight:600;">GlobalWorks Ltd.</span>
+    </div>
+  </div>
+</aside>
+
+<div class="main-content">
+  <div class="breadcrumb">
+    <a href='admin-dashboard.html'>Dashboard</a>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span class="current">Completed Assessments</span>
+  </div>
+  <div class="ca-page-header">
+    <div class="ca-page-icon">
+      <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div>
+      <div class="ca-page-title">Completed Assessments</div>
+      <div class="ca-page-sub">Archive of fully completed HR gap analyses</div>
+    </div>
+  </div>
+
+  <div class="ca-company-card">
+    <div class="ca-card-header">
+      <div class="ca-co-avatar">GW</div>
+      <div class="ca-co-info">
+        <div class="ca-co-name-row">
+          <span class="ca-co-name">GlobalWorks Ltd.</span>
+          <span class="ca-tag ca-tag-completed">&#10003; Completed</span>
+          <span class="ca-tag ca-tag-score">SCORE <strong>3.95</strong></span>
+          <button class="ca-tag ca-tag-btn" onclick="window.location.href='admin-client-detail-gw.html'">View Company &#8599;</button>
+          <button class="ca-tag ca-tag-btn ca-tag-export" onclick="(function(){var t=document.getElementById('exportToast');if(!t){t=document.createElement('div');t.id='exportToast';t.style.cssText='position:fixed;bottom:28px;right:28px;background:#14532d;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:opacity .25s;display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,.18);';t.innerHTML='<svg width=\'16\' height=\'16\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.5\' viewBox=\'0 0 24 24\'><polyline points=\'20 6 9 17 4 12\'/></svg><span>Report exported — download starting</span>';document.body.appendChild(t);}t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},3000);})()">&#8595; Export Report</button>
+        </div>
+        <div class="ca-co-meta">Manufacturing &nbsp;&middot;&nbsp; 450 Employees &nbsp;&middot;&nbsp; Apr 27, 2026</div>
+      </div>
+    </div>
+
+    <div class="ca-main-grid">
+      <!-- LEFT: Chart + Score Breakdown stacked -->
+      <div class="ca-left-col">
+        <div class="ca-section-label">SCORES BY DIMENSION</div>
+        <div style="position:relative;height:220px;margin-bottom:16px;">
+          <canvas id="ca-radar"></canvas>
+        </div>
+        <div class="ca-section-label">SCORE BREAKDOWN</div>
+        <div class="ca-scores-list">
+              <div class="ca-score-row">
+                <div class="ca-score-label">Performance Mgmt</div>
+                <div class="ca-score-bar-wrap"><div class="ca-score-bar" style="width:77%;background:#f59e0b;"></div></div>
+                <div class="ca-score-val" style="color:#f59e0b;">3.83</div>
+              </div>
+              <div class="ca-score-row">
+                <div class="ca-score-label">Recruitment & Onboarding</div>
+                <div class="ca-score-bar-wrap"><div class="ca-score-bar" style="width:82%;background:#16a34a;"></div></div>
+                <div class="ca-score-val" style="color:#16a34a;">4.08</div>
+              </div>
+              <div class="ca-score-row">
+                <div class="ca-score-label">Org Design & Talent</div>
+                <div class="ca-score-bar-wrap"><div class="ca-score-bar" style="width:83%;background:#16a34a;"></div></div>
+                <div class="ca-score-val" style="color:#16a34a;">4.17</div>
+              </div>
+              <div class="ca-score-row">
+                <div class="ca-score-label">Culture & Engagement</div>
+                <div class="ca-score-bar-wrap"><div class="ca-score-bar" style="width:72%;background:#f59e0b;"></div></div>
+                <div class="ca-score-val" style="color:#f59e0b;">3.6</div>
+              </div>
+              <div class="ca-score-row">
+                <div class="ca-score-label">Compensation & Benefits</div>
+                <div class="ca-score-bar-wrap"><div class="ca-score-bar" style="width:80%;background:#16a34a;"></div></div>
+                <div class="ca-score-val" style="color:#16a34a;">4.0</div>
+              </div>
+              <div class="ca-score-row">
+                <div class="ca-score-label">Employee Relations</div>
+                <div class="ca-score-bar-wrap"><div class="ca-score-bar" style="width:82%;background:#16a34a;"></div></div>
+                <div class="ca-score-val" style="color:#16a34a;">4.12</div>
+              </div>
+        </div>
+      </div>
+      <!-- RIGHT: Key Findings -->
+      <div class="ca-right-col">
+        <div class="ca-section-label">KEY FINDINGS</div>
+        <div class="ca-finding">
+          <div class="ca-finding-dot" style="background:#16a34a;"></div>
+          <div>
+            <div class="ca-finding-text">Org Design &amp; Talent scored highest at 4.17/5, reflecting well-structured reporting lines and a strong talent pipeline.</div>
+            <span class="ca-finding-label" style="background:#f0fdf4;color:#16a34a;">Strength</span>
+          </div>
+        </div>
+        <div class="ca-finding">
+          <div class="ca-finding-dot" style="background:#f59e0b;"></div>
+          <div>
+            <div class="ca-finding-text">Culture &amp; Engagement is lowest at 3.60/5. Employee survey data indicates gaps in recognition programs and internal communication.</div>
+            <span class="ca-finding-label" style="background:#fef3c7;color:#b45309;">Improvement Area</span>
+          </div>
+        </div>
+        <div class="ca-finding">
+          <div class="ca-finding-dot" style="background:#3b82f6;"></div>
+          <div>
+            <div class="ca-finding-text">Compensation &amp; Benefits and Employee Relations both score above 4.0, demonstrating competitive pay structures and compliant employment practices.</div>
+            <span class="ca-finding-label" style="background:#eff6ff;color:#1d4ed8;">Positive</span>
+          </div>
+        </div>
+        <div class="ca-finding">
+          <div class="ca-finding-dot" style="background:#6b7280;"></div>
+          <div>
+            <div class="ca-finding-text">Recommended priority: invest in culture initiatives and manager training programs to raise the engagement score in the next assessment cycle.</div>
+            <span class="ca-finding-label" style="background:#f3f4f6;color:#374151;">Recommendation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const ctx = document.getElementById('ca-radar');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Performance Mgmt', 'Recruitment & Onboarding', 'Org Design & Talent', 'Culture & Engagement', 'Compensation & Benefits', 'Employee Relations'],
+      datasets: [{
+        data: [3.83, 4.08, 4.17, 3.6, 4.0, 4.12],
+        backgroundColor: 'rgba(22,163,74,0.15)',
+        borderColor: '#16a34a',
+        borderWidth: 2,
+        pointBackgroundColor: '#16a34a',
+        pointRadius: 4,
+      }]
+    },
+    options: {
+      animation: false,
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          min: 0, max: 5,
+          ticks: { stepSize: 1, font: { size: 10 } },
+          pointLabels: { font: { size: 11, family: "'DM Sans', sans-serif" } },
+          grid: { color: '#e5e7eb' },
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+})();
+</script>
+<script>
+// Ensure panel buttons are always wired (safety net)
+(function(){
+  function rewire() {
+    var nb = document.getElementById('notifBtn');
+    var mb = document.getElementById('msgBtn');
+    var pb = document.getElementById('profileBtn');
+    if (nb && !nb.__arkaWired) {
+      nb.__arkaWired = true;
+      nb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('notifPanel', nb); };
+    }
+    if (mb && !mb.__arkaWired) {
+      mb.__arkaWired = true;
+      mb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('msgPanel', mb); };
+    }
+    if (pb && !pb.__arkaWired) {
+      pb.__arkaWired = true;
+      pb.onclick = function(e) { e.stopPropagation(); if(window.toggleDropdown) window.toggleDropdown('profileDropdown'); };
+    }
+  }
+  // Wire immediately and after TV2 replaces buttons
+  rewire();
+  setTimeout(rewire, 250);
+  setTimeout(rewire, 900);
+})();
+</script>
+</body>
+</html>

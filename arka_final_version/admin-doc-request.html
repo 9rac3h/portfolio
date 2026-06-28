@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+// Multi-page navigation helper
+var __ARKA_ROUTES = {"login": "login.html", "signup-admin": "signup-admin.html", "signup-client": "signup-client.html", "landing": "landing.html", "admin-dashboard": "admin-dashboard.html", "admin-calendar": "admin-calendar.html", "admin-chat": "admin-chat.html", "admin-client-detail": "admin-client-detail.html", "admin-client-detail-gw": "admin-client-detail-gw.html", "admin-client-detail-is": "admin-client-detail-is.html", "admin-client-detail-cr": "admin-client-detail-cr.html", "admin-view-documents": "admin-view-documents.html", "client-portal": "client-portal.html", "admin-new-request": "admin-new-request.html", "admin-create-request": "admin-create-request.html", "admin-doc-request": "admin-doc-request.html", "admin-completed-assessment": "admin-completed-assessment.html"};
+function arkaNav(target) {
+  var fname = __ARKA_ROUTES[target];
+  if (fname) window.location.href = fname;
+}
+// Intercept any remaining parent.postMessage arka-nav calls
+window.parent = window.parent || {};
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arka — Document Request</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green-900:#0d3320;--green-800:#14532d;--green-700:#166534;--green-600:#16a34a;--green-100:#dcfce7;--green-50:#f0fdf4;--gray-900:#111827;--gray-700:#374151;--gray-500:#6b7280;--gray-400:#9ca3af;--gray-300:#d1d5db;--gray-200:#e5e7eb;--gray-100:#f3f4f6;--gray-50:#f9fafb;--amber-50:#fffbeb;--amber-700:#b45309;--amber-500:#f59e0b;--red-500:#ef4444;--red-50:#fef2f2;--red-700:#b91c1c}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--gray-50);color:var(--gray-900)}
+.dr-wrap{max-width:760px;margin:0 auto;padding:32px 24px 80px}
+.dr-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-500);cursor:pointer;background:#fff;border:1px solid var(--gray-200);border-radius:8px;padding:8px 14px;font-family:'DM Sans',sans-serif;font-weight:600;transition:all .15s;margin-bottom:20px}
+.dr-back:hover{border-color:var(--green-700);color:var(--green-700);background:var(--green-50)}
+.dr-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:8px}
+.dr-icon{width:50px;height:50px;border-radius:14px;background:var(--green-50);border:1px solid var(--green-100);color:var(--green-700);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dr-title{font-family:'Sora',sans-serif;font-size:23px;font-weight:700;color:var(--gray-900);line-height:1.2}
+.dr-sub{font-size:13.5px;color:var(--gray-500);margin-top:5px;line-height:1.5}
+.dr-company-lead{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-top:14px;margin-bottom:6px}
+.dr-company-tag{display:inline-flex;align-items:center;gap:8px;background:var(--green-100);border:1.5px solid var(--green-600);color:var(--green-800);font-size:15px;font-weight:700;padding:7px 16px;border-radius:999px;box-shadow:0 1px 3px rgba(22,101,52,.12)}
+.dr-company-tag .dr-company-dot{width:9px;height:9px;border-radius:50%;background:var(--green-600);flex-shrink:0}
+
+.dr-card{background:#fff;border:1px solid var(--gray-200);border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);margin-top:24px;overflow:hidden}
+.dr-card-head{padding:18px 22px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dr-card-title{font-family:'Sora',sans-serif;font-size:16px;font-weight:600;color:var(--gray-900)}
+.dr-card-body{padding:22px}
+
+/* EMPTY STATE */
+.dr-empty{text-align:center;padding:54px 24px}
+.dr-empty-ico{width:72px;height:72px;border-radius:50%;background:var(--gray-100);color:var(--gray-400);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.dr-empty-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:600;color:var(--gray-900);margin-bottom:8px}
+.dr-empty-sub{font-size:13.5px;color:var(--gray-500);line-height:1.6;max-width:420px;margin:0 auto 24px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 20px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-green{background:var(--green-700);color:#fff}
+.btn-green:hover{background:var(--green-800);transform:translateY(-1px);box-shadow:0 4px 14px rgba(22,101,52,.2)}
+.btn-outline{background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-200)}
+.btn-outline:hover{border-color:var(--gray-400);background:var(--gray-50)}
+.btn-ghost-red{background:#fff;color:var(--red-700);border:1.5px solid #f3d3d3}
+.btn-ghost-red:hover{background:var(--red-50)}
+.dr-btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* FORM */
+.dr-field{margin-bottom:18px}
+.dr-label{font-size:12.5px;font-weight:700;color:var(--gray-700);margin-bottom:7px;display:block}
+.dr-input,.dr-select,.dr-textarea{width:100%;border:1.5px solid var(--gray-200);border-radius:10px;background:#fff;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--gray-900);outline:none;transition:border-color .15s,box-shadow .15s}
+.dr-input,.dr-select{height:44px;padding:0 13px}
+.dr-textarea{min-height:84px;padding:11px 13px;line-height:1.6;resize:vertical}
+.dr-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 6L9 1' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+.dr-input:focus,.dr-select:focus,.dr-textarea:focus{border-color:var(--green-700);box-shadow:0 0 0 3px rgba(22,101,52,.08)}
+.dr-hint{font-size:11.5px;color:var(--gray-400);margin-top:6px;line-height:1.45}
+.dr-two{display:grid;grid-template-columns:1fr 200px;gap:14px}
+
+/* CUSTOM DATE PICKER (English) */
+.cdp-wrap{position:relative}
+.cdp-input{cursor:pointer;padding-right:38px!important}
+.cdp-cal-ico{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none;display:flex}
+.cdp-pop{position:absolute;top:50px;left:0;z-index:50;width:268px;background:#fff;border:1px solid var(--gray-200);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.14);padding:12px;display:none}
+.cdp-pop.open{display:block}
+.cdp-pophead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cdp-nav{width:28px;height:28px;border:none;background:var(--gray-50);border-radius:7px;cursor:pointer;color:var(--gray-600);font-size:15px;display:flex;align-items:center;justify-content:center}
+.cdp-nav:hover{background:var(--gray-100)}
+.cdp-mon{font-size:13.5px;font-weight:600;color:var(--gray-900)}
+.cdp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cdp-dow{font-size:10px;font-weight:700;color:var(--gray-400);text-align:center;padding:4px 0;text-transform:uppercase}
+.cdp-day{height:30px;border:none;background:none;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--gray-700)}
+.cdp-day:hover{background:var(--green-50);color:var(--green-700)}
+.cdp-day.empty{visibility:hidden;cursor:default}
+.cdp-day.today{font-weight:700;color:var(--green-700)}
+.cdp-day.sel{background:var(--green-700);color:#fff;font-weight:600}
+.cdp-popfoot{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--gray-100)}
+.cdp-clear{border:none;background:none;color:var(--gray-500);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.cdp-clear:hover{color:var(--red-500)}
+.cdp-todaybtn{border:none;background:none;color:var(--green-700);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* DOC ITEM EDITOR */
+.dr-doc-row{border:1.5px solid var(--gray-200);border-radius:12px;padding:16px;margin-bottom:14px;background:var(--gray-50);position:relative}
+.dr-doc-row-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.dr-doc-num{font-size:12px;font-weight:700;color:var(--green-700)}
+.dr-doc-remove{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:18px;line-height:1;padding:2px 6px;border-radius:6px}
+.dr-doc-remove:hover{color:var(--red-500);background:#fff}
+.dr-add-doc{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:none;background:var(--green-700);color:#fff;border-radius:11px;padding:15px;font-family:'DM Sans',sans-serif;font-size:14.5px;font-weight:700;cursor:pointer;transition:.15s;box-shadow:0 2px 8px rgba(22,101,52,.22);margin-top:4px}
+.dr-ex-actions{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.dr-ex-btn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--gray-200);background:#fff;color:var(--green-700);border-radius:8px;padding:8px 13px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;transition:.12s}
+.dr-ex-btn:hover{border-color:var(--green-600);background:var(--green-50)}
+.dr-ex-chip{display:inline-flex;align-items:center;gap:7px;margin-top:9px;background:var(--green-50);border:1px solid var(--green-100);color:var(--green-800);border-radius:8px;padding:7px 10px;font-size:12.5px;font-weight:600;max-width:100%}
+.dr-ex-chip-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--green-800);text-decoration:none}
+a.dr-ex-chip-txt:hover{text-decoration:underline}
+.dr-ex-chip-x{border:none;background:none;color:var(--gray-400);font-size:16px;line-height:1;cursor:pointer;padding:0 2px;flex-shrink:0}
+.dr-ex-chip-x:hover{color:var(--red-500)}
+.dr-sample-chip{display:inline-flex;align-items:center;gap:6px;background:var(--green-50);border:1px solid var(--green-100);color:var(--green-800);border-radius:7px;padding:5px 10px;font-size:12px;font-weight:600;text-decoration:none;max-width:100%}
+a.dr-sample-chip:hover{text-decoration:underline}
+.dr-add-doc:hover{background:var(--green-800);transform:translateY(-1px);box-shadow:0 5px 16px rgba(22,101,52,.3)}
+.dr-add-doc-ico{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.22);font-size:13px;font-weight:700;line-height:1}
+
+/* SUBMITTED LIST */
+/* SUBMITTED FILE-LIST ROWS */
+.dr-frow{border:1px solid var(--gray-200);border-radius:11px;margin-bottom:10px;overflow:hidden;background:#fff;transition:border-color .12s,box-shadow .12s}
+.dr-frow.has-detail .dr-frow-main{cursor:pointer}
+.dr-frow.open{border-color:var(--green-200);box-shadow:0 1px 6px rgba(22,101,52,.06)}
+.dr-frow-main{display:flex;align-items:center;gap:12px;padding:13px 15px;transition:background .12s}
+.dr-frow.has-detail .dr-frow-main:hover{background:var(--green-50)}
+.dr-frow-icon{width:34px;height:34px;border-radius:9px;background:var(--green-50);color:var(--green-700);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dr-frow-info{flex:1;min-width:0}
+.dr-frow-name{font-size:14px;font-weight:600;color:var(--gray-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dr-frow-sub{font-size:11.5px;color:var(--gray-400);margin-top:3px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.dr-frow-time{display:inline-flex;align-items:center;gap:4px;color:var(--green-700);font-weight:600;background:var(--green-50);padding:2px 8px;border-radius:6px}
+.dr-frow-status{font-size:11px;font-weight:700;color:var(--amber-700);background:var(--amber-50);padding:4px 10px;border-radius:999px;flex-shrink:0}
+.dr-frow-del{width:30px;height:30px;border:1px solid var(--gray-200);background:#fff;border-radius:8px;color:var(--gray-400);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.12s;padding:0}
+.dr-frow-del:hover{color:var(--red-500);border-color:#f3c6c6;background:var(--red-50)}
+.dr-frow-chevron{color:var(--gray-400);font-size:13px;flex-shrink:0;transition:transform .15s;display:inline-block;width:14px;text-align:center}
+.dr-frow-detail{display:none;padding:4px 16px 16px 61px;border-top:1px solid var(--gray-100);background:var(--gray-50)}
+.dr-frow-block{margin-top:12px}
+.dr-frow-tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green-700);background:var(--green-50);border:1px solid var(--green-100);padding:2px 8px;border-radius:5px;margin-bottom:6px}
+.dr-frow-txt{font-size:12.5px;color:var(--gray-700);line-height:1.6}
+.dr-meta-grid{display:flex;flex-wrap:wrap;gap:18px;padding:16px 0 4px;border-top:1px solid var(--gray-100);margin-top:6px}
+.dr-meta-b{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400)}
+.dr-meta-v{font-size:13.5px;color:var(--gray-800);font-weight:600;margin-top:3px}
+.dr-note-box{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:13px 15px;font-size:13px;color:var(--gray-700);line-height:1.6;margin-top:16px}
+.dr-status-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--amber-50);color:var(--amber-700)}
+.dr-status-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--amber-500)}
+
+.dr-footer{display:flex;justify-content:flex-end;gap:10px;padding-top:4px;margin-top:4px}
+.dr-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green-800);color:#fff;border-radius:10px;padding:12px 20px;font-size:13.5px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:999}
+.dr-toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+/* EDIT MODAL */
+.dre-backdrop{position:fixed;inset:0;background:rgba(17,24,39,.45);opacity:0;pointer-events:none;transition:opacity .18s;z-index:1100}
+.dre-backdrop.open{opacity:1;pointer-events:auto}
+.dre-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%) scale(.98);width:min(640px,95vw);max-height:90vh;background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.28);z-index:1101;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;display:flex;flex-direction:column;overflow:hidden}
+.dre-modal.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.dre-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;border-bottom:1px solid var(--gray-100)}
+.dre-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:600;color:var(--gray-900)}
+.dre-close{border:none;background:transparent;font-size:25px;line-height:1;color:var(--gray-400);cursor:pointer;padding:0 2px}
+.dre-close:hover{color:var(--gray-700)}
+.dre-body{padding:22px;overflow-y:auto}
+.dre-foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px;border-top:1px solid var(--gray-100)}
+
+/* PREVIEW MODAL */
+.drp-backdrop{position:fixed;inset:0;background:rgba(17,24,39,.45);opacity:0;pointer-events:none;transition:opacity .18s;z-index:1200}
+.drp-backdrop.open{opacity:1;pointer-events:auto}
+.drp-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%) scale(.98);width:min(820px,95vw);max-height:88vh;background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.28);z-index:1201;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;display:flex;flex-direction:column;overflow:hidden}
+.drp-modal.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.drp-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 22px 16px;border-bottom:1px solid var(--gray-100)}
+.drp-eyebrow{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green-700);margin-bottom:4px}
+.drp-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:600;color:var(--gray-900)}
+.drp-close{border:none;background:transparent;font-size:24px;line-height:1;color:var(--gray-400);cursor:pointer;padding:0 2px}
+.drp-close:hover{color:var(--gray-700)}
+.drp-body{padding:18px 20px;overflow-y:auto;background:var(--gray-50)}
+.drp-catcard{background:#fff;border:1px solid var(--gray-200);border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.drp-cathead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid var(--gray-100)}
+.drp-cathead-left{display:flex;align-items:center;gap:11px}
+.drp-catnum{width:24px;height:24px;border-radius:7px;background:var(--gray-100);color:var(--gray-500);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.drp-cattitle{font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:var(--gray-900)}
+.drp-cathead-right{display:flex;align-items:center;gap:10px}
+.drp-cattag{font-size:11px;font-weight:600;color:var(--gray-500);background:var(--gray-100);padding:3px 10px;border-radius:999px}
+.drp-catcount{font-size:11px;font-weight:700;color:var(--gray-400)}
+.drp-table{padding:4px 18px 10px}
+.drp-frow{display:grid;grid-template-columns:2.4fr 1.1fr 1fr 1.3fr 1.1fr 1fr;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--gray-100)}
+.drp-frow:last-child{border-bottom:none}
+.drp-fhead{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-400);padding:10px 0}
+.drp-fname{display:flex;align-items:center;gap:10px;min-width:0}
+.drp-ficon{width:28px;height:28px;border-radius:8px;background:var(--gray-100);color:var(--gray-500);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.drp-fname-txt{font-size:13.5px;font-weight:600;color:var(--gray-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drp-muted{font-size:12.5px;color:var(--gray-400)}
+.drp-status{display:inline-flex;align-items:center;font-size:11.5px;font-weight:600;padding:3px 11px;border-radius:999px}
+.drp-status-pending{background:var(--gray-100);color:var(--gray-500)}
+.drp-actions{text-align:right}
+.drp-await{font-size:11px;font-style:italic;color:var(--gray-400)}
+.drp-clientnote{background:#fff;border:1px solid var(--gray-200);border-left:3px solid var(--green-600);border-radius:8px;padding:11px 14px;font-size:12.5px;color:var(--gray-700);line-height:1.6;margin-top:14px}
+.drp-clientnote b{color:var(--gray-900);font-weight:600}
+.drp-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;border-top:1px solid var(--gray-100)}
+.drp-note{font-size:11.5px;color:var(--gray-400)}
+</style>
+<style>
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: #f3f4f6; }
+  .icon-btn.active { background: #f0fdf4; color: #15803d; }
+  .icon-btn[data-tooltip]::after, .icon-btn[data-tooltip]:hover::after { content: none !important; display: none !important; }
+  .icon-btn:focus, .icon-btn:focus-visible { outline: none !important; box-shadow: none !important; }
+  .icon-btn:hover { background: #f3f4f6 !important; }
+  .notif-dot {
+    position: absolute;
+    top: 7px; right: 7px;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .avatar-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+    cursor: pointer;
+    background: #dcfce7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #166534;
+    transition: border-color 0.15s;
+  }
+  .avatar-btn:hover { border-color: #16a34a; }
+  .panel {
+    display: none;
+    position: fixed;
+    top: 64px;
+    right: 0;
+    width: 360px;
+    bottom: 0;
+    background: #fff;
+    border-left: 1px solid #e5e7eb;
+    z-index: 99999;
+    flex-direction: column;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+    animation: slideIn 0.2s ease;
+  }
+  .panel.open { display: flex; }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+  }
+  .panel-count {
+    font-size: 12px;
+    font-weight: 500;
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .panel-close {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background 0.12s;
+  }
+  .panel-close:hover { background: #f3f4f6; color: #374151; }
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .panel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-right { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 18px 16px; display:flex; flex-direction:column; min-height:0; min-width:0; overflow:visible; }
+  .panel-company-pills { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:14px; overflow:hidden; }
+  .panel-mode-header { margin-bottom:12px; }
+  .panel-mode-company { font-family:'DM Sans',sans-serif; font-weight:600; font-size:14px; color:#111827; }
+  .panel-mode-sub { font-size:11px; color:#6b7280; margin-top:2px; }
+  .panel-view-all { display:flex; align-items:center; gap:6px; padding:5px 8px; margin-top:6px; font-size:12px; font-weight:600; color:#16a34a; cursor:pointer; border-radius:6px; background:none; border:none; font-family:'DM Sans',sans-serif; transition:background .12s; }
+  .panel-view-all:hover { background:#f0fdf4; }
+  .panel-view-all-icon { width:18px; height:18px; border-radius:50%; background:#16a34a; color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; line-height:1; flex-shrink:0; }
+  .panel-btn-row{display:flex;gap:8px;margin-top:12px;}
+  .panel-btn{flex:1;padding:9px 6px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .12s;border:1.5px solid #166534;}
+  .panel-btn-outline{background:#fff;color:#166534;}
+  .panel-btn-outline:hover{background:#f0fdf4;}
+  .panel-btn-solid{background:#166534;color:#fff;}
+  .panel-btn-solid:hover{background:#14532d;}
+  .panel-btn:disabled{opacity:0.5;cursor:not-allowed;background:#f3f4f6;border-color:#d1d5db;color:#9ca3af;}
+  .overlay-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+  }
+  .overlay-backdrop.open { display: block; }
+  .profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(64px + 8px);
+    right: 24px;
+    width: 280px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 300;
+    overflow: hidden;
+    animation: fadeDown 0.15s ease;
+  }
+  .profile-dropdown.open { display: block; }
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .profile-avatar-lg {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .profile-name { font-size: 14px; font-weight: 600; color: #111827; }
+  .profile-email { font-size: 12px; color: #9ca3af; }
+  .profile-menu {
+    padding: 8px 0;
+  }
+  .profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .profile-menu-item:hover { background: #f9fafb; }
+  .profile-menu-item svg { color: #9ca3af; flex-shrink: 0; }
+  .profile-menu-divider {
+    height: 1px;
+    background: #f3f4f6;
+    margin: 4px 0;
+  }
+  .profile-menu-item.danger { color: #ef4444; }
+  .profile-menu-item.danger svg { color: #ef4444; }
+  .notif-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+    position: relative;
+  }
+  .notif-item:hover { background: #f9fafb; }
+  .notif-item.unread { background: #f0fdf4; }
+  .notif-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .notif-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .notif-icon.ai { background: #eff6ff; color: #1d4ed8; }
+  .notif-icon.task { background: #f0fdf4; color: #15803d; }
+  .notif-icon.doc { background: #fffbeb; color: #b45309; }
+  .notif-icon.alert { background: #fef2f2; color: #ef4444; }
+  .notif-content { flex: 1; min-width: 0; }
+  .notif-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 3px;
+  }
+  .notif-time {
+    font-size: 11px;
+    color: #9ca3af;
+  }
+  .msg-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .msg-item:hover { background: #f9fafb; }
+  .msg-item.unread { background: #f0fdf4; }
+  .msg-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .msg-content { flex: 1; min-width: 0; }
+  .msg-name { font-size: 13px; font-weight: 500; color: #111827; }
+  .msg-preview {
+    font-size: 12px;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .msg-time { font-size: 11px; color: #9ca3af; }
+  .view-all-btn {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #15803d;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .view-all-btn:hover { background: #f0fdf4; }
+  .unread { background: #f0fdf4; }
+  .unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .online-dot {
+    position: absolute;
+    bottom: 1px; right: 1px;
+    width: 9px; height: 9px;
+    background: #22c55e;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+
+  /* Override any conflicting rules with high specificity */
+  #notifPanel.open, #msgPanel.open { display: flex !important; }
+  #profileDropdown.open { display: block !important; }
+  #notifPanel { z-index: 99999 !important; }
+  #msgPanel { z-index: 99999 !important; }
+  #profileDropdown { z-index: 99999 !important; }
+</style>
+</head>
+<body>
+<div class="profile-dropdown" id="profileDropdown">
+  <div class="profile-header">
+    <div class="profile-avatar-lg">AX</div>
+    <div>
+      <div class="profile-name">Alex Chen</div>
+      <div class="profile-email">alex.chen@arka.com</div>
+    </div>
+  </div>
+  <div class="profile-menu">
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      View Profile
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      My Reports
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Privacy & Security
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      Help Center
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item danger">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
+    <div class="profile-menu-item" onclick="resetPrototype()" style="color:#dc2626;border-top:1px solid #f3f4f6;margin-top:4px;padding-top:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      Reset Prototype
+    </div>
+  </div>
+</div>
+<div class="overlay-backdrop" id="notifBackdrop" onclick="closePanel('notifPanel', 'notifBtn')"></div>
+<div class="panel" id="notifPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Notifications</span>
+      <span class="panel-count">4 new</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('notifPanel', 'notifBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="notif-item unread" onclick="window.location.href='admin-completed-assessment.html'">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Assessment Completed</div>
+        <div class="notif-desc">Innovate Solutions — gap analysis ready for your review.</div>
+        <div class="notif-time">10:30 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-client-detail.html'">
+      <div class="notif-icon doc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Documents Uploaded</div>
+        <div class="notif-desc">TechStarter Inc. uploaded 3 new documents — review required.</div>
+        <div class="notif-time">9:40 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-calendar.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Interview Summary Ready</div>
+        <div class="notif-desc">Quantum Labs — AI generated interview summary available.</div>
+        <div class="notif-time">Yesterday · 4:15 PM</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-view-documents.html'">
+      <div class="notif-icon alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Document Re-uploaded</div>
+        <div class="notif-desc">Stellar Industries — client re-uploaded the compliance file for review.</div>
+        <div class="notif-time">2 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-client-detail-gw.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Survey Milestone Reached</div>
+        <div class="notif-desc">GlobalWorks Ltd — 80% of employees completed the survey.</div>
+        <div class="notif-time">3 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-dashboard.html'"">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Client Onboarded</div>
+        <div class="notif-desc">Vista Group has been assigned to you — account setup complete.</div>
+        <div class="notif-time">Apr 28, 2026</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE PANEL -->
+
+<div class="overlay-backdrop" id="msgBackdrop" onclick="closePanel('msgPanel', 'msgBtn')"></div>
+<div class="panel" id="msgPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Messages</span>
+      <span class="panel-count">2 unread</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('msgPanel', 'msgBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">SC <span class="online-dot"></span></div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Sarah Chen</span>
+          <span class="msg-time">3m ago</span>
+        </div>
+        <div class="msg-preview">Can we review the Q3 report before the client call?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">MJ</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Mike Johnson</span>
+          <span class="msg-time">35m ago</span>
+        </div>
+        <div class="msg-preview">Updated the presentation for Zenith Partners</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">AL</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Anna Lee</span>
+          <span class="msg-time">2h ago</span>
+        </div>
+        <div class="msg-preview">Meeting moved to 2pm tomorrow — confirmed?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">DP</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">David Park</span>
+          <span class="msg-time">Yesterday</span>
+        </div>
+        <div class="msg-preview">HR forms for Innovate Solutions need your signature</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="view-all-btn" onclick="window.location.href='admin-chat.html'">Open Messages →</button>
+  </div>
+</div>
+<script>
+(function(){
+  if (window.__arkaAdminPanelsV2) return;
+  window.__arkaAdminPanelsV2 = true;
+
+  function closeAllPanels() {
+    ['notifPanel','msgPanel'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBackdrop','msgBackdrop'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBtn','msgBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    });
+    const pd = document.getElementById('profileDropdown');
+    if (pd) pd.classList.remove('open');
+  }
+
+  function togglePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    // btnRef can be a string ID or a DOM element (TV2 passes the element directly)
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    const isOpen = panel.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) {
+      panel.classList.add('open');
+      panel.classList.add('xopen');  // for pages using xopen convention
+      backdrop && backdrop.classList.add('open');
+      btn && btn.classList.add('active');
+    }
+  }
+
+  function closePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    panel.classList.remove('open');
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    backdrop && backdrop.classList.remove('open');
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    btn && btn.classList.remove('active');
+  }
+
+  // Mutual exclusion: closing other panels before opening new one
+  
+
+  function toggleDropdown(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isOpen = el.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) el.classList.add('open');
+  }
+
+  // Mutual exclusion for profile dropdown
+  var _origToggleDropdown = toggleDropdown;
+  toggleDropdown = function(id) {
+    // Close panels first
+    ['notifPanel','msgPanel'].forEach(function(pid) {
+      var el = document.getElementById(pid);
+      var bd = document.getElementById(pid.replace('Panel','Backdrop'));
+      if (el && el.classList.contains('open')) {
+        el.classList.remove('open');
+        if (bd) bd.classList.remove('open');
+      }
+    });
+    _origToggleDropdown(id);
+  };
+
+  window.togglePanel = togglePanel;
+  window.closePanel = closePanel;
+  window.toggleDropdown = toggleDropdown;
+})();
+</script>
+<div class="dr-wrap">
+  <button class="arka-files-new-request-btn" type="button" onclick="arkaOpenNewRequestForCurrentCompany()">
+              <span style="font-size:16px;line-height:1;">+</span>
+              New Request
+            </button>
+            <button class="dr-back" onclick="window.location.href='admin-dashboard.html'">&larr; Back to dashboard</button>
+
+  <div class="dr-head">
+    <div>
+      <div class="dr-company-lead">Requesting documents from</div>
+      <div class="dr-company-tag" id="drCompanyTag">&#9679; Client</div>
+    </div>
+  </div>
+
+  <!-- VIEW: EMPTY -->
+  <div class="dr-card" id="drEmptyCard" style="display:none;">
+    <div class="dr-empty">
+      <div class="dr-empty-ico">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="dr-empty-title">No document request yet</div>
+      <div class="dr-empty-sub">You haven't created a document submission request for this client. Create one to list the specific files they need to upload, with requirements and examples.</div>
+      <div class="dr-btn-row">
+        <button class="btn btn-outline" onclick="window.location.href='admin-dashboard.html'">Back</button>
+        <button class="btn btn-green" onclick="drEnterEdit()">+ Create request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW: SUBMITTED -->
+  <div class="dr-card" id="drViewCard" style="display:none;">
+    <div class="dr-card-head">
+      <div class="dr-card-title">Requested documents</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="dr-status-pill" id="drViewStatus">Awaiting client</span>
+        <button class="btn btn-outline" style="padding:8px 14px;font-size:13px;" onclick="drEnterEdit()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:2px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit
+        </button>
+      </div>
+    </div>
+    <div class="dr-card-body">
+      <div id="drViewList"></div>
+      <div class="dr-meta-grid">
+        <div><div class="dr-meta-b">HR Dimension</div><div class="dr-meta-v" style="color:var(--gray-400);font-weight:500;">Auto-assigned after upload</div></div>
+        <div><div class="dr-meta-b">Created</div><div class="dr-meta-v" id="drViewCreated">—</div></div>
+      </div>
+      <div class="dr-note-box" id="drViewNoteBox" style="display:none;"><b style="color:#374151;">Note: </b><span id="drViewNote"></span></div>
+      <div class="dr-footer">
+        <button class="btn btn-outline" onclick="drPreview()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:2px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Preview
+        </button>
+        <button class="btn btn-green" onclick="window.location.href='admin-dashboard.html'">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REMINDER PROMPT (pending upload tasks) -->
+<div class="drp-backdrop" id="drPromptBackdrop" style="z-index:1300;background:#f8fafc;"></div>
+<div class="dre-modal" id="drPromptModal" role="dialog" aria-modal="true" style="width:min(440px,94vw);z-index:1301;">
+  <div class="dre-body" style="text-align:center;padding:28px 26px 22px;">
+    <div style="width:52px;height:52px;border-radius:50%;background:#fffbeb;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.8"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+    </div>
+    <div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:600;color:var(--gray-900);margin-bottom:8px;">Task setup not finished</div>
+    <div style="font-size:13px;color:var(--gray-600);line-height:1.6;">Arka hasn't finished creating all the tasks yet, so they aren't visible to the client. Do you want to continue reviewing?</div>
+  </div>
+  <div class="dre-foot" style="justify-content:center;gap:10px;">
+    <button class="btn btn-outline" onclick="drPromptEdit()">Keep editing</button>
+    <button class="btn btn-green" onclick="drPromptIgnore()">Continue to review</button>
+  </div>
+</div>
+
+<!-- EDIT MODAL (create / edit request) -->
+<div class="dre-backdrop" id="dreBackdrop" onclick="drCancelEdit()"></div>
+<div class="dre-modal" id="dreModal" role="dialog" aria-modal="true">
+  <div class="dre-head">
+    <div class="dre-title" id="dreTitle">New document request</div>
+    <button class="dre-close" onclick="drCancelEdit()" aria-label="Close">&times;</button>
+  </div>
+  <div class="dre-body">
+    <label class="dr-label">Submission tasks</label>
+    <div class="dr-hint" style="margin-top:0;margin-bottom:12px;">Create one task for each file you want the client to submit. Include what it should contain and, optionally, an example.</div>
+    <div id="drDocList"></div>
+    <button class="dr-add-doc" onclick="drAddDoc()">
+      <span class="dr-add-doc-ico">+</span>
+      Create new task
+    </button>
+
+    <div class="dr-field" style="margin-top:22px;">
+      <label class="dr-label">Note to client (optional)</label>
+      <textarea class="dr-textarea" id="drNote" placeholder="Add overall instructions or context for this request..."></textarea>
+    </div>
+  </div>
+  <div class="dre-foot">
+    <button class="btn btn-outline" onclick="drCancelEdit()">Cancel</button>
+    <button class="btn btn-green" onclick="drSubmit()">Submit request to client</button>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL (client's view of the request) -->
+<div class="drp-backdrop" id="drpBackdrop" onclick="drClosePreview()"></div>
+<div class="drp-modal" id="drpModal" role="dialog" aria-modal="true">
+  <div class="drp-head">
+    <div>
+      <div class="drp-eyebrow">Documents page preview</div>
+      <div class="drp-title" id="drpTitle">Documents</div>
+    </div>
+    <button class="drp-close" onclick="drClosePreview()" aria-label="Close">&times;</button>
+  </div>
+  <div class="drp-body" id="drpBody"></div>
+  <div class="drp-foot">
+    <span class="drp-note">These files will appear here once the client uploads them.</span>
+    <button class="btn btn-green" onclick="drClosePreview()">Close</button>
+  </div>
+</div>
+
+<div class="dr-toast" id="drToast">&#10003; Saved</div>
+
+<script>
+(function(){
+  var COMPANY_NAMES = { techcorp:'TechCorp Inc.', crestline:'Crestline Retail', globalworks:'GlobalWorks Ltd.', innovate:'Innovate Solutions' };
+  var COMPANY_COLOR = { techcorp:'#2563eb', crestline:'#2563eb', globalworks:'#16a34a', innovate:'#d97706' };
+
+  // Sensible example requirements to pre-seed the editor
+  var TEMPLATE_DOCS = [
+    { name:'Employee Handbook', requirement:'Current company handbook covering conduct, leave, and workplace policies.', example:'e.g. Employee_Handbook_2026.pdf — includes code of conduct, PTO policy, and remote work guidelines.' },
+    { name:'Org Chart', requirement:'Up-to-date organizational chart showing reporting lines and headcount by department.', example:'e.g. Org_Chart_Q2.pdf — leadership down to team level.' },
+    { name:'Job Descriptions', requirement:'Role profiles for all active positions, with responsibilities and requirements.', example:'e.g. one PDF/DOCX per role, or a combined document.' }
+  ];
+
+  var draft = {};
+  try { draft = JSON.parse(localStorage.getItem('arkaRequestDraft') || '{}'); } catch(e) { draft = {}; }
+  var viewCompany = '';
+  try { viewCompany = localStorage.getItem('arkaDocReqViewCompany') || ''; } catch(e) { viewCompany = ''; }
+  var companyId = viewCompany || draft.company || 'innovate';
+  var storeKey = 'arkaDocRequest_' + companyId;
+
+  var companyName = COMPANY_NAMES[companyId] || 'Client';
+  var tag = document.getElementById('drCompanyTag');
+  var dotColor = COMPANY_COLOR[companyId] || '#16a34a';
+  tag.innerHTML = '<span class="dr-company-dot" style="background:' + dotColor + ';"></span>' + companyName;
+
+  function loadSaved(){
+    try { return JSON.parse(localStorage.getItem(storeKey) || 'null'); } catch(e){ return null; }
+  }
+  function show(view){
+    document.getElementById('drEmptyCard').style.display = view==='empty' ? 'block':'none';
+    document.getElementById('drViewCard').style.display  = view==='view'  ? 'block':'none';
+  }
+  function openEditModal(){
+    document.getElementById('dreModal').classList.add('open');
+    document.getElementById('dreBackdrop').classList.add('open');
+  }
+  function closeEditModal(){
+    document.getElementById('dreModal').classList.remove('open');
+    document.getElementById('dreBackdrop').classList.remove('open');
+  }
+  function toast(msg){
+    var t=document.getElementById('drToast'); t.innerHTML='&#10003; '+msg; t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 1900);
+  }
+
+  // ---- EDIT MODE ----
+  function docRowHtml(i, d){
+    d = d || {name:'',requirement:'',example:'',exampleFile:'',exampleLink:''};
+    var chip = '';
+    if (d.exampleFile){
+      chip = '<div class="dr-ex-chip" data-kind="file">'
+        + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+        + '<span class="dr-ex-chip-txt">'+escHtml(d.exampleFile)+'</span>'
+        + '<button class="dr-ex-chip-x" onclick="drClearExampleFile('+i+')" title="Remove">&times;</button></div>';
+    } else if (d.exampleLink){
+      chip = '<div class="dr-ex-chip" data-kind="link">'
+        + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>'
+        + '<a class="dr-ex-chip-txt" href="'+escAttr(d.exampleLink)+'" target="_blank" rel="noopener">'+escHtml(d.exampleLink)+'</a>'
+        + '<button class="dr-ex-chip-x" onclick="drClearExampleFile('+i+')" title="Remove">&times;</button></div>';
+    }
+    var attachRow = chip
+      ? ''
+      : '<div class="dr-ex-actions">'
+        + '<button type="button" class="dr-ex-btn" onclick="drPickExampleFile('+i+')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Attach example file</button>'
+        + '<button type="button" class="dr-ex-btn" onclick="drAddExampleLink('+i+')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Add link</button>'
+        + '</div>';
+    return '<div class="dr-doc-row" data-i="'+i+'" data-exfile="'+escAttr(d.exampleFile||'')+'" data-exlink="'+escAttr(d.exampleLink||'')+'">'
+      + '<div class="dr-doc-row-head"><span class="dr-doc-num">Task '+(i+1)+'</span>'
+      + '<button class="dr-doc-remove" onclick="drRemoveDoc('+i+')" title="Remove">&times;</button></div>'
+      + '<div class="dr-field" style="margin-bottom:12px;"><label class="dr-label">File name</label>'
+      + '<input class="dr-input dr-doc-name" type="text" placeholder="e.g. Employee Handbook" value="'+escAttr(d.name)+'"></div>'
+      + '<div class="dr-field" style="margin-bottom:12px;"><label class="dr-label">Requirement</label>'
+      + '<textarea class="dr-textarea dr-doc-req" placeholder="What should this document contain?">'+escHtml(d.requirement)+'</textarea></div>'
+      + '<div class="dr-field" style="margin-bottom:0;"><label class="dr-label">Example (optional)</label>'
+      + '<input class="dr-input dr-doc-ex" type="text" placeholder="Describe a good submission, or attach a sample below" value="'+escAttr(d.example)+'">'
+      + '<input type="hidden" class="dr-doc-exfile" value="'+escAttr(d.exampleFile||'')+'">'
+      + '<input type="hidden" class="dr-doc-exlink" value="'+escAttr(d.exampleLink||'')+'">'
+      + attachRow
+      + chip
+      + '</div>'
+      + '</div>';
+  }
+  function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function escAttr(s){ return escHtml(s).replace(/"/g,'&quot;'); }
+
+  var editDocs = [];
+  function renderEditDocs(){
+    var box=document.getElementById('drDocList');
+    box.innerHTML = editDocs.map(function(d,i){ return docRowHtml(i,d); }).join('');
+  }
+  function collectEditDocs(){
+    var rows=document.querySelectorAll('#drDocList .dr-doc-row');
+    var arr=[];
+    rows.forEach(function(r){
+      arr.push({
+        name:(r.querySelector('.dr-doc-name').value||'').trim(),
+        requirement:(r.querySelector('.dr-doc-req').value||'').trim(),
+        example:(r.querySelector('.dr-doc-ex').value||'').trim(),
+        exampleFile:(r.querySelector('.dr-doc-exfile').value||'').trim(),
+        exampleLink:(r.querySelector('.dr-doc-exlink').value||'').trim()
+      });
+    });
+    return arr;
+  }
+
+  window.drEnterEdit = function(){
+    var saved = loadSaved();
+    if (saved){
+      document.getElementById('drNote').value = saved.note || '';
+      editDocs = (saved.docs && saved.docs.length) ? saved.docs.slice() : [{name:'',requirement:'',example:''}];
+    } else {
+      // Pre-seed from quick-panel draft + template examples
+      document.getElementById('drNote').value = draft.note || '';
+      if (draft.docs){
+        editDocs = draft.docs.split(',').map(function(s){ return {name:s.trim(),requirement:'',example:''}; }).filter(function(d){return d.name;});
+      }
+      if (!editDocs || !editDocs.length) editDocs = TEMPLATE_DOCS.map(function(d){ return {name:d.name,requirement:d.requirement,example:d.example}; });
+    }
+    renderEditDocs();
+    var titleEl = document.getElementById('dreTitle');
+    if (titleEl) titleEl.textContent = loadSaved() ? 'Edit document request' : 'New document request';
+    openEditModal();
+  };
+  window.drAddDoc = function(){
+    editDocs = collectEditDocs();
+    editDocs.push({name:'',requirement:'',example:''});
+    renderEditDocs();
+  };
+  window.drRemoveDoc = function(i){
+    editDocs = collectEditDocs();
+    editDocs.splice(i,1);
+    if (!editDocs.length) editDocs.push({name:'',requirement:'',example:''});
+    renderEditDocs();
+  };
+
+  // ---- EXAMPLE: attach local file or link ----
+  window.drPickExampleFile = function(i){
+    editDocs = collectEditDocs();
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg';
+    input.onchange = function(){
+      if (input.files && input.files[0]){
+        editDocs[i].exampleFile = input.files[0].name;
+        editDocs[i].exampleLink = '';
+        renderEditDocs();
+      }
+    };
+    input.click();
+  };
+  window.drAddExampleLink = function(i){
+    editDocs = collectEditDocs();
+    var url = prompt('Paste a link to the example document (e.g. a Google Drive or Dropbox URL):', editDocs[i].exampleLink || 'https://');
+    if (url === null) return;
+    url = url.trim();
+    if (url && url !== 'https://'){
+      editDocs[i].exampleLink = url;
+      editDocs[i].exampleFile = '';
+    } else {
+      editDocs[i].exampleLink = '';
+    }
+    renderEditDocs();
+  };
+  window.drClearExampleFile = function(i){
+    editDocs = collectEditDocs();
+    editDocs[i].exampleFile = '';
+    editDocs[i].exampleLink = '';
+    renderEditDocs();
+  };
+  window.drCancelEdit = function(){
+    closeEditModal();
+    if (loadSaved()) renderView(); else show('empty');
+  };
+
+  window.drSubmit = function(){
+    var docs = collectEditDocs().filter(function(d){ return d.name; });
+    if (!docs.length){ alert('Please add at least one document with a file name.'); return; }
+    var prev = loadSaved();
+    var prevByName = {};
+    if (prev && prev.docs){ prev.docs.forEach(function(d){ if(d.name) prevByName[d.name.toLowerCase()] = d; }); }
+    var now = Date.now();
+    var nowLabel = drFormatTime(now);
+    docs = docs.map(function(d){
+      var old = prevByName[d.name.toLowerCase()];
+      // Keep original requested time if this file already existed; new files get the current time
+      d.requestedAt = (old && old.requestedAt) ? old.requestedAt : now;
+      d.requestedAtLabel = (old && old.requestedAtLabel) ? old.requestedAtLabel : nowLabel;
+      return d;
+    });
+    var rec = {
+      company: companyId,
+      category: 'Auto-classified on submission',
+      note: document.getElementById('drNote').value.trim(),
+      created: (prev && prev.created) ? prev.created : new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+      docs: docs,
+      status: 'Awaiting client'
+    };
+    try { localStorage.setItem(storeKey, JSON.stringify(rec)); } catch(e){}
+    try { localStorage.removeItem('arkaRequestDraft'); } catch(e){}
+    closeEditModal();
+    renderView();
+    toast('Request submitted to ' + companyName);
+  };
+
+  function drFormatTime(ts){
+    var dt = new Date(ts);
+    return dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+      + ' · ' + dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  }
+
+  // ---- CUSTOM ENGLISH DATE PICKER ----
+  var CDP_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var CDP_DOW = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  function cdpFmtDisplay(ymd){ // 'yyyy-mm-dd' -> 'May 10, 2026'
+    if(!ymd) return '';
+    var p = ymd.split('-'); if(p.length!==3) return '';
+    var d = new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));
+    return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+  function makeDatePicker(inputId, valId, popId){
+    var input = document.getElementById(inputId);
+    var valEl = document.getElementById(valId);
+    var pop = document.getElementById(popId);
+    if(!input || !valEl || !pop) return null;
+    var viewY, viewM; // currently displayed month
+    function pad(n){ return n<10?'0'+n:''+n; }
+    function setValue(ymd){
+      valEl.value = ymd || '';
+      input.value = ymd ? cdpFmtDisplay(ymd) : '';
+    }
+    function render(){
+      var today = new Date();
+      var first = new Date(viewY, viewM, 1);
+      var startDow = first.getDay();
+      var daysIn = new Date(viewY, viewM+1, 0).getDate();
+      var sel = valEl.value;
+      var html = '<div class="cdp-pophead">'
+        + '<button type="button" class="cdp-nav" data-cdp="prev">&#8249;</button>'
+        + '<span class="cdp-mon">'+CDP_MONTHS[viewM]+' '+viewY+'</span>'
+        + '<button type="button" class="cdp-nav" data-cdp="next">&#8250;</button></div>';
+      html += '<div class="cdp-grid">';
+      CDP_DOW.forEach(function(d){ html += '<div class="cdp-dow">'+d+'</div>'; });
+      for(var i=0;i<startDow;i++) html += '<button type="button" class="cdp-day empty"></button>';
+      for(var day=1;day<=daysIn;day++){
+        var ymd = viewY+'-'+pad(viewM+1)+'-'+pad(day);
+        var cls = 'cdp-day';
+        if(today.getFullYear()===viewY && today.getMonth()===viewM && today.getDate()===day) cls+=' today';
+        if(sel===ymd) cls+=' sel';
+        html += '<button type="button" class="'+cls+'" data-cdp-day="'+ymd+'">'+day+'</button>';
+      }
+      html += '</div>';
+      html += '<div class="cdp-popfoot"><button type="button" class="cdp-clear" data-cdp="clear">Clear</button>'
+        + '<button type="button" class="cdp-todaybtn" data-cdp="today">Today</button></div>';
+      pop.innerHTML = html;
+    }
+    function open(){
+      var base = valEl.value ? new Date(valEl.value) : new Date();
+      viewY = base.getFullYear(); viewM = base.getMonth();
+      render(); pop.classList.add('open');
+    }
+    function close(){ pop.classList.remove('open'); }
+    input.addEventListener('click', function(e){ e.stopPropagation(); if(pop.classList.contains('open')) close(); else open(); });
+    pop.addEventListener('click', function(e){
+      e.stopPropagation();
+      var t = e.target.closest('[data-cdp],[data-cdp-day]'); if(!t) return;
+      if(t.hasAttribute('data-cdp-day')){ setValue(t.getAttribute('data-cdp-day')); close(); return; }
+      var act = t.getAttribute('data-cdp');
+      if(act==='prev'){ viewM--; if(viewM<0){viewM=11;viewY--;} render(); }
+      else if(act==='next'){ viewM++; if(viewM>11){viewM=0;viewY++;} render(); }
+      else if(act==='clear'){ setValue(''); close(); }
+      else if(act==='today'){ var d=new Date(); setValue(d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())); close(); }
+    });
+    document.addEventListener('click', function(){ close(); });
+    return { setValue:setValue, getValue:function(){ return valEl.value; } };
+  }
+  // (Due Date removed — no date picker needed)
+
+
+  // ---- VIEW MODE ----
+  function renderView(){
+    var rec = loadSaved();
+    if (!rec){ show('empty'); return; }
+    var list = document.getElementById('drViewList');
+    list.innerHTML = rec.docs.map(function(d,i){
+      var hasSample = !!(d.exampleFile || d.exampleLink);
+      var hasDetail = !!(d.requirement || d.example || hasSample);
+      var ext = (d.type ? d.type : (/\.[a-z0-9]+$/i.test(d.name)? '' : 'PDF'));
+      var label = d.name + (/\.[a-z0-9]+$/i.test(d.name)? '' : (ext? '.'+ext.toLowerCase():''));
+      var timeLabel = d.requestedAtLabel || (d.requestedAt ? drFormatTime(d.requestedAt) : '');
+      var sampleHtml = '';
+      if (d.exampleFile){
+        sampleHtml = '<div class="dr-frow-block"><span class="dr-frow-tag">Sample file</span><div class="dr-sample-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'+escHtml(d.exampleFile)+'</div></div>';
+      } else if (d.exampleLink){
+        sampleHtml = '<div class="dr-frow-block"><span class="dr-frow-tag">Sample link</span><a class="dr-sample-chip" href="'+escAttr(d.exampleLink)+'" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>'+escHtml(d.exampleLink)+'</a></div>';
+      }
+      var detail = ''
+        + (d.requirement ? '<div class="dr-frow-block"><span class="dr-frow-tag">Requirement</span><div class="dr-frow-txt">'+escHtml(d.requirement)+'</div></div>' : '')
+        + (d.example ? '<div class="dr-frow-block"><span class="dr-frow-tag">Example</span><div class="dr-frow-txt">'+escHtml(d.example)+'</div></div>' : '')
+        + sampleHtml
+        + (timeLabel ? '<div class="dr-frow-block"><span class="dr-frow-tag">Requested at</span><div class="dr-frow-txt">'+escHtml(timeLabel)+'</div></div>' : '');
+      return '<div class="dr-frow'+(hasDetail?' has-detail':'')+'" id="drFrow'+i+'">'
+        + '<div class="dr-frow-main"'+(hasDetail?' onclick="drToggleRow('+i+')"':'')+'>'
+        +   '<div class="dr-frow-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'
+        +   '<div class="dr-frow-info"><div class="dr-frow-name">'+escHtml(label)+'</div>'
+        +     '<div class="dr-frow-sub">'
+        +       (timeLabel ? '<span class="dr-frow-time">&#128338; '+escHtml(timeLabel)+'</span>' : '')
+        +       '<span>'+(d.requirement? 'Has requirement' : 'No requirement')+(hasSample? ' · Sample attached' : (d.example? ' · Example':''))+'</span>'
+        +     '</div></div>'
+        +   '<span class="dr-frow-status">Requested</span>'
+        +   '<button class="dr-frow-del" title="Remove this document" onclick="event.stopPropagation();drDeleteOne('+i+')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>'
+        +   (hasDetail? '<span class="dr-frow-chevron" id="drChev'+i+'">&#9656;</span>' : '<span style="width:14px"></span>')
+        + '</div>'
+        + (hasDetail? '<div class="dr-frow-detail" id="drDetail'+i+'">'+detail+'</div>' : '')
+        + '</div>';
+    }).join('');
+    document.getElementById('drViewCreated').textContent = rec.created || '—';
+    document.getElementById('drViewStatus').textContent = rec.status || 'Awaiting client';
+    var nb=document.getElementById('drViewNoteBox');
+    if (rec.note){ nb.style.display='block'; document.getElementById('drViewNote').textContent = rec.note; }
+    else nb.style.display='none';
+    show('view');
+  }
+
+  window.drDelete = function(){
+    if (!confirm('Delete this entire document request? All requested files below will be removed.')) return;
+    try { localStorage.removeItem(storeKey); } catch(e){}
+    show('empty');
+    toast('Request deleted');
+  };
+
+  window.drDeleteOne = function(i){
+    var rec = loadSaved();
+    if (!rec || !rec.docs || !rec.docs[i]) return;
+    var nm = rec.docs[i].name;
+    if (!confirm('Remove "' + nm + '" from this request?')) return;
+    rec.docs.splice(i,1);
+    if (!rec.docs.length){
+      // No documents left → the whole request is gone
+      try { localStorage.removeItem(storeKey); } catch(e){}
+      show('empty');
+      toast('Request removed (no documents left)');
+      return;
+    }
+    try { localStorage.setItem(storeKey, JSON.stringify(rec)); } catch(e){}
+    renderView();
+    toast('Removed "' + nm + '"');
+  };
+
+  window.drToggleRow = function(i){
+    var row = document.getElementById('drFrow'+i);
+    var det = document.getElementById('drDetail'+i);
+    var chev = document.getElementById('drChev'+i);
+    if (!row || !det) return;
+    var open = row.classList.toggle('open');
+    det.style.display = open ? 'block' : 'none';
+    if (chev) chev.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
+  };
+
+  window.drPreview = function(){
+    var rec = loadSaved();
+    if (!rec || !rec.docs || !rec.docs.length){ alert('Nothing to preview yet.'); return; }
+    document.getElementById('drpTitle').textContent = 'Documents';
+    var catName = 'Requested Documents';
+    var fileIcon = '<span class="drp-ficon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>';
+
+    var rows = rec.docs.map(function(d){
+      var label = d.name + (/\.[a-z0-9]+$/i.test(d.name)? '' : '.pdf');
+      return '<div class="drp-frow">'
+        + '<div class="drp-fname">'+fileIcon+'<span class="drp-fname-txt">'+escHtml(label)+'</span></div>'
+        + '<div><span class="drp-status drp-status-pending">Pending</span></div>'
+        + '<div class="drp-muted">—</div>'
+        + '<div class="drp-muted">—</div>'
+        + '<div class="drp-muted">—</div>'
+        + '<div class="drp-actions"><span class="drp-await">Awaiting upload</span></div>'
+        + '</div>';
+    }).join('');
+
+    document.getElementById('drpBody').innerHTML =
+        '<div class="drp-catcard">'
+      +   '<div class="drp-cathead">'
+      +     '<div class="drp-cathead-left"><span class="drp-catnum">1</span><span class="drp-cattitle">'+escHtml(catName)+'</span></div>'
+      +     '<div class="drp-cathead-right"><span class="drp-cattag">0/'+rec.docs.length+' uploaded</span><span class="drp-catcount">'+rec.docs.length+'</span></div>'
+      +   '</div>'
+      +   '<div class="drp-table">'
+      +     '<div class="drp-frow drp-fhead"><div>File Name</div><div>Status</div><div>Uploaded</div><div>AI Confidence</div><div>Reviewed By</div><div style="text-align:right">Actions</div></div>'
+      +     rows
+      +   '</div>'
+      + '</div>'
+      + (rec.note ? '<div class="drp-clientnote"><b>Note to client:</b> '+escHtml(rec.note)+'</div>' : '');
+
+    document.getElementById('drpModal').classList.add('open');
+    document.getElementById('drpBackdrop').classList.add('open');
+  };
+  window.drClosePreview = function(){
+    document.getElementById('drpModal').classList.remove('open');
+    document.getElementById('drpBackdrop').classList.remove('open');
+  };
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') window.drClosePreview && window.drClosePreview(); });
+
+  // ---- REMINDER PROMPT (from client detail "View Documents") ----
+  function drShowPrompt(){
+    document.getElementById('drPromptModal').classList.add('open');
+    document.getElementById('drPromptBackdrop').classList.add('open');
+  }
+  function drHidePrompt(){
+    document.getElementById('drPromptModal').classList.remove('open');
+    document.getElementById('drPromptBackdrop').classList.remove('open');
+  }
+  window.drPromptEdit = function(){
+    drHidePrompt();
+    drEnterEdit();
+  };
+  window.drPromptIgnore = function(){
+    drHidePrompt();
+    // Go to the standard documents table page, showing whatever exists so far
+    try {
+      localStorage.setItem('arkaDocsCompany', JSON.stringify({id:'innovate',name:'Innovate Solutions',industry:'Finance',employees:'820'}));
+    } catch(e){}
+    window.location.href='admin-view-documents.html';
+  };
+
+  // ---- INIT ----
+  var showPrompt = false;
+  try { showPrompt = localStorage.getItem('arkaShowReqPrompt') === '1'; } catch(e){ showPrompt = false; }
+  try { localStorage.removeItem('arkaShowReqPrompt'); } catch(e){}
+
+  if (loadSaved()) {
+    renderView();
+  } else {
+    show('empty');
+    // If we arrived from the quick panel with a draft, jump straight into the editor
+    if (!showPrompt && draft && (draft.docs || draft.note || draft.due)) {
+      drEnterEdit();
+    }
+  }
+  if (showPrompt) {
+    drShowPrompt();
+  }
+})();
+</script>
+<script>
+// Ensure panel buttons are always wired (safety net)
+(function(){
+  function rewire() {
+    var nb = document.getElementById('notifBtn');
+    var mb = document.getElementById('msgBtn');
+    var pb = document.getElementById('profileBtn');
+    if (nb && !nb.__arkaWired) {
+      nb.__arkaWired = true;
+      nb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('notifPanel', nb); };
+    }
+    if (mb && !mb.__arkaWired) {
+      mb.__arkaWired = true;
+      mb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('msgPanel', mb); };
+    }
+    if (pb && !pb.__arkaWired) {
+      pb.__arkaWired = true;
+      pb.onclick = function(e) { e.stopPropagation(); if(window.toggleDropdown) window.toggleDropdown('profileDropdown'); };
+    }
+  }
+  // Wire immediately and after TV2 replaces buttons
+  rewire();
+  setTimeout(rewire, 250);
+  setTimeout(rewire, 900);
+})();
+</script>
+</body>
+</html>

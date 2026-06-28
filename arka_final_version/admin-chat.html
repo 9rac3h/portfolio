@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+// Multi-page navigation helper
+var __ARKA_ROUTES = {"login": "login.html", "signup-admin": "signup-admin.html", "signup-client": "signup-client.html", "landing": "landing.html", "admin-dashboard": "admin-dashboard.html", "admin-calendar": "admin-calendar.html", "admin-chat": "admin-chat.html", "admin-client-detail": "admin-client-detail.html", "admin-client-detail-gw": "admin-client-detail-gw.html", "admin-client-detail-is": "admin-client-detail-is.html", "admin-client-detail-cr": "admin-client-detail-cr.html", "admin-view-documents": "admin-view-documents.html", "client-portal": "client-portal.html", "admin-new-request": "admin-new-request.html", "admin-create-request": "admin-create-request.html", "admin-doc-request": "admin-doc-request.html", "admin-completed-assessment": "admin-completed-assessment.html"};
+function arkaNav(target) {
+  var fname = __ARKA_ROUTES[target];
+  if (fname) window.location.href = fname;
+}
+// Intercept any remaining parent.postMessage arka-nav calls
+window.parent = window.parent || {};
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>.ark-attn-header,.ark-attn-item,.ark-attn-count,.ark-rc-tag,.ark-recent{display:none!important}
+    .conv-group-header{display:flex;align-items:center;gap:6px;padding:10px 16px 5px;cursor:pointer;user-select:none;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#94a3b8;}
+    .conv-group-header:hover{color:#475569;}
+    .conv-group-caret{flex-shrink:0;transition:transform .15s ease;}
+    .conv-group-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .conv-group-count{font-size:10.5px;font-weight:600;color:#94a3b8;background:#f1f5f9;border-radius:9px;padding:1px 7px;}
+    .conv-group.collapsed .conv-group-caret{transform:rotate(-90deg);}
+    .conv-group.collapsed .conv-group-body{display:none;}
+  </style>
+<title>Arka — Messages</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a5c3a;--green-mid:#2d7a50;--green-pale:#e8f5ee;
+  --purple:#6366f1;--purple-pale:#eef2ff;
+  --sidebar:220px;--topbar:64px;--convw:280px;--panelw:240px;
+  --border:#e5e7eb;--bg:#f7f8fa;--white:#fff;
+  --text:#111827;--muted:#6b7280;--light:#9ca3af;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:"DM Sans",sans-serif;font-size:14px;color:var(--text);background:var(--bg);display:flex;flex-direction:row;padding-top:64px;overflow:hidden;height:100vh;box-sizing:border-box;}
+
+/* TOPBAR */
+.topbar{height:var(--topbar);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;z-index:50}
+.logo{font-family:"Sora",sans-serif;font-weight:700;font-size:22px;color:var(--green);min-width:calc(var(--sidebar) - 24px)}
+.search-bar{flex:1;max-width:480px;height:38px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:999px;padding:0 16px 0 40px;font-family:"DM Sans",sans-serif;font-size:14px;color:#374151;outline:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center;transition:border-color .15s,box-shadow .15s}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.icon-btn{width:36px;height:36px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--muted);position:relative}
+.icon-btn:hover{background:var(--bg)}
+.icon-btn.active{color:var(--green)}
+.badge{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--green);border-radius:50%;border:2px solid white}
+.t-avatar{width:36px;height:36px;border-radius:50%;background:var(--green);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+
+/* MAIN LAYOUT */
+.app-
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s}
+.nav-item:hover,.nav-item.active{background:var(--green-pale);color:var(--green)}
+.nav-item.active{font-weight:600}
+.nav-divider{height:1px;background:var(--border);margin:8px 16px}
+.nav-section{padding:12px 20px 4px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--light)}
+.attn-item{padding:8px 16px;cursor:pointer;border-left:3px solid transparent}
+.attn-item:hover{background:var(--bg)}
+.attn-item.critical{border-left-color:#ef4444}
+.attn-item.warning{border-left-color:#f59e0b}
+.attn-item.info{border-left-color:#3b82f6}
+.attn-company{font-size:12px;font-weight:600;color:var(--text)}
+.attn-reason{font-size:11px;color:var(--muted)}
+.attn-badge{display:inline-flex;align-items:center;justify-content:center;background:#ef4444;color:white;border-radius:99px;font-size:10px;font-weight:700;padding:1px 6px;margin-left:6px}
+
+/* CONV LIST */
+.conv-list{width:var(--convw);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.conv-list-header{padding:16px 16px 10px;flex-shrink:0}
+.conv-list-title{font-family:"Sora",sans-serif;font-size:16px;font-weight:700;margin-bottom:10px}
+.conv-search{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-family:"DM Sans",sans-serif;font-size:12px;outline:none}
+.conv-filter{display:flex;gap:5px;padding:8px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.conv-filter-pill{padding:4px 12px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--white);color:var(--muted);transition:all .15s}
+.conv-filter-pill.active{background:var(--green-pale);color:var(--green);border-color:var(--green)}
+.conv-items{flex:1;overflow-y:auto;min-height:0}
+.conv-item{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;border-bottom:1px solid #f9fafb;transition:background .12s}
+.conv-item:hover{background:var(--bg)}
+.conv-item.active{background:var(--green-pale);border-left:3px solid var(--green)}
+.conv-avatar{width:40px;height:40px;border-radius:50%;color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.conv-info{flex:1;min-width:0}
+.conv-name{font-size:13px;font-weight:600;color:var(--text);display:flex;justify-content:space-between;align-items:center}
+.conv-time{font-size:11px;font-weight:400;color:var(--muted)}
+.conv-company{font-size:11.5px;color:var(--muted);margin-top:1px}
+.conv-preview{font-size:12px;color:var(--light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.conv-unread{background:var(--green);color:white;border-radius:99px;font-size:10px;font-weight:700;padding:2px 7px;flex-shrink:0}
+.conv-ai-item{display:flex;align-items:center;gap:10px;padding:14px;cursor:pointer;background:var(--purple-pale);border-bottom:1px solid #e0e7ff}
+.conv-ai-item:hover{background:#e0e7ff}
+.conv-ai-item.active{background:#e0e7ff}
+.ai-avatar{width:40px;height:40px;border-radius:50%;background:var(--purple);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.conv-badge{background:var(--purple);color:white;border-radius:4px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px}
+
+/* CHAT MAIN */
+.chat-main{flex:1;display:flex;overflow:hidden;min-width:0}
+.chat-area{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);min-width:0}
+.chat-header{height:64px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+.chat-header-avatar{width:38px;height:38px;border-radius:50%;color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.chat-header-info{flex:1}
+.chat-header-name{font-size:14px;font-weight:700}
+.chat-header-sub{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.online-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block}
+.chat-header-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+.chat-action-btn{width:32px;height:32px;border:none;background:none;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.chat-action-btn:hover{background:var(--bg)}
+.view-docs-btn{padding:7px 14px;background:var(--green);color:white;border:none;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.view-docs-btn:hover{background:var(--green-mid)}
+.chat-messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:4px}
+.msg-date-divider{text-align:center;font-size:11.5px;color:var(--muted);font-weight:500;margin:12px 0;position:relative}
+.msg-date-divider::before,.msg-date-divider::after{content:"";position:absolute;top:50%;width:calc(50% - 60px);height:1px;background:var(--border)}
+.msg-date-divider::before{left:0}.msg-date-divider::after{right:0}
+.msg-group{margin-bottom:12px}
+.msg-group-header{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.msg-group-avatar{width:28px;height:28px;border-radius:50%;color:white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.msg-group-name{font-size:12px;font-weight:600;color:var(--text)}
+.msg-group-time{font-size:11px;color:var(--light)}
+.msg-bubble-wrap{display:flex;flex-direction:column;gap:4px;padding-left:36px}
+.msg-bubble-wrap.self{padding-left:0;padding-right:0;align-items:flex-end}
+.bubble{max-width:72%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.55}
+.bubble.other{background:var(--white);border:1px solid var(--border)}
+.bubble.self{background:var(--green);color:white}
+.typing-indicator{display:flex;align-items:center;gap:8px;padding-left:36px;margin-top:4px}
+.typing-dots{display:flex;gap:3px}
+.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bounce .9s infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.typing-name{font-size:11.5px;color:var(--muted);font-style:italic}
+.chat-input-bar{background:var(--white);border-top:1px solid var(--border);padding:14px 20px;flex-shrink:0}
+.chat-input-row{display:flex;align-items:center;gap:10px}
+.chat-input-btn{width:34px;height:34px;border:none;background:none;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.chat-input-btn:hover{background:var(--bg);color:var(--text)}
+.chat-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-family:"DM Sans",sans-serif;font-size:13px;outline:none;resize:none}
+.chat-input:focus{border-color:var(--green)}
+.send-btn{width:36px;height:36px;border:none;background:var(--green);color:white;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.send-btn:hover{background:var(--green-mid)}
+.input-hint{text-align:center;font-size:11px;color:var(--light);margin-top:6px}
+
+/* SIDE PANEL */
+.side-panel{width:var(--panelw);background:var(--white);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
+.panel-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+.panel-tab{flex:1;padding:12px;font-size:12px;font-weight:600;text-align:center;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent}
+.panel-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.panel-body{flex:1;overflow-y:auto;padding:14px}
+.file-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f9fafb}
+.file-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.file-icon.pdf{background:#fef2f2;color:#ef4444}
+.file-icon.xlsx{background:#f0fdf4;color:#16a34a}
+.file-meta{flex:1;min-width:0}
+.file-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-size{font-size:11px;color:var(--muted)}
+.file-dl{border:none;background:none;cursor:pointer;color:var(--muted);padding:4px}
+
+/* AI CHAT */
+.ai-chat-area{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);min-width:0}
+
+/* DOCS DRAWER */
+.docs-drawer{position:fixed;top:0;right:-420px;width:400px;height:100vh;background:white;box-shadow:-4px 0 24px rgba(0,0,0,.12);z-index:200;transition:right .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column}
+.docs-drawer.open{right:0}
+.docs-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:199;display:none}
+.docs-overlay.open{display:block}
+.drawer-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.drawer-close{width:32px;height:32px;border:none;background:var(--bg);border-radius:8px;cursor:pointer;font-size:18px;color:var(--muted)}
+.drawer-body{flex:1;overflow-y:auto;padding:18px 22px}
+.doc-cat{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px}
+.doc-cat-head{padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;background:white}
+.doc-cat-head:hover{background:var(--bg)}
+.doc-cat-body{display:none;border-top:1px solid #f3f4f6;background:#fafafa;padding:10px 14px}
+.doc-cat-body.open{display:block}
+.doc-missing{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text);margin-bottom:4px}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ark sidebar */
+
+
+
+
+
+
+
+
+.ark-divider { height: 1px !important; background: #e5e7eb !important; margin: 14px 14px !important; }
+
+
+.ark-recent { padding: 8px 20px !important; cursor: pointer !important; transition: background .12s !important; }
+.ark-recent:hover { background: #f7f8fa !important; }
+.ark-rc-name { font-size: 13px !important; color: #111827 !important; font-weight: 500 !important; line-height: 1.3 !important; margin-bottom: 1px !important; }
+.ark-rc-tag { font-size: 11px !important; color: #9ca3af !important; }
+.ark-attn-header { display: flex !important; align-items: center !important; gap: 8px !important; padding: 8px 20px 6px !important; font-size: 11px !important; font-weight: 600 !important; color: #9ca3af !important; letter-spacing: 0.5px !important; text-transform: uppercase !important; }
+.ark-attn-count { background: #ef4444 !important; color: #fff !important; font-size: 10px !important; font-weight: 600 !important; padding: 1px 6px !important; border-radius: 99px !important; letter-spacing: 0 !important; }
+.ark-attn-item { margin: 3px 10px !important; padding: 9px 11px !important; border-radius: 8px !important; cursor: pointer !important; transition: background .12s !important; border-left: 3px solid transparent !important; background: transparent !important; }
+.ark-attn-item:hover { background: #f7f8fa !important; }
+.ark-attn-item.critical { border-left-color: #ef4444 !important; }
+.ark-attn-item.warning  { border-left-color: #f59e0b !important; }
+.ark-attn-item.info     { border-left-color: #3b82f6 !important; }
+.ark-attn-company { font-size: 13px !important; color: #111827 !important; font-weight: 600 !important; line-height: 1.3 !important; margin-bottom: 2px !important; }
+.ark-attn-reason  { font-size: 11px !important; color: #6b7280 !important; line-height: 1.35 !important; }
+
+
+/* v41 fix: Admin home filter dropdown follows the Filter button instead of drifting over the table */
+#filterDropdown.filter-dropdown.open {
+  display: block !important;
+  right: auto !important;
+  transform: none !important;
+}
+#filterDropdown .filter-range-date input.text-date-field,
+#filterDropdown .filter-range-date input.filter-date {
+  height: 44px !important;
+  line-height: 44px !important;
+  font-size: 14px !important;
+  padding: 0 14px !important;
+}
+
+
+.doc-file{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f3f4f6}
+.doc-file:last-child{border-bottom:none}
+.doc-cat-section-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9ca3af;margin-bottom:6px}
+.cat-chev.open{transform:rotate(180deg)}
+.doc-cat-body.open{display:block}
+</style>
+
+<style>.conv-list{margin-left:220px!important;}</style>
+<style data-arka-nav="1">
+.ark-sidebar-fixed{position:fixed!important;top:64px!important;left:0!important;bottom:0!important;width:220px!important;background:#ffffff!important;border-right:1px solid #e5e7eb!important;padding:12px 0 16px!important;overflow-y:auto!important;z-index:100!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;}
+.ark-sidebar-fixed *{box-sizing:border-box!important;}
+.ark-sidebar-fixed .ark-nav-item{display:flex!important;align-items:center!important;gap:12px!important;padding:10px 20px!important;font-size:14px!important;font-weight:400!important;color:#4b5563!important;cursor:pointer!important;border-radius:8px!important;margin:1px 8px!important;text-decoration:none!important;transition:background .12s,color .12s!important;white-space:nowrap!important;font-family:'DM Sans',sans-serif!important;}
+.ark-sidebar-fixed .ark-nav-item:hover{background:#f3f4f6!important;color:#111827!important;}
+.ark-sidebar-fixed .ark-nav-item.active{color:#14532d!important;background:#f0fdf4!important;font-weight:500!important;}
+.ark-sidebar-fixed .ark-nav-item svg{flex-shrink:0!important;opacity:0.7!important;width:17px!important;height:17px!important;}
+.ark-sidebar-fixed .ark-nav-item.active svg{opacity:1!important;}
+.ark-sidebar-fixed .nav-divider{height:1px!important;background:#e5e7eb!important;margin:14px 14px!important;}
+.ark-sidebar-fixed .nav-section-label{font-size:11px!important;font-weight:600!important;text-transform:uppercase!important;letter-spacing:0.5px!important;color:#9ca3af!important;padding:8px 20px 6px!important;font-family:'DM Sans',sans-serif!important;}
+.ark-sidebar-fixed .client-acc{margin:2px 0!important;}
+.ark-sidebar-fixed .acc-header{display:flex!important;align-items:center!important;justify-content:space-between!important;padding:9px 12px!important;border-radius:8px!important;cursor:pointer!important;transition:background .12s!important;user-select:none!important;min-height:38px!important;}
+.ark-sidebar-fixed .acc-header:hover{background:#f7f8fa!important;}
+.ark-sidebar-fixed .acc-header.has-actions:hover{background:#f0fdf4!important;}
+.ark-sidebar-fixed .acc-name{font-size:12.5px!important;font-weight:500!important;color:#111827!important;flex:1!important;min-width:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-family:'DM Sans',sans-serif!important;}
+.ark-sidebar-fixed .acc-star{color:#f59e0b!important;font-size:11px!important;margin-left:3px!important;}
+.ark-sidebar-fixed .acc-right{display:flex!important;align-items:center!important;gap:4px!important;flex-shrink:0!important;width:44px!important;justify-content:flex-end!important;height:20px!important;}
+.ark-sidebar-fixed .acc-count{background:#ef4444!important;color:#fff!important;font-size:9px!important;font-weight:700!important;padding:1px 5px!important;border-radius:99px!important;min-width:16px!important;text-align:center!important;flex-shrink:0!important;}
+.ark-sidebar-fixed .acc-chevron{display:inline-block!important;transition:transform .2s!important;width:12px!important;height:12px!important;flex-shrink:0!important;position:relative!important;}
+.ark-sidebar-fixed .acc-chevron::after{content:""!important;display:block!important;width:6px!important;height:6px!important;border-right:1.5px solid #9ca3af!important;border-bottom:1.5px solid #9ca3af!important;transform:rotate(45deg)!important;margin:1px auto 0!important;}
+.ark-sidebar-fixed .acc-link{font-size:12px!important;color:#9ca3af!important;opacity:0!important;transition:opacity .12s!important;padding:2px 4px!important;border-radius:4px!important;}
+.ark-sidebar-fixed .acc-header:hover .acc-link{opacity:1!important;}
+.ark-sidebar-fixed .acc-link:hover{background:#e5e7eb!important;color:#374151!important;}
+.ark-sidebar-fixed .acc-body{padding:2px 0 6px 0!important;}
+.ark-sidebar-fixed .acc-action-item{padding:7px 12px 7px 16px!important;font-size:11.5px!important;color:#374151!important;cursor:pointer!important;border-left:3px solid transparent!important;margin:1px 0!important;transition:background .1s!important;border-radius:0 6px 6px 0!important;line-height:1.35!important;}
+.ark-sidebar-fixed .acc-action-item:hover{background:#f7f8fa!important;}
+header.topbar{position:fixed!important;top:0!important;left:0!important;right:0!important;height:64px!important;background:#fff!important;border-bottom:1px solid #e5e7eb!important;display:flex!important;align-items:center!important;padding:0 24px!important;gap:24px!important;z-index:200!important;}
+header.topbar .logo{min-width:auto!important;font-family:'Sora',serif!important;font-size:26px!important;font-weight:700!important;color:#14532d!important;letter-spacing:-0.5px!important;text-decoration:none!important;flex-shrink:0!important;}
+header.topbar .search-wrap{flex:1!important;max-width:480px!important;margin:0 auto!important;position:relative!important;}
+</style>
+<style>
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: #f3f4f6; }
+  .icon-btn.active { background: #f0fdf4; color: #15803d; }
+  .icon-btn[data-tooltip]::after, .icon-btn[data-tooltip]:hover::after { content: none !important; display: none !important; }
+  .icon-btn:focus, .icon-btn:focus-visible { outline: none !important; box-shadow: none !important; }
+  .icon-btn:hover { background: #f3f4f6 !important; }
+  .notif-dot {
+    position: absolute;
+    top: 7px; right: 7px;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .avatar-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+    cursor: pointer;
+    background: #dcfce7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #166534;
+    transition: border-color 0.15s;
+  }
+  .avatar-btn:hover { border-color: #16a34a; }
+  .panel {
+    display: none;
+    position: fixed;
+    top: 64px;
+    right: 0;
+    width: 360px;
+    bottom: 0;
+    background: #fff;
+    border-left: 1px solid #e5e7eb;
+    z-index: 99999;
+    flex-direction: column;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+    animation: slideIn 0.2s ease;
+  }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+  }
+  .panel-count {
+    font-size: 12px;
+    font-weight: 500;
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .panel-close {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background 0.12s;
+  }
+  .panel-close:hover { background: #f3f4f6; color: #374151; }
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .panel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-right { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 18px 16px; display:flex; flex-direction:column; min-height:0; min-width:0; overflow:visible; }
+  .panel-company-pills { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:14px; overflow:hidden; }
+  .panel-mode-header { margin-bottom:12px; }
+  .panel-mode-company { font-family:'DM Sans',sans-serif; font-weight:600; font-size:14px; color:#111827; }
+  .panel-mode-sub { font-size:11px; color:#6b7280; margin-top:2px; }
+  .panel-view-all { display:flex; align-items:center; gap:6px; padding:5px 8px; margin-top:6px; font-size:12px; font-weight:600; color:#16a34a; cursor:pointer; border-radius:6px; background:none; border:none; font-family:'DM Sans',sans-serif; transition:background .12s; }
+  .panel-view-all:hover { background:#f0fdf4; }
+  .panel-view-all-icon { width:18px; height:18px; border-radius:50%; background:#16a34a; color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; line-height:1; flex-shrink:0; }
+  .panel-btn-row{display:flex;gap:8px;margin-top:12px;}
+  .panel-btn{flex:1;padding:9px 6px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .12s;border:1.5px solid #166534;}
+  .panel-btn-outline{background:#fff;color:#166534;}
+  .panel-btn-outline:hover{background:#f0fdf4;}
+  .panel-btn-solid{background:#166534;color:#fff;}
+  .panel-btn-solid:hover{background:#14532d;}
+  .panel-btn:disabled{opacity:0.5;cursor:not-allowed;background:#f3f4f6;border-color:#d1d5db;color:#9ca3af;}
+  .overlay-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+  }
+  .overlay-backdrop.open { display: block; }
+  .profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(64px + 8px);
+    right: 24px;
+    width: 280px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 300;
+    overflow: hidden;
+    animation: fadeDown 0.15s ease;
+  }
+  .profile-dropdown.open { display: block; }
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .profile-avatar-lg {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .profile-name { font-size: 14px; font-weight: 600; color: #111827; }
+  .profile-email { font-size: 12px; color: #9ca3af; }
+  .profile-menu {
+    padding: 8px 0;
+  }
+  .profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .profile-menu-item:hover { background: #f9fafb; }
+  .profile-menu-item svg { color: #9ca3af; flex-shrink: 0; }
+  .profile-menu-divider {
+    height: 1px;
+    background: #f3f4f6;
+    margin: 4px 0;
+  }
+  .profile-menu-item.danger { color: #ef4444; }
+  .profile-menu-item.danger svg { color: #ef4444; }
+  .notif-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+    position: relative;
+  }
+  .notif-item:hover { background: #f9fafb; }
+  .notif-item.unread { background: #f0fdf4; }
+  .notif-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .notif-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .notif-icon.ai { background: #eff6ff; color: #1d4ed8; }
+  .notif-icon.task { background: #f0fdf4; color: #15803d; }
+  .notif-icon.doc { background: #fffbeb; color: #b45309; }
+  .notif-icon.alert { background: #fef2f2; color: #ef4444; }
+  .notif-content { flex: 1; min-width: 0; }
+  .notif-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 3px;
+  }
+  .notif-time {
+    font-size: 11px;
+    color: #9ca3af;
+  }
+  .msg-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .msg-item:hover { background: #f9fafb; }
+  .msg-item.unread { background: #f0fdf4; }
+  .msg-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .msg-content { flex: 1; min-width: 0; }
+  .msg-name { font-size: 13px; font-weight: 500; color: #111827; }
+  .msg-preview {
+    font-size: 12px;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .msg-time { font-size: 11px; color: #9ca3af; }
+  .view-all-btn {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #15803d;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .view-all-btn:hover { background: #f0fdf4; }
+  .unread { background: #f0fdf4; }
+  .unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .online-dot {
+    position: absolute;
+    bottom: 1px; right: 1px;
+    width: 9px; height: 9px;
+    background: #22c55e;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+
+  .panel.open { display: flex; }
+  .profile-dropdown.open { display: block; }
+
+  /* Override any conflicting rules with high specificity */
+  #notifPanel.open, #msgPanel.open { display: flex !important; }
+  #profileDropdown.open { display: block !important; }
+  #notifPanel { z-index: 99999 !important; }
+  #msgPanel { z-index: 99999 !important; }
+  #profileDropdown { z-index: 99999 !important; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar" style="position:fixed;top:0;left:0;right:0;height:64px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;padding:0 24px;gap:24px;z-index:100;">
+  <a href='admin-dashboard.html' class="logo" style="font-family:'Sora',serif;font-size:26px;font-weight:700;color:#14532d;letter-spacing:-0.5px;text-decoration:none;flex-shrink:0;">Arka</a>
+  <div class="search-wrap" style="flex:1;max-width:480px;margin:0 auto;position:relative;">
+    <svg style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#9ca3af;" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><path d="m11 11 3 3"/></svg>
+    <input class="search-input" type="text" placeholder="Search clients, reports, team..." style="width:100%;height:38px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:999px;padding:0 16px 0 38px;font-family:'DM Sans',sans-serif;font-size:14px;color:#374151;outline:none;transition:border-color .15s;">
+  </div>
+  <div class="topbar-actions" style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+    <button id="notifBtn" style="width:38px;height:38px;border-radius:10px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#6b7280;position:relative;transition:background .15s;" onclick="if(typeof togglePanel==='function')togglePanel('notifPanel',this);else if(typeof xTogglePanel==='function')xTogglePanel('notifPanel',this);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span style="position:absolute;top:7px;right:7px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid #fff;"></span></button>
+    <button id="msgBtn" style="width:38px;height:38px;border-radius:10px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#6b7280;position:relative;transition:background .15s;" onclick="if(typeof togglePanel==='function')togglePanel('msgPanel',this);else if(typeof xTogglePanel==='function')xTogglePanel('msgPanel',this);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+    <button id="profileBtn" style="width:36px;height:36px;border-radius:50%;border:2px solid #e5e7eb;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#14532d;cursor:pointer;font-family:'DM Sans',sans-serif;" onclick="if(typeof toggleDropdown==='function')toggleDropdown('profileDropdown');else if(typeof xToggleDrop==='function')xToggleDrop('profileDropdown');">AX</button>
+  </div>
+</header>
+<div class="profile-dropdown" id="profileDropdown">
+  <div class="profile-header">
+    <div class="profile-avatar-lg">AX</div>
+    <div>
+      <div class="profile-name">Alex Chen</div>
+      <div class="profile-email">alex.chen@arka.com</div>
+    </div>
+  </div>
+  <div class="profile-menu">
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      View Profile
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      My Reports
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Privacy & Security
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      Help Center
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item danger">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
+    <div class="profile-menu-item" onclick="resetPrototype()" style="color:#dc2626;border-top:1px solid #f3f4f6;margin-top:4px;padding-top:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      Reset Prototype
+    </div>
+  </div>
+</div>
+<div class="overlay-backdrop" id="notifBackdrop" onclick="closePanel('notifPanel', 'notifBtn')"></div>
+<div class="panel" id="notifPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Notifications</span>
+      <span class="panel-count">4 new</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('notifPanel', 'notifBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="notif-item unread" onclick="window.location.href='admin-completed-assessment.html'">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Assessment Completed</div>
+        <div class="notif-desc">Innovate Solutions — gap analysis ready for your review.</div>
+        <div class="notif-time">10:30 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-client-detail.html'">
+      <div class="notif-icon doc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Documents Uploaded</div>
+        <div class="notif-desc">TechStarter Inc. uploaded 3 new documents — review required.</div>
+        <div class="notif-time">9:40 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-calendar.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Interview Summary Ready</div>
+        <div class="notif-desc">Quantum Labs — AI generated interview summary available.</div>
+        <div class="notif-time">Yesterday · 4:15 PM</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-view-documents.html'">
+      <div class="notif-icon alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Document Re-uploaded</div>
+        <div class="notif-desc">Stellar Industries — client re-uploaded the compliance file for review.</div>
+        <div class="notif-time">2 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-client-detail-gw.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Survey Milestone Reached</div>
+        <div class="notif-desc">GlobalWorks Ltd — 80% of employees completed the survey.</div>
+        <div class="notif-time">3 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-dashboard.html'"">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Client Onboarded</div>
+        <div class="notif-desc">Vista Group has been assigned to you — account setup complete.</div>
+        <div class="notif-time">Apr 28, 2026</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE PANEL -->
+
+<div class="overlay-backdrop" id="msgBackdrop" onclick="closePanel('msgPanel', 'msgBtn')"></div>
+<div class="panel" id="msgPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Messages</span>
+      <span class="panel-count">2 unread</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('msgPanel', 'msgBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">SC <span class="online-dot"></span></div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Sarah Chen</span>
+          <span class="msg-time">3m ago</span>
+        </div>
+        <div class="msg-preview">Can we review the Q3 report before the client call?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">MJ</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Mike Johnson</span>
+          <span class="msg-time">35m ago</span>
+        </div>
+        <div class="msg-preview">Updated the presentation for Zenith Partners</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">AL</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Anna Lee</span>
+          <span class="msg-time">2h ago</span>
+        </div>
+        <div class="msg-preview">Meeting moved to 2pm tomorrow — confirmed?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">DP</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">David Park</span>
+          <span class="msg-time">Yesterday</span>
+        </div>
+        <div class="msg-preview">HR forms for Innovate Solutions need your signature</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="view-all-btn" onclick="window.location.href='admin-chat.html'">Open Messages →</button>
+  </div>
+</div>
+<script>
+(function(){
+  if (window.__arkaAdminPanelsV2) return;
+  window.__arkaAdminPanelsV2 = true;
+
+  function closeAllPanels() {
+    ['notifPanel','msgPanel'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBackdrop','msgBackdrop'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBtn','msgBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    });
+    const pd = document.getElementById('profileDropdown');
+    if (pd) pd.classList.remove('open');
+  }
+
+  function togglePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    // btnRef can be a string ID or a DOM element (TV2 passes the element directly)
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    const isOpen = panel.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) {
+      panel.classList.add('open');
+      panel.classList.add('xopen');  // for pages using xopen convention
+      backdrop && backdrop.classList.add('open');
+      btn && btn.classList.add('active');
+    }
+  }
+
+  function closePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    panel.classList.remove('open');
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    backdrop && backdrop.classList.remove('open');
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    btn && btn.classList.remove('active');
+  }
+
+  // Mutual exclusion: closing other panels before opening new one
+  
+
+  function toggleDropdown(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isOpen = el.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) el.classList.add('open');
+  }
+
+  // Mutual exclusion for profile dropdown
+  var _origToggleDropdown = toggleDropdown;
+  toggleDropdown = function(id) {
+    // Close panels first
+    ['notifPanel','msgPanel'].forEach(function(pid) {
+      var el = document.getElementById(pid);
+      var bd = document.getElementById(pid.replace('Panel','Backdrop'));
+      if (el && el.classList.contains('open')) {
+        el.classList.remove('open');
+        if (bd) bd.classList.remove('open');
+      }
+    });
+    _origToggleDropdown(id);
+  };
+
+  window.togglePanel = togglePanel;
+  window.closePanel = closePanel;
+  window.toggleDropdown = toggleDropdown;
+})();
+</script>
+
+<!-- SIDEBAR -->
+<aside class="ark-sidebar-fixed">
+  <div class="ark-nav-item" onclick="window.location.href='admin-dashboard.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+  <div class="ark-nav-item active" onclick="window.location.href='admin-chat.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-calendar.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendar</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-new-request.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Create Request</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-completed-assessment.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Completed Assessment</div>
+</aside>
+
+
+<!-- CONV LIST -->
+<div class="conv-list">
+  <div class="conv-list-header">
+    <div class="conv-list-title">Messages</div>
+    <input class="conv-search" type="text" placeholder="Search conversations...">
+  </div>
+  <div class="conv-items" id="convItems">
+    <div class="conv-ai-item" id="conv-ai" onclick="switchConv('ai')">
+      <div class="ai-avatar">✦</div>
+      <div class="conv-info">
+        <div class="conv-name">Arka AI Assistant <span class="conv-badge">NEW</span></div>
+        <div class="conv-company">HR analysis · drafting · insights</div>
+        <div class="conv-preview" style="color:#6366f1">Ask me anything about your clients...</div>
+      </div>
+    </div>
+
+    <div class="conv-group" data-company="techcorp">
+      <div class="conv-group-header" onclick="toggleConvGroup(this)">
+        <svg class="conv-group-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        <span class="conv-group-name">TechCorp Inc.</span>
+        <span class="conv-group-count">2</span>
+      </div>
+      <div class="conv-group-body">
+        <div class="conv-item active" id="conv-sarah" data-type="clients" onclick="switchConv('sarah')">
+      <div class="conv-avatar" style="background:#1a5c3a">SS</div>
+      <div class="conv-info">
+        <div class="conv-name">Sarah Stone <span class="conv-time">10:32 AM</span></div>
+        <div class="conv-company">TechCorp Inc. · Client</div>
+        <div class="conv-preview">Great — please also include salary band documentation. That is flagged as hig...</div>
+      </div>
+      <div class="conv-unread">2</div>
+    </div>
+        <div class="conv-item" id="conv-techcorp-11" data-type="clients" onclick="switchConv('techcorp-11')">
+      <div class="conv-avatar" style="background:#166534;font-size:10px">TC</div>
+      <div class="conv-info">
+        <div class="conv-name">TechCorp 1:1 — May 20 <span class="conv-time">May 16</span></div>
+        <div class="conv-company">Sarah Stone, Alex Liu · Meeting</div>
+        <div class="conv-preview">See you Wednesday at 11am</div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="conv-group" data-company="globalworks">
+      <div class="conv-group-header" onclick="toggleConvGroup(this)">
+        <svg class="conv-group-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        <span class="conv-group-name">GlobalWorks Ltd.</span>
+        <span class="conv-group-count">2</span>
+      </div>
+      <div class="conv-group-body">
+        <div class="conv-item" id="conv-linda" data-type="clients" onclick="switchConv('linda')">
+      <div class="conv-avatar" style="background:#7c3aed">LC</div>
+      <div class="conv-info">
+        <div class="conv-name">Linda Chen <span class="conv-time">Yesterday</span></div>
+        <div class="conv-company">GlobalWorks Ltd. · Client</div>
+        <div class="conv-preview">Monday at 2pm works — I will send a calendar invite. Please make sure the upd...</div>
+      </div>
+      <div class="conv-unread">1</div>
+    </div>
+        <div class="conv-item" id="conv-globalworks-review" data-type="clients" onclick="switchConv('globalworks-review')">
+      <div class="conv-avatar" style="background:#7c3aed;font-size:10px">GW</div>
+      <div class="conv-info">
+        <div class="conv-name">GlobalWorks Doc Review — May 5 <span class="conv-time">May 5</span></div>
+        <div class="conv-company">Linda Chen, Alex Liu · Meeting</div>
+        <div class="conv-preview">3 files still missing after deadline</div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="conv-group" data-company="innovate">
+      <div class="conv-group-header" onclick="toggleConvGroup(this)">
+        <svg class="conv-group-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        <span class="conv-group-name">Innovate Solutions</span>
+        <span class="conv-group-count">2</span>
+      </div>
+      <div class="conv-group-body">
+        <div class="conv-item" id="conv-james" data-type="clients" onclick="switchConv('james')">
+      <div class="conv-avatar" style="background:#3b82f6">JP</div>
+      <div class="conv-info">
+        <div class="conv-name">James Park <span class="conv-time">9:15 AM</span></div>
+        <div class="conv-company">Innovate Solutions · Client</div>
+        <div class="conv-preview">Got it, running AI analysis now.</div>
+      </div>
+    </div>
+        <div class="conv-item" id="conv-innovate-gap" data-type="clients" onclick="switchConv('innovate-gap')">
+      <div class="conv-avatar" style="background:#3b82f6;font-size:10px">IS</div>
+      <div class="conv-info">
+        <div class="conv-name">Innovate Gap Review — May 14 <span class="conv-time">May 14</span></div>
+        <div class="conv-company">James Park, Alex Liu · Meeting</div>
+        <div class="conv-preview">Working on disciplinary procedures draft</div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="conv-group" data-company="crestline">
+      <div class="conv-group-header" onclick="toggleConvGroup(this)">
+        <svg class="conv-group-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        <span class="conv-group-name">Crestline Retail</span>
+        <span class="conv-group-count">1</span>
+      </div>
+      <div class="conv-group-body">
+        <div class="conv-item" id="conv-mark" data-type="clients" onclick="switchConv('mark')">
+      <div class="conv-avatar" style="background:#be185d">ME</div>
+      <div class="conv-info">
+        <div class="conv-name">Mark Ellis <span class="conv-time">May 13</span></div>
+        <div class="conv-company">Crestline Retail · Client</div>
+        <div class="conv-preview">Use the 2026 template — I have linked it in the client portal under Resources.</div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="conv-group" data-company="arka-team">
+      <div class="conv-group-header" onclick="toggleConvGroup(this)">
+        <svg class="conv-group-caret" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        <span class="conv-group-name">Arka Team</span>
+        <span class="conv-group-count">1</span>
+      </div>
+      <div class="conv-group-body">
+        <div class="conv-item" id="conv-mike" data-type="team" onclick="switchConv('mike')">
+      <div class="conv-avatar" style="background:#d97706">MJ</div>
+      <div class="conv-info">
+        <div class="conv-name">Mike Johnson <span class="conv-time">Yesterday</span></div>
+        <div class="conv-company">Arka Team · Colleague</div>
+        <div class="conv-preview">I will review tonight before the client call.</div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT MAIN -->
+<div class="chat-main">
+
+  <!-- HUMAN CHAT -->
+  <div class="chat-area" id="humanChat">
+    <div class="chat-header">
+      <div class="chat-header-avatar" id="hdrAvatar" style="background:#1a5c3a">SS</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name" id="hdrName">Sarah Stone</div>
+        <div class="chat-header-sub" id="hdrSub"><span class="online-dot"></span>Online · HR Director, TechCorp Inc.</div>
+      </div>
+      <div class="chat-header-actions">
+        <button class="view-docs-btn" id="viewDocsBtn" onclick="openDocsDrawer()" style="display:none">Client Documents</button>
+      </div>
+    </div>
+    <div class="chat-messages" id="humanMessages"></div>
+    <div class="chat-input-bar">
+      <div class="chat-input-row">
+        <button class="chat-input-btn"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
+        <button class="chat-input-btn"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+        <textarea class="chat-input" id="humanInput" rows="1" placeholder="Message Sarah Stone..."></textarea>
+        <button class="send-btn"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </div>
+      <div class="input-hint">Files shared here are encrypted and private to this conversation</div>
+    </div>
+  </div>
+
+  <!-- AI CHAT -->
+  <div class="ai-chat-area" id="aiChat" style="display:none">
+    <div class="chat-header">
+      <div class="chat-header-avatar" style="background:#6366f1;font-size:18px">✦</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Arka AI Assistant</div>
+        <div class="chat-header-sub" style="color:#6366f1">HR analysis · drafting · insights</div>
+      </div>
+    </div>
+    <div class="chat-messages" id="aiMessages" style="gap:12px">
+      <div class="msg-group">
+        <div class="msg-bubble-wrap">
+          <div class="bubble other" style="background:#eef2ff;border-color:#c7d2fe;max-width:85%">👋 Hi Alex! I'm your Arka AI assistant. I can help you with HR gap analysis, draft client communications, summarize documents, and answer questions about your clients. What would you like to work on?</div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-input-bar">
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="aiInput" rows="1" placeholder="Ask me anything about your clients..."></textarea>
+        <button class="send-btn" style="background:#6366f1" onclick="sendAIMessage()"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </div>
+      <div class="input-hint">AI responses are generated and should be reviewed before sharing with clients</div>
+    </div>
+  </div>
+
+  <!-- SIDE PANEL -->
+  <div class="side-panel">
+    <div class="panel-tabs">
+      <div class="panel-tab active" onclick="switchPanelTab(this,'files')">Files</div>
+      <div class="panel-tab" onclick="switchPanelTab(this,'comments')">Comments</div>
+    </div>
+    <div class="panel-body" id="panelFiles">
+      <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9ca3af;margin-bottom:10px">Recent Files</div>
+      <div id="panelFilesList"></div>
+    </div>
+    <div class="panel-body" id="panelComments" style="display:none">
+      <div style="font-size:12px;color:#9ca3af;text-align:center;padding:20px 0">No comments yet</div>
+    </div>
+  </div>
+
+</div><!-- end chat-main -->
+
+</div><!-- end app-body -->
+
+<!-- DOCS DRAWER -->
+<div class="docs-overlay" id="docsOverlay" onclick="closeDocsDrawer()"></div>
+<div class="docs-drawer" id="docsDrawer">
+  <div class="drawer-head">
+    <div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#6b7280;margin-bottom:2px">Document Status</div>
+      <div id="drawerTitle" style="font-size:16px;font-weight:700"></div>
+    </div>
+    <button class="drawer-close" onclick="closeDocsDrawer()">×</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</div>
+
+<script>
+// ── Files per conversation ────────────────────────────────
+const convFiles = {
+    sarah:[
+    {name:'TechCorp_Gap_Report_Apr27.pdf',from:'You',size:'2.4 MB',type:'pdf'},
+    {name:'Compensation_Template.xlsx',from:'You',size:'1.1 MB',type:'xlsx'},
+    {name:'Employee_Handbook_v3.pdf',from:'Sarah',size:'5.2 MB',type:'pdf'},
+  ],
+    linda:[
+    {name:'GlobalWorks_Org_Chart_v2.pdf',from:'Linda',size:'1.8 MB',type:'pdf'},
+    {name:'Compliance_Checklist_GW.xlsx',from:'You',size:'0.6 MB',type:'xlsx'},
+    {name:'GlobalWorks_Gap_Report.pdf',from:'You',size:'3.1 MB',type:'pdf'},
+  ],
+    james:[
+    {name:'Innovate_I9_Forms.pdf',from:'James',size:'4.3 MB',type:'pdf'},
+    {name:'OSHA_Records_2026.pdf',from:'James',size:'2.2 MB',type:'pdf'},
+    {name:'Innovate_Gap_Analysis.pdf',from:'You',size:'1.9 MB',type:'pdf'},
+  ],
+    mark:[
+    {name:'Crestline_Compliance_2026.pdf',from:'Mark',size:'2.7 MB',type:'pdf'},
+    {name:'Employee_Handbook_Template_2026.pdf',from:'You',size:'1.2 MB',type:'pdf'},
+    {name:'Crestline_Gap_Draft.xlsx',from:'You',size:'0.5 MB',type:'xlsx'},
+  ],
+    mike:[
+    {name:'TechCorp_Presentation_Q2.pptx',from:'Mike',size:'4.8 MB',type:'xlsx'},
+    {name:'Arka_Internal_Notes.pdf',from:'You',size:'0.7 MB',type:'pdf'},
+  ],
+    'techcorp-11':[],
+    'innovate-gap':[],
+    'globalworks-review':[]
+  };
+
+function renderPanelFiles(name) {
+  const files = convFiles[name] || [];
+  const dlIcon = `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+  const fileIcon = (t) => `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>`;
+  const list = document.getElementById('panelFilesList');
+  if (!list) return;
+  if (!files.length) {
+    list.innerHTML = '<div style="font-size:12px;color:#9ca3af;text-align:center;padding:16px 0">No files shared yet</div>';
+    return;
+  }
+  list.innerHTML = files.map(f => `<div class="file-item">
+    <div class="file-icon ${f.type}">${fileIcon(f.type)}</div>
+    <div class="file-meta"><div class="file-name">${f.name}</div><div class="file-size">${f.from} · ${f.size}</div></div>
+    <button class="file-dl">${dlIcon}</button>
+  </div>`).join('');
+}
+
+// ── Conversation data ────────────────────────────────────
+const convData = {
+    sarah: {
+    name:'Sarah Stone', initials:'SS', color:'#1a5c3a',
+    sub:'<span class="online-dot"></span>Online · HR Director, TechCorp Inc.',
+    placeholder:'Message Sarah Stone...', companyId:'techcorp',
+    messages:`<div class="msg-date-divider">Today, May 17</div>
+<div class="msg-group"><div class="msg-group-header"><div class="msg-group-avatar" style="background:#1a5c3a">SS</div><div class="msg-group-name">Sarah Stone</div><div class="msg-group-time">10:32 AM</div></div>
+<div class="msg-bubble-wrap"><div class="bubble other">Thanks for sharing the gap report. We are reviewing the compensation section now — should have updates by end of week.</div></div></div>
+<div class="msg-group"><div class="msg-group-header" style="justify-content:flex-end;flex-direction:row-reverse"><div class="msg-group-avatar" style="background:#2d7a50">AL</div><div class="msg-group-name">You</div><div class="msg-group-time">10:45 AM</div></div>
+<div class="msg-bubble-wrap self"><div class="bubble self">Great — please also include salary band documentation. That is flagged as high priority.</div></div></div>
+<div class="typing-indicator"><div class="msg-group-avatar" style="background:#1a5c3a;width:28px;height:28px;font-size:10px;font-weight:700;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;">SS</div><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div><div class="typing-name">Sarah is typing...</div></div>`
+  },
+    linda: {
+    name:'Linda Chen', initials:'LC', color:'#7c3aed',
+    sub:'Away · Compliance Officer, GlobalWorks Ltd.',
+    placeholder:'Message Linda Chen...', companyId:'globalworks',
+    messages:`<div class="msg-date-divider">Yesterday</div>
+<div class="msg-group"><div class="msg-group-header"><div class="msg-group-avatar" style="background:#7c3aed">LC</div><div class="msg-group-name">Linda Chen</div><div class="msg-group-time">3:42 PM</div></div>
+<div class="msg-bubble-wrap"><div class="bubble other">Can we reschedule Friday's interview? Our VP is unavailable. Would Monday May 19 at 2pm work instead?</div></div></div>
+<div class="msg-group"><div class="msg-group-header" style="justify-content:flex-end;flex-direction:row-reverse"><div class="msg-group-avatar" style="background:#2d7a50">AL</div><div class="msg-group-name">You</div><div class="msg-group-time">4:10 PM</div></div>
+<div class="msg-bubble-wrap self"><div class="bubble self">Monday at 2pm works — I will send a calendar invite. Please make sure the updated org chart is uploaded before then.</div></div></div>`
+  },
+    james: {
+    name:'James Park', initials:'JP', color:'#3b82f6',
+    sub:'<span class="online-dot"></span>Online · HR Manager, Innovate Solutions',
+    placeholder:'Message James Park...', companyId:'innovate',
+    messages:`<div class="msg-date-divider">Today, May 17</div>
+<div class="msg-group"><div class="msg-group-header"><div class="msg-group-avatar" style="background:#3b82f6">JP</div><div class="msg-group-name">James Park</div><div class="msg-group-time">9:15 AM</div></div>
+<div class="msg-bubble-wrap"><div class="bubble other">We have uploaded the remaining compliance documents. The I-9 forms and OSHA records are now in the portal.</div></div></div>
+<div class="msg-group"><div class="msg-group-header" style="justify-content:flex-end;flex-direction:row-reverse"><div class="msg-group-avatar" style="background:#2d7a50">AL</div><div class="msg-group-name">You</div><div class="msg-group-time">9:28 AM</div></div>
+<div class="msg-bubble-wrap self"><div class="bubble self">Got it, running AI analysis now.</div></div></div>`
+  },
+    mark: {
+    name:'Mark Ellis', initials:'ME', color:'#be185d',
+    sub:'Away · HR Manager, Crestline Retail',
+    placeholder:'Message Mark Ellis...', companyId:'crestline',
+    messages:`<div class="msg-date-divider">May 13, 2026</div>
+<div class="msg-group"><div class="msg-group-header"><div class="msg-group-avatar" style="background:#be185d">ME</div><div class="msg-group-name">Mark Ellis</div><div class="msg-group-time">11:05 AM</div></div>
+<div class="msg-bubble-wrap"><div class="bubble other">Can you clarify the compliance checklist? We are not sure which version of the employee handbook template we should be using.</div></div></div>
+<div class="msg-group"><div class="msg-group-header" style="justify-content:flex-end;flex-direction:row-reverse"><div class="msg-group-avatar" style="background:#2d7a50">AL</div><div class="msg-group-name">You</div><div class="msg-group-time">11:30 AM</div></div>
+<div class="msg-bubble-wrap self"><div class="bubble self">Use the 2026 template — I have linked it in the client portal under Resources.</div></div></div>`
+  },
+    mike: {
+    name:'Mike Johnson', initials:'MJ', color:'#f59e0b',
+    sub:'Offline · Arka Team · Colleague',
+    placeholder:'Message Mike Johnson...',
+    messages:`<div class="msg-date-divider">Yesterday</div>
+<div class="msg-group"><div class="msg-group-header"><div class="msg-group-avatar" style="background:#f59e0b">MJ</div><div class="msg-group-name">Mike Johnson</div><div class="msg-group-time">2:00 PM</div></div>
+<div class="msg-bubble-wrap"><div class="bubble other">Updated the TechCorp presentation with the Q2 audit findings. Check slides 4–7.</div></div></div>
+<div class="msg-group"><div class="msg-group-header" style="justify-content:flex-end;flex-direction:row-reverse"><div class="msg-group-avatar" style="background:#2d7a50">AL</div><div class="msg-group-name">You</div><div class="msg-group-time">2:15 PM</div></div>
+<div class="msg-bubble-wrap self"><div class="bubble self">I will review tonight before the client call.</div></div></div>`
+  },
+    'techcorp-11':{ name:'TechCorp 1:1 — May 20', initials:'TC', color:'#166534', sub:'Sarah Stone, Alex Liu · Wed May 20, 11:00 AM', placeholder:'Message this group...', messages:'' },
+    'innovate-gap':{ name:'Innovate Gap Review — May 14', initials:'IS', color:'#3b82f6', sub:'James Park, Alex Liu · Thu May 14, 10:00 AM', placeholder:'Message this group...', messages:'' },
+    'globalworks-review':{ name:'GlobalWorks Doc Review — May 5', initials:'GW', color:'#7c3aed', sub:'Linda Chen, Alex Liu · Tue May 5, 10:00 AM', placeholder:'Message this group...', messages:'' }
+  };
+
+// ── Docs data ────────────────────────────────────────────
+const docsData = {
+    techcorp:{ name:'TechCorp Inc.', mode:'assessment', score:2.5, cats:[
+    {name:'Performance Management', done:6, total:6, score:3.6, files:[
+      {name:'Goal Setting & Alignment', score:3.5},
+      {name:'Feedback & Communication', score:4.0},
+      {name:'Manager Training & Support', score:3.5},
+      {name:'Performance Metrics', score:4.0},
+      {name:'Recognition & Rewards', score:3.0},
+      {name:'Development & Career Growth', score:3.5}
+    ], missing:[]},
+    {name:'Recruitment & Onboarding', done:5, total:5, score:4.0, files:[
+      {name:'Job Description Design', score:4.0},
+      {name:'Candidate Sourcing', score:4.5},
+      {name:'Interview Process', score:4.0},
+      {name:'Offer & Negotiation', score:3.5},
+      {name:'Onboarding Experience', score:4.0}
+    ], missing:[]},
+    {name:'Org Design & Talent', done:4, total:5, score:3.0, files:[
+      {name:'Org Structure Clarity', score:4.0},
+      {name:'Role Definition', score:3.5},
+      {name:'Span of Control', score:4.0},
+      {name:'Workforce Planning', score:3.5}
+    ], missing:['Succession Planning']},
+    {name:'Culture & Engagement', done:4, total:5, score:2.6, files:[
+      {name:'Engagement Surveys', score:3.0},
+      {name:'Recognition Programs', score:3.5},
+      {name:'Internal Communication', score:3.0},
+      {name:'DEI Initiatives', score:3.5}
+    ], missing:['Wellbeing Programs']},
+    {name:'Compensation & Benefits', done:3, total:5, score:2.1, files:[
+      {name:'Salary Benchmarking', score:3.5},
+      {name:'Pay Equity', score:3.0},
+      {name:'Benefits Design', score:4.0}
+    ], missing:['Incentive Structure','Equity Plan']},
+    {name:'Employee Relations', done:0, total:4, score:0.0, files:[], missing:['Grievance Procedures','Disciplinary Process','Policy Compliance','Conflict Resolution']}
+  ]},
+    crestline:{ name:'Crestline Retail', mode:'pending', cats:[] },
+    globalworks:{ name:'GlobalWorks Ltd.', mode:'assessment', score:3.95, cats:[
+    {name:'Performance Management', done:6, total:6, score:3.8, files:[
+      {name:'Goal Setting & Alignment', score:4.0},
+      {name:'Feedback & Communication', score:3.5},
+      {name:'Manager Training & Support', score:4.5},
+      {name:'Performance Metrics & Management', score:4.0},
+      {name:'Recognition & Rewards', score:3.5},
+      {name:'Development & Career Growth', score:3.5}
+    ], missing:[]},
+    {name:'Recruitment & Onboarding', done:6, total:6, score:4.1, files:[
+      {name:'Job Description Design', score:4.0},
+      {name:'Candidate Sourcing', score:4.0},
+      {name:'Interview Process', score:4.5},
+      {name:'Offer & Negotiation', score:4.0},
+      {name:'Onboarding Experience', score:4.0},
+      {name:'Retention Strategy', score:4.0}
+    ], missing:[]},
+    {name:'Org Design & Talent Development', done:3, total:3, score:4.2, files:[
+      {name:'Org Structure Clarity', score:4.5},
+      {name:'Career Path Development', score:4.0},
+      {name:'Succession Planning', score:4.0}
+    ], missing:[]},
+    {name:'Culture & Engagement', done:5, total:5, score:3.6, files:[
+      {name:'Culture Assessment', score:3.5},
+      {name:'Employee Engagement', score:3.5},
+      {name:'DEI Initiatives', score:3.5},
+      {name:'Recognition Programs', score:4.0},
+      {name:'Feedback Culture', score:3.5}
+    ], missing:[]},
+    {name:'Compensation & Benefits', done:7, total:7, score:4.0, files:[
+      {name:'Pay Equity', score:4.0},
+      {name:'Market Competitiveness', score:4.5},
+      {name:'Benefits Structure', score:4.0},
+      {name:'Bonus & Incentives', score:3.5},
+      {name:'Workers Compensation', score:4.0},
+      {name:'Total Rewards Strategy', score:4.0},
+      {name:'Transparency & Communication', score:4.0}
+    ], missing:[]},
+    {name:'Employee Relations & Compliance', done:4, total:4, score:4.1, files:[
+      {name:'Complaint Handling', score:4.0},
+      {name:'Disciplinary Process', score:4.0},
+      {name:'Labor Law Compliance', score:4.5},
+      {name:'HR Policy Documentation', score:4.0}
+    ], missing:[]}
+  ]},
+    innovate:{ name:'Innovate Solutions', mode:'pending', cats:[] }
+  };
+
+// ── State ─────────────────────────────────────────────────
+let activeConv = 'sarah';
+
+// ── Switch conversation ───────────────────────────────────
+function switchConv(name) {
+  if (name === 'ai') {
+    document.querySelectorAll('.conv-item').forEach(i=>i.classList.remove('active'));
+    document.getElementById('conv-ai').classList.add('active');
+    document.getElementById('humanChat').style.display='none';
+    document.getElementById('aiChat').style.display='flex';
+    return;
+  }
+  activeConv = name;
+  const c = convData[name];
+  if (!c) return;
+
+  document.querySelectorAll('.conv-item,.conv-ai-item').forEach(i=>i.classList.remove('active'));
+  const el = document.getElementById('conv-'+name);
+  if (el) {
+    el.classList.add('active');
+    const u = el.querySelector('.conv-unread');
+    if (u) u.remove();
+  }
+
+  document.getElementById('aiChat').style.display='none';
+  document.getElementById('humanChat').style.display='flex';
+
+  document.getElementById('hdrAvatar').style.background = c.color;
+  document.getElementById('hdrAvatar').textContent = c.initials;
+  document.getElementById('hdrName').textContent = c.name;
+  document.getElementById('hdrSub').innerHTML = c.sub;
+  document.getElementById('humanInput').placeholder = c.placeholder;
+  document.getElementById('humanMessages').innerHTML = c.messages;
+  document.getElementById('humanMessages').scrollTop = 99999;
+
+  const btn = document.getElementById('viewDocsBtn');
+  btn.style.display = c.companyId ? '' : 'none';
+  btn.dataset.cid = c.companyId || '';
+
+  renderPanelFiles(name);
+}
+
+// ── Filter ────────────────────────────────────────────────
+function toggleConvGroup(h){ h.parentElement.classList.toggle('collapsed'); }
+
+function filterConvs(btn, type) {
+  document.querySelectorAll('.conv-filter-pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.conv-item[data-type]').forEach(item=>{
+    if (type==='all' || item.dataset.type===type) item.style.display='';
+    else item.style.display='none';
+  });
+}
+
+// ── Panel tabs ────────────────────────────────────────────
+function switchPanelTab(tab, name) {
+  document.querySelectorAll('.panel-tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById('panelFiles').style.display = name==='files' ? 'block' : 'none';
+  document.getElementById('panelComments').style.display = name==='comments' ? 'block' : 'none';
+}
+
+// ── Docs drawer ───────────────────────────────────────────
+function openDocsDrawer() {
+  const cid = document.getElementById('viewDocsBtn').dataset.cid;
+  const d = docsData[cid];
+  if (!d) {
+    // Defensive: tell the user no docs are linked to this conversation
+    var dr = document.getElementById('docsDrawer');
+    var dt = document.getElementById('drawerTitle');
+    var db = document.getElementById('drawerBody');
+    if (dt) dt.textContent = 'Client Documents';
+    if (db) db.innerHTML = '<div style="padding:24px;text-align:center;font-size:13px;color:#9ca3af">No document data linked to this conversation yet.</div>';
+    if (dr) dr.classList.add('open');
+    return;
+  }
+
+  // Pending-mode drawer (assessment not started: no score, no documents yet)
+  if (d.mode === 'pending') {
+    document.getElementById('drawerTitle').textContent = d.name;
+    var ph = ''
+      + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'
+      +   '<span style="font-size:13px;color:#6b7280">0 of 0 sub-items submitted</span>'
+      +   '<span style="background:#eff6ff;color:#1d4ed8;border-radius:8px;padding:4px 12px;font-size:13px;font-weight:700">In Progress</span>'
+      + '</div>'
+      + '<div style="text-align:center;padding:36px 18px;border:1px dashed #e5e7eb;border-radius:12px;background:#fafafa">'
+      +   '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.8" style="margin:0 auto"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+      +   '<div style="font-size:13px;font-weight:600;color:#6b7280;margin-top:12px">No documents submitted yet</div>'
+      +   '<div style="font-size:12px;color:#9ca3af;margin-top:4px;line-height:1.5">This client\'s assessment will appear here<br>once documents are received.</div>'
+      + '</div>';
+    ph += '<button onclick="localStorage.setItem(\'arkaDocsCompany\',JSON.stringify({id:\'' + cid + '\',name:\'' + d.name + '\',industry:\'\',employees:\'\'}));parent.postMessage({type:\'arka-nav\',target:\'admin-view-documents\'},\'*\')" style="width:100%;margin-top:12px;padding:11px;background:#1a5c3a;color:white;border:none;border-radius:10px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:600;cursor:pointer">Open Documents Center \u2192</button>';
+    document.getElementById('drawerBody').innerHTML = ph;
+    window.cid_global_for_drawer = cid;
+    document.getElementById('docsDrawer').classList.add('open');
+    return;
+  }
+
+  // Assessment-mode drawer (mirrors the client-detail assessment page: dimension scores + per-item scores)
+  if (d.mode === 'assessment') {
+    var aDone = d.cats.reduce(function(s,c){ return s + c.done; }, 0);
+    var aAll  = d.cats.reduce(function(s,c){ return s + c.total; }, 0);
+    var aPct  = Math.round(aDone / aAll * 100);
+    var sCol = function(x){ return x>=4 ? '#16a34a' : (x>=3 ? '#f59e0b' : '#ef4444'); };
+    var isComplete = aDone === aAll;
+    var badgeLabel = isComplete ? 'Score' : 'Provisional';
+    var badgeBg = isComplete ? '#dcfce7' : '#eff6ff';
+    var badgeFg = isComplete ? '#14532d' : '#1d4ed8';
+    var barCol  = isComplete ? '#16a34a' : '#3b82f6';
+    var fmtScore = function(x){ return Number.isInteger(x) ? x.toFixed(1) : String(x); };
+    document.getElementById('drawerTitle').textContent = d.name;
+    var html = ''
+      + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">'
+      +   '<span style="font-size:13px;color:#6b7280">' + aDone + ' of ' + aAll + ' sub-items submitted</span>'
+      +   '<span style="background:' + badgeBg + ';color:' + badgeFg + ';border-radius:8px;padding:4px 12px;font-size:13px;font-weight:700">' + badgeLabel + ' ' + fmtScore(d.score) + '</span>'
+      + '</div>'
+      + '<div style="background:#f3f4f6;border-radius:99px;height:6px;overflow:hidden;margin-bottom:18px"><div style="height:100%;width:' + aPct + '%;background:' + barCol + ';border-radius:99px"></div></div>';
+    d.cats.forEach(function(c){
+      var p = Math.round(c.done / c.total * 100);
+      var bc = p===100 ? '#16a34a' : (p>0 ? '#f59e0b' : '#e5e7eb');
+      var ic = p===100 ? '\u2713' : (c.missing.length ? '!' : '\u2013');
+      var icol = p===100 ? '#166534' : (c.missing.length ? '#b45309' : '#9ca3af');
+      var ibg  = p===100 ? '#f0fdf4' : (c.missing.length ? '#fffbeb' : '#f3f4f6');
+      var dimCol = sCol(c.score);
+      var fileList = (c.files && c.files.length) ? c.files.map(function(f){
+        var fc = sCol(f.score);
+        return '<div class="doc-file">'
+          + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+          + '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + f.name + '</div></div>'
+          + '<span style="color:' + fc + ';font-size:12.5px;font-weight:700;flex-shrink:0">' + f.score.toFixed(1) + '</span>'
+          + '</div>';
+      }).join('') : '';
+      var missingList = (c.missing && c.missing.length) ? c.missing.map(function(m){
+        return '<div class="doc-file" style="background:#fef2f2;border-bottom:none;border-radius:8px;padding:7px 10px;margin-bottom:4px">'
+          + '<svg width="13" height="13" fill="none" stroke="#dc2626" stroke-width="2.4" viewBox="0 0 24 24" style="flex-shrink:0"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+          + '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:#dc2626;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + m + '</div></div>'
+          + '<span style="color:#dc2626;font-size:11px;font-weight:600;flex-shrink:0">Not submitted</span>'
+          + '</div>';
+      }).join('') : '';
+      html += '<div class="doc-cat">'
+        + '<div class="doc-cat-head" onclick="this.nextSibling.classList.toggle(\'open\'); this.querySelector(\'.cat-chev\').classList.toggle(\'open\')">'
+        +   '<span style="width:20px;height:20px;border-radius:50%;background:' + ibg + ';color:' + icol + ';font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + ic + '</span>'
+        +   '<div style="flex:1;min-width:0">'
+        +     '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div style="font-size:12px;font-weight:600">' + c.name + '</div><span style="font-size:12.5px;font-weight:700;color:' + dimCol + ';flex-shrink:0">' + c.score.toFixed(1) + '</span></div>'
+        +     '<div style="display:flex;align-items:center;gap:8px;margin-top:4px">'
+        +       '<div style="flex:1;height:5px;background:#f3f4f6;border-radius:99px;overflow:hidden"><div style="height:100%;width:' + p + '%;background:' + bc + ';border-radius:99px"></div></div>'
+        +       '<span style="font-size:11px;color:#6b7280;flex-shrink:0">' + c.done + '/' + c.total + '</span>'
+        +     '</div>'
+        +   '</div>'
+        +   '<svg class="cat-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="transition:transform .15s"><polyline points="6 9 12 15 18 9"/></svg>'
+        + '</div>'
+        + '<div class="doc-cat-body">'
+        +   (fileList ? '<div class="doc-cat-section-label">Submitted \u00b7 score</div>' + fileList : '')
+        +   (missingList ? '<div class="doc-cat-section-label" style="margin-top:' + (fileList ? '10px' : '0') + '">Not submitted</div>' + missingList : '')
+        +   (!fileList && !missingList ? '<div style="font-size:11px;color:#9ca3af;text-align:center;padding:8px 0">No documents submitted yet.</div>' : '')
+        + '</div>'
+        + '</div>';
+    });
+    html += '<button onclick="localStorage.setItem(\'arkaDocsCompany\',JSON.stringify({id:\'' + cid + '\',name:\'' + d.name + '\',industry:\'\',employees:\'\'}));parent.postMessage({type:\'arka-nav\',target:\'admin-view-documents\'},\'*\')" style="width:100%;margin-top:12px;padding:11px;background:#1a5c3a;color:white;border:none;border-radius:10px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:600;cursor:pointer">Open Documents Center \u2192</button>';
+    document.getElementById('drawerBody').innerHTML = html;
+    window.cid_global_for_drawer = cid;
+    document.getElementById('docsDrawer').classList.add('open');
+    return;
+  }
+
+  const totalDone = d.cats.reduce((s,c)=>s+c.done,0);
+  const totalAll  = d.cats.reduce((s,c)=>s+c.total,0);
+  const pct = Math.round(totalDone/totalAll*100);
+  const sc = d.score>=80?'#166534':d.score>=65?'#b45309':'#b91c1c';
+  const sb = d.score>=80?'#f0fdf4':d.score>=65?'#fffbeb':'#fef2f2';
+
+  document.getElementById('drawerTitle').textContent = d.name;
+  document.getElementById('drawerBody').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span style="font-size:13px;color:#6b7280">${totalDone} of ${totalAll} documents complete</span>
+      <span style="background:${sb};color:${sc};border-radius:8px;padding:4px 12px;font-size:13px;font-weight:700">Score: ${d.score}</span>
+    </div>
+    <div style="background:#f3f4f6;border-radius:99px;height:6px;overflow:hidden;margin-bottom:18px">
+      <div style="height:100%;width:${pct}%;background:${sc};border-radius:99px"></div>
+    </div>
+    ${d.cats.map((c,i)=>{
+      const p=Math.round(c.done/c.total*100);
+      const bc=p===100?'#166534':p>0?'#f59e0b':'#e5e7eb';
+      const ic=p===100?'✓':c.missing.length?'!':'–';
+      const icol=p===100?'#166534':c.missing.length?'#b45309':'#9ca3af';
+      const fileList = (c.files && c.files.length) ? c.files.map(function(f){
+        var statusColor = f.status==='approved' ? '#166534' : (f.status==='review' ? '#3b82f6' : (f.status==='rejected' ? '#b91c1c' : '#6b7280'));
+        var statusBg = f.status==='approved' ? '#f0fdf4' : (f.status==='review' ? '#eff6ff' : (f.status==='rejected' ? '#fef2f2' : '#f3f4f6'));
+        var statusLabel = f.status==='approved' ? 'Approved' : (f.status==='review' ? 'Under Review' : (f.status==='rejected' ? 'Rejected' : 'Pending'));
+        return '<div class="doc-file">'
+          + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+          + '<div style="flex:1;min-width:0">'
+          + '<div style="font-size:12px;font-weight:500;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + f.name + '</div>'
+          + '<div style="font-size:10.5px;color:#9ca3af;margin-top:2px">' + (f.uploaded || '') + (f.reviewer ? ' · ' + f.reviewer : '') + '</div>'
+          + '</div>'
+          + '<span style="background:' + statusBg + ';color:' + statusColor + ';font-size:10px;font-weight:600;padding:3px 8px;border-radius:99px;flex-shrink:0">' + statusLabel + '</span>'
+          + '</div>';
+      }).join('') : '';
+      const missingList = (c.missing && c.missing.length) ? c.missing.map(function(m){
+        return '<div class="doc-missing"><span style="color:#f59e0b;font-size:10px">●</span>' + m + '</div>';
+      }).join('') : '';
+      return `<div class="doc-cat">
+        <div class="doc-cat-head" onclick="this.nextSibling.classList.toggle('open'); this.querySelector('.cat-chev').classList.toggle('open')">
+          <span style="width:20px;height:20px;border-radius:50%;background:${sb};color:${icol};font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${ic}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12px;font-weight:600">${c.name}</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+              <div style="flex:1;height:5px;background:#f3f4f6;border-radius:99px;overflow:hidden"><div style="height:100%;width:${p}%;background:${bc};border-radius:99px"></div></div>
+              <span style="font-size:11px;color:#6b7280;flex-shrink:0">${c.done}/${c.total}</span>
+            </div>
+          </div>
+          <svg class="cat-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="transition:transform .15s"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="doc-cat-body">
+          ${ fileList ? '<div class="doc-cat-section-label">Completed</div>' + fileList : '' }
+          ${ missingList ? '<div class="doc-cat-section-label" style="margin-top:' + (fileList ? '10px' : '0') + '">Missing / Needs revision</div>' + missingList : '' }
+          ${ !fileList && !missingList ? '<div style="font-size:11px;color:#9ca3af;text-align:center;padding:8px 0">No documents submitted yet.</div>' : '' }
+        </div>
+      </div>`;
+    }).join('')}
+    <button onclick="localStorage.setItem('arkaDocsCompany',JSON.stringify({id:'${cid}',name:'${d.name}',industry:'',employees:''}));window.location.href='admin-view-documents.html'" style="width:100%;margin-top:12px;padding:11px;background:#1a5c3a;color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">Open Documents Center →</button>
+  `;
+  window.cid_global_for_drawer = cid;
+  document.getElementById('docsDrawer').classList.add('open');
+}
+function closeDocsDrawer(){
+  document.getElementById('docsOverlay').classList.remove('open');
+  document.getElementById('docsDrawer').classList.remove('open');
+}
+
+// ── AI send ───────────────────────────────────────────────
+async function sendAIMessage(){
+  const inp=document.getElementById('aiInput');
+  const txt=inp.value.trim();
+  if(!txt) return;
+  inp.value='';
+  const msgs=document.getElementById('aiMessages');
+  msgs.innerHTML+=`<div class="msg-group"><div class="msg-group-header" style="justify-content:flex-end;flex-direction:row-reverse"><div class="msg-group-avatar" style="background:#2d7a50">AL</div><div class="msg-group-name">You</div></div><div class="msg-bubble-wrap self"><div class="bubble self">${txt}</div></div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  const loadId='ai-load-'+Date.now();
+  msgs.innerHTML+=`<div id="${loadId}" class="msg-group"><div class="msg-bubble-wrap"><div class="bubble other" style="background:#eef2ff;border-color:#c7d2fe">Thinking...</div></div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  try {
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:'You are Arka AI, an HR compliance assistant. Be concise and helpful.',messages:[{role:'user',content:txt}]})});
+    const data=await r.json();
+    const reply=data.content?.map(b=>b.text||'').join('')||'Sorry, I could not respond.';
+    const el=document.getElementById(loadId);
+    if(el) el.querySelector('.bubble').textContent=reply;
+  } catch(e){
+    const el=document.getElementById(loadId);
+    if(el) el.querySelector('.bubble').textContent='Connection error. Please try again.';
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+// ── Init ──────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  switchConv('sarah');
+  try{
+    const oc=localStorage.getItem('arkaOpenConv');
+    if(oc){localStorage.removeItem('arkaOpenConv');setTimeout(()=>switchConv(oc),100);}
+  }catch(e){}
+});
+
+</script>
+
+
+
+
+
+
+
+
+<script>
+(function(){
+  if (window.__arkaTopbarV2) return;
+  window.__arkaTopbarV2 = true;
+
+  // Canonical CSS (matches dashboard's topbar-actions / icon-btn / notif-dot / avatar-btn).
+  // Uses literal color values (no CSS variable dependency) so it works on any page.
+  var css = ''
+    + '.topbar-actions{display:flex;align-items:center;gap:8px;margin-left:auto;}'
+    + '.topbar-actions .icon-btn{width:38px;height:38px;border-radius:10px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#6b7280;position:relative;transition:background .15s;padding:0;}'
+    + '.topbar-actions .icon-btn:hover{background:#f3f4f6;}'
+    + '.topbar-actions .icon-btn.active{background:#ecfdf5;color:#166534;}'
+    + '.topbar-actions .icon-btn:focus,.topbar-actions .icon-btn:focus-visible{outline:none;box-shadow:none;}'
+    + '.topbar-actions .notif-dot{position:absolute;top:7px;right:7px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid #fff;}'
+    + '.topbar-actions .avatar-btn{width:36px;height:36px;border-radius:50%;border:2px solid #e5e7eb;overflow:hidden;cursor:pointer;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#166534;transition:border-color .15s;padding:0;}'
+    + '.topbar-actions .avatar-btn:hover{border-color:#16a34a;}';
+  var st = document.createElement('style');
+  st.setAttribute('data-arka-topbar', '1');
+  st.textContent = css;
+  document.head.appendChild(st);
+
+  var NOTIF_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+  var MSG_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+
+  var canonicalHTML = ''
+    + '<button class="icon-btn" id="notifBtn" aria-label="Notifications" data-arka="notif">' + NOTIF_SVG + '<span class="notif-dot"></span></button>'
+    + '<button class="icon-btn" id="msgBtn" aria-label="Messages" data-arka="msg">' + MSG_SVG + '</button>'
+    + '<div style="position:relative;" data-arka="avatar-wrap"><button class="avatar-btn" id="profileBtn">AX</button></div>';
+
+  function unify(){
+    // Find ALL candidate topbar containers (newer + older naming both supported)
+    var selectors = ['.topbar-actions', '.ark-tb-icons', '.topbar-icons', '.topbar-right'];
+    var bars = [];
+    selectors.forEach(function(sel){
+      document.querySelectorAll(sel).forEach(function(el){ bars.push(el); });
+    });
+    if (bars.length === 0) return;
+
+    // Keep the FIRST one that's in the header (the visible primary), replace its contents.
+    // Hide all subsequent ones (so duplicates don't show).
+    var primary = bars[0];
+
+    // Try to pick a primary that's actually inside a header/topbar element
+    for (var k = 0; k < bars.length; k++){
+      var b = bars[k];
+      var anc = b.closest('header, .topbar, .top-bar, .header-bar');
+      if (anc) { primary = b; break; }
+    }
+
+    // Normalize primary: ensure it has .topbar-actions class for CSS to apply
+    primary.classList.add('topbar-actions');
+    primary.innerHTML = canonicalHTML;
+    primary.style.setProperty('opacity','1','important');primary.style.transition='opacity .12s';
+
+    // Hide all others
+    bars.forEach(function(b){ if (b !== primary) { b.style.display = 'none'; } });
+
+    // Wire the buttons to use whatever toggle function the page provides.
+    var notif = primary.querySelector('#notifBtn');
+    var msg   = primary.querySelector('#msgBtn');
+    var prof  = primary.querySelector('#profileBtn');
+
+    function bestPanelToggler(){
+      // Pages variously expose: togglePanel / xTogglePanel
+      if (typeof window.togglePanel === 'function')  return window.togglePanel;
+      if (typeof window.xTogglePanel === 'function') return window.xTogglePanel;
+      return null;
+    }
+    function bestDropToggler(){
+      if (typeof window.toggleDropdown === 'function')  return window.toggleDropdown;
+      if (typeof window.xToggleDrop === 'function')     return window.xToggleDrop;
+      return null;
+    }
+
+    var ptog = bestPanelToggler();
+    if (notif) notif.onclick = function(){
+      var f = bestPanelToggler();
+      if (f) { try { f('notifPanel', notif); } catch(e){} }
+    };
+    if (msg) msg.onclick = function(){
+      var f = bestPanelToggler();
+      if (f) { try { f('msgPanel', msg); } catch(e){} }
+    };
+    if (prof) prof.onclick = function(){
+      var f = bestDropToggler();
+      if (f) { try { f('profileDropdown'); } catch(e){} }
+    };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', unify);
+  } else {
+    unify();
+  }
+  // Re-run after a tick in case the page dynamically populates its topbar
+  setTimeout(unify, 200);
+  setTimeout(unify, 800);
+
+  // ── SIDEBAR + SEARCH BAR NORMALIZE ──────────────────────────────────
+  var _sbCss='.client-acc{margin:2px 0}.acc-header{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;cursor:pointer;transition:background .12s;user-select:none;min-height:38px}.acc-header:hover{background:#f7f8fa}.acc-header.has-actions:hover{background:#f0fdf4}.acc-name{font-size:12.5px;font-weight:500;color:#111827;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acc-star{color:#f59e0b;font-size:11px;margin-left:3px}.acc-right{display:flex;align-items:center;gap:4px;flex-shrink:0;width:44px;justify-content:flex-end;height:20px}.acc-count{background:#ef4444;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;min-width:16px;text-align:center;flex-shrink:0}.acc-chevron{display:inline-block;transition:transform .2s;width:12px;height:12px;flex-shrink:0;position:relative;top:0}.acc-chevron::after{content:"";display:block;width:6px;height:6px;border-right:1.5px solid #9ca3af;border-bottom:1.5px solid #9ca3af;transform:rotate(45deg);margin:1px auto 0}.acc-link{font-size:12px;color:#9ca3af;opacity:0;transition:opacity .12s;padding:2px 4px;border-radius:4px}.acc-header:hover .acc-link{opacity:1}.acc-link:hover{background:#e5e7eb;color:#374151}.acc-body{padding:2px 0 6px}.acc-action-item{padding:7px 12px 7px 16px;font-size:11.5px;color:#374151;cursor:pointer;border-left:3px solid transparent;margin:1px 0;transition:background .1s;border-radius:0 6px 6px 0;line-height:1.35}.acc-action-item:hover{background:#f7f8fa}';
+  var _sbNorm='.search-bar{flex:1!important;max-width:480px!important;margin:0 16px!important;height:38px!important;background:#f9fafb!important;border:1px solid #e5e7eb!important;border-radius:999px!important;padding:0 16px 0 40px!important;font-size:14px!important;outline:none!important;color:#374151!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:12px center!important;transition:border-color .15s,box-shadow .15s!important}.search-bar:focus{border-color:#16a34a!important;box-shadow:0 0 0 3px rgba(22,163,74,.1)!important}.search-bar input,.search-input{height:38px!important;background:#f9fafb!important;border:1px solid #e5e7eb!important;border-radius:999px!important;padding:0 16px 0 42px!important;font-size:14px!important;outline:none!important;color:#374151!important}.search-bar input:focus,.search-input:focus{border-color:#16a34a!important;box-shadow:0 0 0 3px rgba(22,163,74,.1)!important}';
+  if(!document.querySelector('style[data-arka-sidebar]')){var _ss=document.createElement('style');_ss.setAttribute('data-arka-sidebar','1');_ss.textContent=_sbCss+_sbNorm;document.head.appendChild(_ss);}
+  var _pa={techcorp:'admin-client-detail',globalworks:'admin-client-detail-gw',innovate:'admin-client-detail-is',crestline:'admin-client-detail-cr'};
+  var _pa2={techcorp:[{t:'Assessment needs review',type:'critical',n:'admin-view-documents'},{t:'3 uploaded docs require review',type:'warning',n:'admin-view-documents'},{t:'Interview scheduled — tomorrow 2PM',type:'info',n:'admin-calendar'}],crestline:[{t:'2 uploaded docs require review',type:'warning',n:'admin-view-documents'},{t:'Survey response rate low',type:'info',n:'admin-client-detail-cr'}],globalworks:[{t:'Final report ready to deliver',type:'critical',n:'admin-view-documents'},{t:'Consultant notes pending',type:'warning',n:'admin-client-detail-gw'}],innovate:[{t:'Onboarding form incomplete',type:'warning',n:'admin-client-detail-is'}]};
+  var _pc=[{id:'techcorp',name:'TechCorp Inc.',starred:true},{id:'crestline',name:'Crestline Retail',starred:true},{id:'globalworks',name:'GlobalWorks Ltd.',starred:false},{id:'innovate',name:'Innovate Solutions',starred:false}];
+  function _bsb(){var el=document.getElementById('sidebarClientList');if(!el||el.getAttribute('data-ark-built')==='1')return;el.setAttribute('data-ark-built','1');el.innerHTML='';var sorted=_pc.slice().sort(function(a,b){return b.starred-a.starred;});sorted.forEach(function(c){var acts=_pa2[c.id]||[],ha=acts.length>0;var w=document.createElement('div');w.className='client-acc';var h=document.createElement('div');h.className='acc-header'+(ha?' has-actions':'');var ns=document.createElement('span');ns.className='acc-name';ns.textContent=c.name;if(c.starred){var s=document.createElement('span');s.className='acc-star';s.textContent=' ★';ns.appendChild(s);}h.appendChild(ns);var r=document.createElement('span');r.className='acc-right';if(ha){var bg=document.createElement('span');bg.className='acc-count';bg.textContent=acts.length;r.appendChild(bg);var cv=document.createElement('span');cv.className='acc-chevron';cv.id='schev-'+c.id;cv.textContent='';r.appendChild(cv);}var lk=document.createElement('span');lk.className='acc-link';lk.title='Open';lk.textContent='↗';lk.addEventListener('click',(function(rt){return function(e){e.stopPropagation();arkaNav(rt);};})((_pa[c.id]||'admin-client-detail')));r.appendChild(lk);h.appendChild(r);if(ha){h.addEventListener('click',(function(id){return function(){var b=document.getElementById('sacc-'+id),ch=document.getElementById('schev-'+id);if(!b)return;var op=b.style.display!=='none';b.style.display=op?'none':'block';if(ch){ch.textContent='';ch.style.transform=op?'':'rotate(180deg)';}};})(c.id));}w.appendChild(h);if(ha){var bd=document.createElement('div');bd.className='acc-body';bd.id='sacc-'+c.id;bd.style.display='none';acts.forEach(function(a){var bc=a.type==='critical'?'#ef4444':a.type==='warning'?'#f59e0b':'#3b82f6';var it=document.createElement('div');it.className='acc-action-item';it.style.borderLeftColor=bc;it.textContent=a.t;it.addEventListener('click',(function(n){return function(){arkaNav(n);};})(a.n));bd.appendChild(it);});w.appendChild(bd);}el.appendChild(w);});var sb=el.closest('aside,.sidebar,.ark-sidebar');if(sb){sb.querySelectorAll('.ark-attn-item,.ark-attn-header').forEach(function(n){try{n.parentNode.removeChild(n);}catch(e){}});}}
+  _bsb();setTimeout(_bsb,300);
+})();
+</script>
+
+
+<script>
+(function(){
+  if (window.__arkaPanelsInjected) return;
+  if (document.getElementById('notifPanel') && document.getElementById('msgPanel')) {
+    window.__arkaPanelsInjected = true;
+    return;
+  }
+
+  // 1. Inject CSS
+  var style = document.createElement('style');
+  style.setAttribute('data-arka-panels', '1');
+  style.textContent = "\n/* ================= ARKA — Notification / Message Panels (transplanted from Dashboard) ================= */\n.panel { display: none; position: fixed; top: 64px; right: 0; width: 360px; bottom: 0; background: #fff; border-left: 1px solid #e5e7eb; z-index: 200; flex-direction: column; box-shadow: -4px 0 24px rgba(0,0,0,0.08); animation: arkaSlideIn 0.2s ease; }\n.panel.open { display: flex !important; }\n@keyframes arkaSlideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }\n.overlay-backdrop { display: none; position: fixed; inset: 0; z-index: 150; background: transparent; }\n.overlay-backdrop.open { display: block; }\n.panel .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid #e5e7eb; flex-shrink: 0; }\n.panel .panel-title { font-size: 15px; font-weight: 600; color: #111827; font-family: 'DM Sans', sans-serif; }\n.panel .panel-action { background: none; border: none; font-size: 13px; color: #6b7280; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-family: 'DM Sans', sans-serif; }\n.panel .panel-action:hover { background: #f3f4f6; color: #166534; }\n.panel .panel-body { flex: 1; overflow-y: auto; }\n.panel .panel-footer { padding: 12px 24px; border-top: 1px solid #e5e7eb; flex-shrink: 0; }\n.panel .panel-footer-btn { width: 100%; padding: 9px; border: 1px solid #e5e7eb; background: #fff; color: #374151; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }\n.panel .panel-footer-btn:hover { background: #f9fafb; border-color: #d1d5db; }\n.panel .notif-item { display: flex; gap: 14px; padding: 14px 24px; cursor: pointer; transition: background 0.1s; border-bottom: 1px solid #f9fafb; position: relative; }\n.panel .notif-item:hover { background: #f9fafb; }\n.panel .notif-item.unread { background: #f0fdf4; }\n.panel .notif-item.unread::before { content: ''; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 50%; background: #16a34a; }\n.panel .notif-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }\n.panel .notif-icon.green { background: #dcfce7; color: #166534; }\n.panel .notif-icon.amber { background: #fef3c7; color: #b45309; }\n.panel .notif-icon.blue { background: #dbeafe; color: #1d4ed8; }\n.panel .notif-icon.red { background: #fee2e2; color: #b91c1c; }\n.panel .notif-content { flex: 1; min-width: 0; }\n.panel .notif-text { font-size: 13px; color: #111827; line-height: 1.45; font-family: 'DM Sans', sans-serif; }\n.panel .notif-text strong { font-weight: 600; }\n.panel .notif-time { font-size: 11.5px; color: #9ca3af; margin-top: 4px; font-family: 'DM Sans', sans-serif; }\n.panel .notif-dismiss { background: none; border: none; color: #d1d5db; cursor: pointer; padding: 4px; opacity: 0; transition: opacity .15s; align-self: flex-start; }\n.panel .notif-item:hover .notif-dismiss { opacity: 1; }\n.panel .notif-dismiss:hover { color: #6b7280; }\n.panel .msg-item { display: flex; gap: 12px; padding: 14px 24px; cursor: pointer; transition: background 0.1s; border-bottom: 1px solid #f9fafb; align-items: center; }\n.panel .msg-item:hover { background: #f9fafb; }\n.panel .msg-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 13px; flex-shrink: 0; }\n.panel .msg-content { flex: 1; min-width: 0; }\n.panel .msg-name { font-size: 13.5px; font-weight: 600; color: #111827; font-family: 'DM Sans', sans-serif; }\n.panel .msg-preview-text { font-size: 12.5px; color: #6b7280; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'DM Sans', sans-serif; }\n.panel .msg-time { font-size: 11px; color: #9ca3af; flex-shrink: 0; font-family: 'DM Sans', sans-serif; }\n.panel .msg-unread-dot { width: 8px; height: 8px; border-radius: 50%; background: #16a34a; flex-shrink: 0; }\n";
+  document.head.appendChild(style);
+
+  // 2. Inject backdrop + panel HTML at body root
+  var wrap = document.createElement('div');
+  wrap.id = 'arkaPanelsRoot';
+  wrap.innerHTML = '<div class="overlay-backdrop" id="notifBackdrop" onclick="closePanel(\'notifPanel\', \'notifBtn\')"></div><div class="overlay-backdrop" id="msgBackdrop" onclick="closePanel(\'msgPanel\', \'msgBtn\')"></div><div class="panel" id="notifPanel">\n  <div class="panel-header">\n    <div style="display:flex;align-items:center;gap:8px;">\n      <span class="panel-title">Notifications</span>\n      <span class="panel-count">4 new</span>\n    </div>\n    <button class="panel-close" onclick="closePanel(\'notifPanel\', \'notifBtn\')">✕</button>\n  </div>\n  <div class="panel-body">\n    <div class="notif-item unread" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-ai-analyze\'},\'*\')">\n      <div class="notif-icon ai">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">Assessment Completed</div>\n        <div class="notif-desc">Innovate Solutions — gap analysis ready for your review.</div>\n        <div class="notif-time">10:30 AM · Today</div>\n      </div>\n    </div>\n    <div class="notif-item unread" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-client-detail\'},\'*\')">\n      <div class="notif-icon doc">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">New Documents Uploaded</div>\n        <div class="notif-desc">TechStarter Inc. uploaded 3 new documents — review required.</div>\n        <div class="notif-time">9:40 AM · Today</div>\n      </div>\n    </div>\n    <div class="notif-item unread" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-client-detail\'},\'*\')">\n      <div class="notif-icon task">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">Interview Summary Ready</div>\n        <div class="notif-desc">Quantum Labs — AI generated interview summary available.</div>\n        <div class="notif-time">Yesterday · 4:15 PM</div>\n      </div>\n    </div>\n    <div class="notif-item" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-ai-analyze\'},\'*\')">\n      <div class="notif-icon alert">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">Document Re-uploaded</div>\n        <div class="notif-desc">Stellar Industries — client re-uploaded the compliance file for review.</div>\n        <div class="notif-time">2 days ago</div>\n      </div>\n    </div>\n    <div class="notif-item" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-client-detail\'},\'*\')">\n      <div class="notif-icon task">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">Survey Milestone Reached</div>\n        <div class="notif-desc">GlobalWorks Ltd — 80% of employees completed the survey.</div>\n        <div class="notif-time">3 days ago</div>\n      </div>\n    </div>\n    <div class="notif-item">\n      <div class="notif-icon ai">\n        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>\n      </div>\n      <div class="notif-content">\n        <div class="notif-title">New Client Onboarded</div>\n        <div class="notif-desc">Vista Group has been assigned to you — account setup complete.</div>\n        <div class="notif-time">Apr 28, 2026</div>\n      </div>\n    </div>\n  </div>\n</div><div class="panel" id="msgPanel">\n  <div class="panel-header">\n    <div style="display:flex;align-items:center;gap:8px;">\n      <span class="panel-title">Messages</span>\n      <span class="panel-count">2 unread</span>\n    </div>\n    <button class="panel-close" onclick="closePanel(\'msgPanel\', \'msgBtn\')">✕</button>\n  </div>\n  <div class="panel-body">\n    <div class="msg-item unread">\n      <div class="msg-avatar">SC <span class="online-dot"></span></div>\n      <div class="msg-content">\n        <div class="msg-top">\n          <span class="msg-name">Sarah Chen</span>\n          <span class="msg-time">3m ago</span>\n        </div>\n        <div class="msg-preview">Can we review the Q3 report before the client call?</div>\n      </div>\n    </div>\n    <div class="msg-item unread">\n      <div class="msg-avatar">MJ</div>\n      <div class="msg-content">\n        <div class="msg-top">\n          <span class="msg-name">Mike Johnson</span>\n          <span class="msg-time">35m ago</span>\n        </div>\n        <div class="msg-preview">Updated the presentation for Zenith Partners</div>\n      </div>\n    </div>\n    <div class="msg-item">\n      <div class="msg-avatar">AL</div>\n      <div class="msg-content">\n        <div class="msg-top">\n          <span class="msg-name">Anna Lee</span>\n          <span class="msg-time">2h ago</span>\n        </div>\n        <div class="msg-preview">Meeting moved to 2pm tomorrow — confirmed?</div>\n      </div>\n    </div>\n    <div class="msg-item">\n      <div class="msg-avatar">DP</div>\n      <div class="msg-content">\n        <div class="msg-top">\n          <span class="msg-name">David Park</span>\n          <span class="msg-time">Yesterday</span>\n        </div>\n        <div class="msg-preview">HR forms for Innovate Solutions need your signature</div>\n      </div>\n    </div>\n  </div>\n  <div class="panel-footer">\n    <button class="view-all-btn" onclick="parent.postMessage({type:\'arka-nav\',target:\'admin-chat\'},\'*\')">Open Messages →</button>\n  </div>\n</div>';
+  document.body.appendChild(wrap);
+
+  // 3. Define panel functions on window (idempotent)
+  if (typeof window.togglePanel !== 'function') {
+    window.togglePanel = function(panelId, btnArg){
+      var panel = document.getElementById(panelId);
+      var backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+      // btnArg may be either a string ID (legacy) or an element (newer)
+      var btn = (typeof btnArg === 'string') ? document.getElementById(btnArg)
+              : (btnArg && btnArg.nodeType === 1) ? btnArg
+              : document.getElementById(panelId.replace('Panel', 'Btn'));
+      var isOpen = panel.classList.contains('open');
+      window.closeAllPanels();
+      if (!isOpen) {
+        panel.classList.add('open');
+        backdrop && backdrop.classList.add('open');
+        btn && btn.classList.add('active');
+      }
+    };
+  }
+  if (typeof window.closePanel !== 'function') {
+    window.closePanel = function(panelId, btnArg){
+      document.getElementById(panelId).classList.remove('open');
+      var backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+      backdrop && backdrop.classList.remove('open');
+      var btn = (typeof btnArg === 'string') ? document.getElementById(btnArg) : btnArg;
+      btn && btn.classList && btn.classList.remove('active');
+    };
+  }
+  if (typeof window.closeAllPanels !== 'function') {
+    window.closeAllPanels = function(){
+      ['notifPanel','msgPanel'].forEach(function(id){
+        var el = document.getElementById(id);
+        el && el.classList.remove('open');
+      });
+      ['notifBackdrop','msgBackdrop'].forEach(function(id){
+        var el = document.getElementById(id);
+        el && el.classList.remove('open');
+      });
+      ['notifBtn','msgBtn'].forEach(function(id){
+        var el = document.getElementById(id);
+        el && el.classList.remove('active');
+      });
+    };
+  }
+  if (typeof window.toggleDropdown !== 'function') {
+    window.toggleDropdown = function(id){
+      var el = document.getElementById(id);
+      el && el.classList.toggle('open');
+    };
+  }
+
+  window.__arkaPanelsInjected = true;
+})();
+</script>
+
+<script>
+// Ensure panel buttons are always wired (safety net)
+(function(){
+  function rewire() {
+    var nb = document.getElementById('notifBtn');
+    var mb = document.getElementById('msgBtn');
+    var pb = document.getElementById('profileBtn');
+    if (nb && !nb.__arkaWired) {
+      nb.__arkaWired = true;
+      nb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('notifPanel', nb); };
+    }
+    if (mb && !mb.__arkaWired) {
+      mb.__arkaWired = true;
+      mb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('msgPanel', mb); };
+    }
+    if (pb && !pb.__arkaWired) {
+      pb.__arkaWired = true;
+      pb.onclick = function(e) { e.stopPropagation(); if(window.toggleDropdown) window.toggleDropdown('profileDropdown'); };
+    }
+  }
+  // Wire immediately and after TV2 replaces buttons
+  rewire();
+  setTimeout(rewire, 250);
+  setTimeout(rewire, 900);
+})();
+</script>
+</body>
+</html>

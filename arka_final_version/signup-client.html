@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+// Multi-page navigation helper
+var __ARKA_ROUTES = {"login": "login.html", "signup-admin": "signup-admin.html", "signup-client": "signup-client.html", "landing": "landing.html", "admin-dashboard": "admin-dashboard.html", "admin-calendar": "admin-calendar.html", "admin-chat": "admin-chat.html", "admin-client-detail": "admin-client-detail.html", "admin-client-detail-gw": "admin-client-detail-gw.html", "admin-client-detail-is": "admin-client-detail-is.html", "admin-client-detail-cr": "admin-client-detail-cr.html", "admin-view-documents": "admin-view-documents.html", "client-portal": "client-portal.html", "admin-new-request": "admin-new-request.html", "admin-create-request": "admin-create-request.html", "admin-doc-request": "admin-doc-request.html", "admin-completed-assessment": "admin-completed-assessment.html"};
+function arkaNav(target) {
+  var fname = __ARKA_ROUTES[target];
+  if (fname) window.location.href = fname;
+}
+// Intercept any remaining parent.postMessage arka-nav calls
+window.parent = window.parent || {};
+</script>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark: #1a4a30;
+    --green-mid: #2d6b47;
+    --green-light: #c8ddd0;
+    --green-pale: #e8f2ec;
+    --text-dark: #1a3024;
+    --text-mid: #4a6657;
+    --text-muted: #8aab97;
+    --border: #ccddd5;
+    --white: #ffffff;
+    --red: #c0392b;
+    --input-bg: #fafdfc;
+    --shadow: 0 8px 40px rgba(26,74,48,0.10);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #c8ddd0 0%, #e8f2ec 40%, #f5faf7 70%, #dceee4 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 16px 48px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 10% 60%, rgba(45,107,71,0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 90% 30%, rgba(200,221,208,0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .logo-bar {
+    width: 100%;
+    max-width: 760px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo {
+    font-family: 'Sora', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    letter-spacing: 0.01em;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 44px 48px 40px;
+    width: 100%;
+    max-width: 760px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(200,221,208,0.5);
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.5s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+  }
+
+  .card-sub {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .field-group {
+    margin-bottom: 22px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 7px;
+  }
+
+  .field-label .req {
+    color: var(--red);
+    margin-left: 2px;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  input[type=text], input[type=email], input[type=password], input[type=tel], select {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px 12px 42px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    transition: border-color 0.18s, box-shadow 0.18s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=tel]:focus, select:focus {
+    border-color: var(--green-mid);
+    box-shadow: 0 0 0 3px rgba(45,107,71,0.10);
+  }
+
+  input::placeholder { color: var(--text-muted); font-size: 0.88rem; }
+
+  .no-icon input {
+    padding-left: 14px;
+  }
+
+  .eye-btn {
+    position: absolute;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: color 0.15s;
+  }
+  .eye-btn:hover { color: var(--green-mid); }
+
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+
+  /* Phone field */
+  .phone-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .phone-country {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  .phone-country select {
+    padding: 12px 28px 12px 12px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    width: 82px;
+    background: var(--input-bg);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238aab97' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+  }
+
+  .phone-code {
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 10px;
+    font-size: 0.88rem;
+    color: var(--text-dark);
+    width: 48px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .phone-num {
+    flex: 1;
+  }
+
+  .phone-num input {
+    padding-left: 14px !important;
+  }
+
+  /* Country select */
+  .select-wrap {
+    position: relative;
+  }
+
+  .select-wrap select {
+    padding-left: 14px;
+    padding-right: 36px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%238aab97' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-color: var(--input-bg);
+  }
+
+  /* Submit button */
+  .btn-submit {
+    width: 100%;
+    background: var(--green-dark);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+    transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-submit:hover {
+    background: var(--green-mid);
+    box-shadow: 0 4px 20px rgba(26,74,48,0.22);
+    transform: translateY(-1px);
+  }
+
+  .btn-submit:active { transform: translateY(0); }
+
+  .btn-arrow {
+    width: 22px; height: 22px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .login-link {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.9rem;
+    color: var(--text-mid);
+  }
+
+  .login-link a {
+    color: var(--green-dark);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--green-light);
+    transition: border-color 0.15s;
+  }
+
+  .login-link a:hover { border-color: var(--green-dark); }
+
+  .security-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .security-note svg { flex-shrink: 0; }
+
+  @media (max-width: 600px) {
+    .card { padding: 28px 18px 28px; }
+    .row-2 { grid-template-columns: 1fr; gap: 0; }
+    .row-3 { grid-template-columns: 1fr; gap: 0; }
+    .card-title { font-size: 1.5rem; }
+  }
+
+  /* Success overlay */
+  .success-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #c8ddd0 0%, #e8f2ec 40%, #f5faf7 70%, #dceee4 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .success-overlay::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 10% 60%, rgba(45,107,71,0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 90% 30%, rgba(200,221,208,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .success-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .success-card {
+    background: rgba(255,255,255,0.93);
+    backdrop-filter: blur(14px);
+    border-radius: 24px;
+    padding: 56px 52px 48px;
+    width: 100%;
+    max-width: 500px;
+    margin: 16px;
+    box-shadow: 0 8px 40px rgba(26,74,48,0.13);
+    border: 1px solid rgba(200,221,208,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    transform: translateY(32px) scale(0.97);
+    transition: transform 0.45s cubic-bezier(.16,1,.3,1), opacity 0.4s ease;
+    opacity: 0;
+  }
+  .success-overlay.show .success-card {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  .success-logo {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 32px;
+    letter-spacing: 0.01em;
+  }
+  .success-icon-ring {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--green-pale);
+    border: 2.5px solid var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: popIn 0.5s 0.3s cubic-bezier(.16,1,.3,1) both;
+  }
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+  .success-icon-ring svg { color: var(--green-dark); }
+  .success-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+  .success-msg {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .success-msg strong { color: var(--green-dark); font-weight: 600; }
+  .success-login-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green-dark);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.975rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+    letter-spacing: 0.01em;
+    margin-bottom: 16px;
+    width: 100%;
+    justify-content: center;
+  }
+  .success-login-btn:hover {
+    background: var(--green-mid);
+    box-shadow: 0 4px 20px rgba(26,74,48,0.22);
+    transform: translateY(-1px);
+  }
+  .success-login-btn .btn-arrow {
+    width: 22px; height: 22px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .success-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Success Overlay -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-logo">Arka</div>
+    <div class="success-icon-ring">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="success-title">Congratulations! 🎉</div>
+    <p class="success-msg">You have <strong>successfully registered</strong> your Client account.<br>Start using AI-powered HR tools for your organization today.</p>
+    <a href="#" class="success-login-btn" onclick="window.location.href='client-portal.html'; return false;">
+      Continue to Client Portal
+      <span class="btn-arrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+    <div class="success-note">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2d6b47" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Your account is secured and encrypted.
+    </div>
+  </div>
+</div>
+
+<div class="logo-bar">
+  <span class="logo">Arka</span>
+</div>
+
+<div class="card">
+  <h1 class="card-title">Create Your Client Account</h1>
+  <p class="card-sub">Start using AI-powered HR tools for your organization.</p>
+
+  <!-- Company Name -->
+  <div class="field-group">
+    <label class="field-label">Company Name <span class="req">*</span></label>
+    <div class="input-wrap">
+      <span class="input-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+      </span>
+      <input type="text" placeholder="Enter your company name">
+    </div>
+  </div>
+
+  <!-- Address -->
+  <div class="field-group">
+    <label class="field-label">Address <span class="req">*</span></label>
+    <div class="input-wrap">
+      <span class="input-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      </span>
+      <input type="text" placeholder="Enter your address">
+    </div>
+  </div>
+
+  <!-- City / State / Postal -->
+  <div class="field-group row-3">
+    <div>
+      <label class="field-label">City</label>
+      <div class="input-wrap no-icon">
+        <input type="text" placeholder="Enter city">
+      </div>
+    </div>
+    <div>
+      <label class="field-label">State / Province</label>
+      <div class="input-wrap no-icon">
+        <input type="text" placeholder="Enter state or province">
+      </div>
+    </div>
+    <div>
+      <label class="field-label">Postal Code</label>
+      <div class="input-wrap no-icon">
+        <input type="text" placeholder="Enter postal code">
+      </div>
+    </div>
+  </div>
+
+  <!-- Country -->
+  <div class="field-group">
+    <label class="field-label">Country <span class="req">*</span></label>
+    <div class="select-wrap">
+      <select>
+        <option value="" disabled selected>Select your country</option>
+        <option>United States</option>
+        <option>China</option>
+        <option>United Kingdom</option>
+        <option>Canada</option>
+        <option>Australia</option>
+        <option>Germany</option>
+        <option>France</option>
+        <option>Japan</option>
+        <option>India</option>
+        <option>Brazil</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- First & Last Name -->
+  <div class="field-group row-2">
+    <div>
+      <label class="field-label">First Name <span class="req">*</span></label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </span>
+        <input type="text" placeholder="Enter your first name">
+      </div>
+    </div>
+    <div>
+      <label class="field-label">Last Name <span class="req">*</span></label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </span>
+        <input type="text" placeholder="Enter your last name">
+      </div>
+    </div>
+  </div>
+
+  <!-- Email & Phone -->
+  <div class="field-group row-2">
+    <div>
+      <label class="field-label">Work Email <span class="req">*</span></label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        </span>
+        <input type="email" placeholder="name@company.com">
+      </div>
+    </div>
+    <div>
+      <label class="field-label">Phone Number <span class="req">*</span></label>
+      <div class="phone-wrap">
+        <div class="phone-country">
+          <select>
+            <option>US</option>
+            <option>CN</option>
+            <option>UK</option>
+            <option>CA</option>
+            <option>AU</option>
+          </select>
+        </div>
+        <div class="phone-code">+1</div>
+        <div class="phone-num">
+          <div class="input-wrap no-icon">
+            <input type="tel" placeholder="Enter phone number">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role -->
+  <div class="field-group">
+    <label class="field-label">Role / Position <span class="req">*</span></label>
+    <div class="input-wrap">
+      <span class="input-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      </span>
+      <input type="text" placeholder="e.g. HR Manager, CEO, Team Lead">
+    </div>
+  </div>
+
+  <!-- Passwords -->
+  <div class="field-group row-2">
+    <div>
+      <label class="field-label">Create Password <span class="req">*</span></label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        </span>
+        <input type="password" id="pw1" placeholder="Enter a strong password">
+        <button class="eye-btn" onclick="togglePw('pw1',this)" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+    <div>
+      <label class="field-label">Confirm Password <span class="req">*</span></label>
+      <div class="input-wrap">
+        <span class="input-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        </span>
+        <input type="password" id="pw2" placeholder="Confirm your password">
+        <button class="eye-btn" onclick="togglePw('pw2',this)" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <button class="btn-submit" type="button" onclick="showSuccess()">
+    Create Client Account
+    <span class="btn-arrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </button>
+
+  <p class="login-link">Already have an account? <a href="#" onclick="window.location.href='login.html'; return false;">Log in</a></p>
+
+  <div class="security-note">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2d6b47" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+    Your data is encrypted and protected. We never share your information.
+  </div>
+</div>
+
+<script>
+  function togglePw(id, btn) {
+    const inp = document.getElementById(id);
+    const isText = inp.type === 'text';
+    inp.type = isText ? 'password' : 'text';
+    btn.innerHTML = isText
+      ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+      : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+  }
+
+  // Phone code auto-update
+  const countrySelect = document.querySelector('.phone-country select');
+  const phoneCode = document.querySelector('.phone-code');
+  const codes = { US: '+1', CN: '+86', UK: '+44', CA: '+1', AU: '+61' };
+  countrySelect.addEventListener('change', () => {
+    phoneCode.textContent = codes[countrySelect.value] || '+1';
+  });
+
+  function showSuccess() {
+    const overlay = document.getElementById('successOverlay');
+    overlay.classList.add('show');
+  }
+</script>
+</body>
+</html>

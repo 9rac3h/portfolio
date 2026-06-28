@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+// Multi-page navigation helper
+var __ARKA_ROUTES = {"login": "login.html", "signup-admin": "signup-admin.html", "signup-client": "signup-client.html", "landing": "landing.html", "admin-dashboard": "admin-dashboard.html", "admin-calendar": "admin-calendar.html", "admin-chat": "admin-chat.html", "admin-client-detail": "admin-client-detail.html", "admin-client-detail-gw": "admin-client-detail-gw.html", "admin-client-detail-is": "admin-client-detail-is.html", "admin-client-detail-cr": "admin-client-detail-cr.html", "admin-view-documents": "admin-view-documents.html", "client-portal": "client-portal.html", "admin-new-request": "admin-new-request.html", "admin-create-request": "admin-create-request.html", "admin-doc-request": "admin-doc-request.html", "admin-completed-assessment": "admin-completed-assessment.html"};
+function arkaNav(target) {
+  var fname = __ARKA_ROUTES[target];
+  if (fname) window.location.href = fname;
+}
+// Intercept any remaining parent.postMessage arka-nav calls
+window.parent = window.parent || {};
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>.ark-attn-header,.ark-attn-item,.ark-attn-count,.ark-rc-tag,.ark-recent{display:none!important}</style>
+<title>Arka — Create Request</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green-900:#0d3320;--green-800:#14532d;--green-700:#166534;--green-600:#16a34a;--green-50:#f0fdf4;--green-100:#dcfce7;--gray-900:#111827;--gray-700:#374151;--gray-500:#6b7280;--gray-400:#9ca3af;--gray-300:#d1d5db;--gray-200:#e5e7eb;--gray-100:#f3f4f6;--gray-50:#f9fafb;--white:#fff;--amber-50:#fffbeb;--amber-100:#fef3c7;--amber-700:#b45309;--red-50:#fef2f2;--red-500:#ef4444;--red-700:#b91c1c;--blue-50:#eff6ff;--blue-700:#1d4ed8;--ai:#6366f1;--ai-pale:#eef2ff;--sidebar-width:220px;--topbar-height:64px}
+body{font-family:'DM Sans',sans-serif;background:var(--gray-50);color:var(--gray-900);min-width:1280px;overflow-x:auto}
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-height);background:var(--white);border-bottom:1px solid var(--gray-200);display:flex;align-items:center;padding:0 24px;gap:24px;z-index:100}
+.logo{font-family:'Sora',serif;font-size:26px;font-weight:700;color:var(--green-800);letter-spacing:-0.5px;text-decoration:none;flex-shrink:0;min-width:calc(var(--sidebar-width) - 24px)}
+.topbar-search{flex:1;max-width:480px;margin:0 auto;position:relative}
+.topbar-search input{width:100%;height:38px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:999px;padding:0 16px 0 38px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--gray-700);outline:none}
+.topbar-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-400)}
+.topbar-right{display:flex;align-items:center;gap:10px;margin-left:auto}
+.ticon{width:38px;height:38px;border-radius:10px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-500)}
+.ticon:hover{background:var(--gray-100)}
+.avatar{width:36px;height:36px;border-radius:50%;border:2px solid var(--gray-200);background:var(--green-100);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--green-800);cursor:pointer}
+
+.ark-sidebar-fixed{position:fixed;top:var(--topbar-height);left:0;bottom:0;width:var(--sidebar-width);background:var(--white);border-right:1px solid var(--gray-200);padding:12px 0 16px;overflow-y:auto;z-index:90;display:flex;flex-direction:column}
+.ark-nav-item{display:flex;align-items:center;gap:12px;padding:10px 20px;font-size:14px;color:var(--gray-700);cursor:pointer;border-radius:8px;margin:1px 8px;text-decoration:none;transition:background .12s,color .12s;white-space:nowrap}
+.ark-nav-item:hover{background:var(--gray-100);color:var(--gray-900)}
+.ark-nav-item.active{color:var(--green-800);background:var(--green-50);font-weight:500}
+.ark-nav-item svg{flex-shrink:0;opacity:.7;width:17px;height:17px}
+.nav-divider{height:1px;background:var(--gray-200);margin:14px 14px}
+.nav-section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-400);padding:8px 20px 6px}
+.client-acc{margin:2px 0}
+.acc-header{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;cursor:pointer;transition:background .12s;user-select:none;min-height:38px;margin:0 8px}
+.acc-header:hover{background:var(--gray-50)}
+.acc-name{font-size:12.5px;font-weight:500;color:var(--gray-900);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc-star{color:#f59e0b;font-size:11px;margin-left:3px}
+.acc-right{display:flex;align-items:center;gap:4px;flex-shrink:0;justify-content:flex-end}
+.acc-count{background:var(--red-500);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;min-width:16px;text-align:center}
+.acc-link{font-size:12px;color:var(--gray-400);opacity:0;transition:opacity .12s;padding:2px 4px;border-radius:4px}
+.acc-header:hover .acc-link{opacity:1}
+
+.main{margin-left:var(--sidebar-width);margin-top:var(--topbar-height);padding:28px 28px 64px;min-width:0}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-500);margin-bottom:18px}
+.breadcrumb a{color:var(--gray-500);text-decoration:none}
+.breadcrumb a:hover{color:var(--green-700)}
+.breadcrumb .current{color:var(--gray-900);font-weight:600}
+.breadcrumb svg{color:var(--gray-300)}
+
+.page-header{display:flex;align-items:center;gap:18px;margin-bottom:24px}
+.page-icon{width:58px;height:58px;border-radius:16px;background:var(--green-50);border:1px solid var(--green-100);display:flex;align-items:center;justify-content:center;color:var(--green-700);flex-shrink:0}
+.page-title{font-family:'Sora',sans-serif;font-size:34px;font-weight:700;line-height:1.08;color:var(--gray-900);letter-spacing:-1px}
+.page-sub{font-size:14px;color:var(--gray-500);margin-top:4px;line-height:1.5}
+.progress-card{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:16px;background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:14px 18px;box-shadow:0 1px 3px rgba(0,0,0,.05);min-width:300px}
+.pc-ring{position:relative;width:62px;height:62px;flex-shrink:0}
+.pc-ring svg{transform:rotate(-90deg)}
+.pc-ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Sora',sans-serif}
+.pc-ring-pct{font-size:15px;font-weight:700;color:var(--gray-900);line-height:1}
+.pc-ring-sub{font-size:9px;color:var(--gray-400);margin-top:1px;letter-spacing:.3px}
+.pc-body{min-width:0}
+.pc-title{font-size:12px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:.4px}
+.pc-stat{font-size:13.5px;color:var(--gray-700);margin:3px 0 9px;line-height:1.4}
+.pc-stat b{color:var(--gray-900)}
+.pc-action{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:8px;padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .14s}
+.pc-action.amber{background:#fef3c7;color:#92400e}
+.pc-action.amber:hover{background:#fde68a}
+.pc-action.green{background:var(--green-50);color:var(--green-700)}
+.pc-action.green:hover{background:var(--green-100)}
+.pc-action.grey{background:var(--gray-100);color:var(--gray-500);cursor:default}
+@media(max-width:1080px){.progress-card{display:none}}
+
+
+.card{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;overflow:hidden;width:100%}
+.card-head{padding:22px 28px 0}
+.card-title{font-family:'Sora',sans-serif;font-size:19px;font-weight:600;color:var(--gray-900)}
+.card-sub{font-size:13.5px;color:var(--gray-500);margin-top:4px;line-height:1.5}
+.card-body{padding:22px 28px 4px}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-400);margin-bottom:10px}
+
+.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.type-card{border:1.5px solid var(--gray-200);border-radius:12px;padding:16px;cursor:pointer;transition:border-color .15s,background .15s}
+.type-card:hover{border-color:var(--green-600);background:var(--green-50)}
+.type-card.active{border-color:var(--green-700);background:var(--green-50);box-shadow:0 0 0 1px var(--green-700) inset}
+.type-icon{width:38px;height:38px;border-radius:10px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;color:var(--gray-500);margin-bottom:12px}
+.type-card.active .type-icon{background:var(--green-100);color:var(--green-700)}
+.type-title{font-size:14.5px;font-weight:600;color:var(--gray-900);margin-bottom:4px}
+.type-desc{font-size:12px;color:var(--gray-500);line-height:1.45}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.field{display:flex;flex-direction:column}
+.field.full{grid-column:1/-1}
+.label{font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:6px}
+.req{color:var(--red-500);margin-left:3px}
+.input,.select,.textarea{width:100%;border:1.5px solid var(--gray-200);border-radius:10px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--gray-900);background:var(--white);outline:none;transition:border-color .15s}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--green-600)}
+.select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:38px}
+.textarea{min-height:150px;resize:vertical;line-height:1.55}
+.hint{font-size:12px;color:var(--gray-400);margin-top:6px}
+
+.attach-zone{border:1.5px dashed var(--gray-300);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;margin-bottom:10px}
+.attach-zone:hover{border-color:var(--green-600);background:var(--green-50)}
+.attach-zone-icon{width:42px;height:42px;border-radius:11px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;color:var(--gray-500);margin:0 auto 10px}
+.attach-zone-title{font-size:13.5px;font-weight:600;color:var(--gray-700)}
+.attach-zone-sub{font-size:11.5px;color:var(--gray-400);margin-top:3px}
+.attach-list{display:flex;flex-direction:column;gap:8px}
+.attach-item{display:flex;align-items:center;gap:12px;border:1px solid var(--gray-200);border-radius:10px;padding:10px 12px}
+.attach-item-icon{width:30px;height:30px;border-radius:8px;background:var(--green-50);color:var(--green-700);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.attach-remove{margin-left:auto;width:26px;height:26px;border:none;background:transparent;color:var(--gray-400);font-size:18px;cursor:pointer;border-radius:6px;flex-shrink:0}
+.attach-remove:hover{background:var(--gray-100);color:var(--gray-700)}
+
+.footer-actions{display:flex;justify-content:flex-end;gap:10px;padding:18px 28px;border-top:1px solid var(--gray-200);background:var(--gray-50)}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:11px 20px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:background .15s,border-color .15s}
+.btn-outline{background:var(--white);border:1.5px solid var(--gray-300);color:var(--gray-700)}
+.btn-outline:hover{background:var(--gray-100)}
+.btn-green{background:var(--green-700);color:#fff}
+.btn-green:hover{background:var(--green-800)}
+.btn-green:disabled{background:var(--gray-300);cursor:not-allowed}
+
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green-800);color:#fff;padding:13px 20px;border-radius:12px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* company header tabs */
+.co-tabs{display:flex;gap:8px;margin-bottom:8px;padding:4px 2px 8px;overflow-x:auto;scrollbar-width:thin}
+.co-tabs::-webkit-scrollbar{height:6px}
+.co-tabs::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:999px}
+.co-tab{display:flex;align-items:center;gap:7px;padding:7px 13px;font-size:13px;font-weight:600;color:var(--gray-600);cursor:pointer;border:1.5px solid var(--gray-200);background:var(--white);border-radius:999px;white-space:nowrap;transition:all .14s;font-family:'DM Sans',sans-serif;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.co-tab:hover{color:var(--gray-900);border-color:var(--gray-300);background:var(--gray-50)}
+.co-tab.active{color:#fff;background:#4f46e5;border-color:#4f46e5;box-shadow:0 3px 10px rgba(79,70,229,.32)}
+.co-tab .co-badge{font-size:10.5px;font-weight:700;background:var(--gray-100);color:var(--gray-500);padding:1px 7px;border-radius:999px;min-width:18px;text-align:center}
+.co-tab-placeholder{opacity:.5;cursor:not-allowed;color:var(--gray-400);border-style:dashed}
+.co-tab-placeholder .co-badge{background:var(--gray-50)}
+.co-tab.active .co-badge{background:rgba(255,255,255,.25);color:#fff}
+
+.co-overview{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;padding:16px 18px;margin:8px 0 20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.co-meta{display:flex;align-items:center;gap:12px;padding:0 0 14px;color:var(--gray-500);font-size:13px}
+.co-meta .co-name{font-family:'Sora',sans-serif;font-size:19px;font-weight:700;color:var(--gray-900);letter-spacing:-.3px}
+.co-meta .co-chip{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--gray-100);color:var(--gray-600)}
+.co-meta .co-chip.new{background:var(--amber-50);color:var(--amber-700)}
+
+/* requirements table */
+.req-table{border:1px solid var(--gray-200);border-radius:14px;overflow:hidden;background:#fff;width:100%}
+.req-thead,.req-row{display:grid;grid-template-columns:2.4fr 1fr 1.1fr 0.8fr;align-items:center;gap:12px;padding:12px 18px}
+.req-thead{background:var(--gray-50);border-bottom:1px solid var(--gray-200);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-400)}
+.req-row{border-bottom:1px solid var(--gray-100);font-size:13.5px}
+.req-row:last-child{border-bottom:none}
+.req-file{display:flex;align-items:center;gap:10px;min-width:0}
+.req-file-ico{width:30px;height:30px;border-radius:8px;background:var(--green-50);color:var(--green-700);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.req-file-name{font-weight:600;color:var(--gray-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.req-file-cat{font-size:11.5px;color:var(--gray-400);margin-top:1px}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px}
+.st::before{content:'';width:7px;height:7px;border-radius:50%}
+.st-submitted{background:var(--green-50);color:var(--green-700)}
+.st-submitted::before{background:var(--green-600)}
+.st-pending{background:var(--amber-50);color:var(--amber-700)}
+.st-pending::before{background:#f59e0b}
+.st-missing{background:var(--red-50);color:var(--red-700)}
+.st-missing::before{background:var(--red-500)}
+.st-awaiting{background:var(--amber-50);color:var(--amber-700)}
+.st-awaiting::before{background:#f59e0b}
+.st-completed{background:var(--green-50);color:var(--green-700)}
+.st-completed::before{background:var(--green-600)}
+.st-overdue{background:var(--red-50);color:var(--red-700)}
+.st-overdue::before{background:var(--red-500)}
+.req-type-fixed{display:flex;align-items:center;gap:13px;background:var(--green-50);border:1px solid var(--green-100);border-radius:12px;padding:14px 16px;margin-bottom:4px}
+.req-type-fixed-ico{width:40px;height:40px;border-radius:10px;background:#fff;border:1px solid var(--green-100);color:var(--green-700);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.req-type-fixed-title{font-size:14.5px;font-weight:600;color:var(--gray-900)}
+.req-type-fixed-desc{font-size:12.5px;color:var(--gray-600);margin-top:2px;line-height:1.45}
+.req-date{color:var(--gray-600)}
+.req-muted{color:var(--gray-300)}
+.req-action a{color:var(--green-700);font-weight:600;text-decoration:none;font-size:13px;cursor:pointer}
+.req-action a:hover{text-decoration:underline}
+.req-action{display:flex;gap:14px;align-items:center}
+.req-action a.act-remind{color:var(--gray-500)}
+.req-action a.act-remind:hover{color:var(--amber-700)}
+.req-row{cursor:default}
+.req-row:hover{background:var(--gray-50)}
+
+
+.summary-bar{display:flex;gap:10px;margin:0;width:100%}
+.summary-pill{flex:1;border:1px solid var(--gray-100);border-radius:10px;padding:12px 14px;background:var(--gray-50);transition:all .12s}
+.summary-pill .sp-num{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--gray-900)}
+.summary-pill .sp-lbl{font-size:12px;color:var(--gray-500);margin-top:2px}
+.progress-pill{flex:1.6;display:flex;align-items:center;gap:14px;cursor:default;background:var(--gray-50);border:1.5px solid var(--green-600)}
+.progress-pill:hover{border-color:var(--green-600);box-shadow:none}
+.pc-ring{position:relative;width:58px;height:58px;flex-shrink:0}
+.pc-ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pc-ring-frac{font-size:13px;font-weight:700;color:var(--gray-900);line-height:1;font-family:'Sora',sans-serif}
+.pc-ring-sub{font-size:8.5px;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.pc-body{min-width:0}
+.pc-action{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:8px;padding:7px 13px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .14s}
+.pc-action.amber{background:#fde68a;color:#92400e}
+.pc-action.amber:hover{background:#fcd34d}
+.pc-action.green{background:var(--green-100);color:var(--green-700)}
+.pc-action.green:hover{background:var(--green-200,#bbf7d0)}
+.pc-action.grey{background:var(--gray-200);color:var(--gray-500);cursor:default}
+.pc-status{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:7px 13px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;white-space:nowrap}
+.pc-status.amber{background:#fef3c7;color:#92400e}
+.pc-status.amber::before{content:'';width:7px;height:7px;border-radius:50%;background:#f59e0b}
+
+.summary-pill.green .sp-num{color:var(--green-700)}
+.summary-pill.amber .sp-num{color:var(--amber-700)}
+.summary-pill.red .sp-num{color:var(--red-700)}
+.summary-pill{cursor:pointer;transition:border-color .14s,box-shadow .14s,background .14s;position:relative}
+.summary-pill:hover{border-color:var(--gray-300);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.summary-pill.sel{border-color:#4f46e5;box-shadow:0 0 0 1px #4f46e5 inset,0 4px 12px rgba(79,70,229,.18);background:var(--white)}
+.summary-pill.sel.green{border-color:var(--green-600);box-shadow:0 0 0 1px var(--green-600) inset,0 4px 12px rgba(22,101,52,.16)}
+.summary-pill.sel.amber{border-color:#d97706;box-shadow:0 0 0 1px #d97706 inset,0 4px 12px rgba(217,119,6,.16)}
+.summary-pill.sel.red{border-color:var(--red-500);box-shadow:0 0 0 1px var(--red-500) inset,0 4px 12px rgba(220,38,38,.16)}
+.filter-note{font-size:12.5px;color:var(--gray-500);margin:-6px 0 12px;display:flex;align-items:center;gap:8px}
+.filter-note a{color:#4f46e5;font-weight:600;cursor:pointer;text-decoration:none}
+.filter-note a:hover{text-decoration:underline}
+.list-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:4px 0 12px}
+.list-header .lh-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:600;color:var(--gray-900)}
+.new-req-toggle.compact{padding:9px 16px;font-size:13.5px;border-radius:10px}
+.setup-banner{display:flex;align-items:flex-start;gap:11px;background:#fffaf0;border:1px solid #fde6c2;border-radius:12px;padding:13px 16px;margin:0 0 14px}
+.setup-banner svg{flex-shrink:0;margin-top:1px}
+.setup-banner .sb-text{font-size:13px;color:#92400e;line-height:1.5}
+.setup-banner .sb-text b{color:#7c2d12}
+.st.st-setup{background:#fff7ed;color:#9a3412}
+.st.st-setup::before{background:#fb923c}
+.draft-box{border:1px solid #fde6c2;background:#fffaf0;border-radius:14px;padding:16px 18px;margin-bottom:18px}
+.draft-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.draft-head-left{display:flex;align-items:flex-start;gap:9px;flex:1;min-width:240px}
+.draft-head-left b{color:#7c2d12}
+.draft-head-title{font-size:14px;color:#92400e}
+.draft-head-title b{color:#7c2d12}
+.draft-sub{font-size:12px;color:#a16207;margin:5px 0 0;line-height:1.5;max-width:560px}
+.publish-btn{display:inline-flex;align-items:center;gap:6px;background:#16a34a;color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;white-space:nowrap;flex-shrink:0;align-self:center}
+.publish-btn:hover{background:var(--green-700)}
+.publish-btn:disabled{background:var(--gray-300);cursor:not-allowed}
+.draft-list{display:flex;flex-direction:column;gap:7px}
+.draft-row{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #fde6c2;border-radius:10px;padding:10px 12px;cursor:pointer}
+.draft-row:hover{border-color:#fcd9a0}
+.draft-chk{width:16px;height:16px;accent-color:#16a34a;cursor:pointer;flex-shrink:0}
+.draft-ico{width:30px;height:30px;border-radius:8px;background:#fef3c7;color:#b45309;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.st-draft{background:#fef3c7;color:#92400e}
+.st-draft::before{background:#f59e0b}
+.draft-del{width:26px;height:26px;border:none;background:transparent;color:var(--gray-400);font-size:18px;cursor:pointer;border-radius:6px;flex-shrink:0;line-height:1}
+.draft-del:hover{background:#fee2e2;color:var(--red-700)}
+.published-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-400);margin:4px 0 10px}
+.cdlg-backdrop{position:fixed;inset:0;background:rgba(17,24,39,.5);display:none;align-items:center;justify-content:center;z-index:300;padding:20px}
+.cdlg-backdrop.open{display:flex}
+.cdlg{background:#fff;border-radius:16px;max-width:440px;width:100%;padding:28px 28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center}
+.cdlg-ico{width:52px;height:52px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.cdlg-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:600;color:var(--gray-900);margin-bottom:12px}
+.cdlg-msg{font-size:14px;color:var(--gray-600);line-height:1.7;margin-bottom:22px}
+.cdlg-actions{display:flex;gap:10px;justify-content:center}
+.cdlg-actions .btn{flex:1;justify-content:center}
+
+.filetype-row{display:flex;flex-wrap:wrap;gap:8px}
+.filetype-chip{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--gray-200);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;color:var(--gray-700);cursor:pointer;user-select:none;transition:border-color .12s,background .12s}
+.filetype-chip:hover{border-color:var(--green-600)}
+.filetype-chip input{accent-color:var(--green-700);width:15px;height:15px;cursor:pointer}
+.filetype-chip:has(input:checked){border-color:var(--green-700);background:var(--green-50);color:var(--green-800)}
+.label .opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--gray-400);font-size:11px}
+
+/* Create Request page: left My Clients list acts as the current-company switcher */
+.ark-sidebar-fixed .acc-header.req-active{background:var(--green-50)!important;color:var(--green-800)!important}
+.ark-sidebar-fixed .acc-header.req-active .acc-name{color:var(--green-800)!important;font-weight:700!important}
+
+.block-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:600;color:var(--gray-900);margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+.empty-note{border:1px dashed var(--gray-300);border-radius:14px;padding:30px 24px;text-align:center;color:var(--gray-500);width:100%;background:var(--gray-100)}
+.empty-note .en-ico{width:42px;height:42px;border-radius:50%;background:var(--white);color:var(--gray-400);display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.empty-note .en-title{font-size:15px;font-weight:600;color:var(--gray-700)}
+.empty-note .en-sub{font-size:13px;margin-top:4px;line-height:1.5}
+
+/* new request two-column workspace */
+.new-req-toggle{display:inline-flex;align-items:center;gap:8px;background:var(--green-700);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}
+.new-req-toggle:hover{background:var(--green-800)}
+.new-req-toggle.locked{background:var(--gray-300);color:var(--gray-500);cursor:not-allowed}
+.new-req-toggle.locked:hover{background:var(--gray-300)}
+.split-wrap{display:flex;gap:18px;align-items:flex-start;width:100%}
+.split-left{flex:1.2 1 0;min-width:0;order:2}
+.new-req-panel{display:block;flex:0.9 1 0;min-width:420px;opacity:1;order:1;position:sticky;top:16px;align-self:flex-start}
+.split-wrap.split-open .new-req-panel{display:block;opacity:1}
+@media(max-width:1280px){.new-req-panel{min-width:380px}}
+@media(max-width:1000px){.split-wrap{flex-direction:column}.new-req-panel,.split-left{width:100%;min-width:0;order:initial;position:relative;top:auto}}
+.new-req-panel .card{margin-top:0;border:1.5px solid var(--green-200);box-shadow:0 8px 28px rgba(22,101,52,.10);max-height:calc(100vh - 40px);overflow-y:auto}
+.new-req-panel .card-head{padding:22px 24px 0}
+.new-req-panel .card-head button[title="Close"]{display:none!important}
+.new-req-panel .footer-actions{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--gray-200)}
+</style>
+<style>
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: #f3f4f6; }
+  .icon-btn.active { background: #f0fdf4; color: #15803d; }
+  .icon-btn[data-tooltip]::after, .icon-btn[data-tooltip]:hover::after { content: none !important; display: none !important; }
+  .icon-btn:focus, .icon-btn:focus-visible { outline: none !important; box-shadow: none !important; }
+  .icon-btn:hover { background: #f3f4f6 !important; }
+  .notif-dot {
+    position: absolute;
+    top: 7px; right: 7px;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .avatar-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+    cursor: pointer;
+    background: #dcfce7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #166534;
+    transition: border-color 0.15s;
+  }
+  .avatar-btn:hover { border-color: #16a34a; }
+  .panel {
+    display: none;
+    position: fixed;
+    top: 64px;
+    right: 0;
+    width: 360px;
+    bottom: 0;
+    background: #fff;
+    border-left: 1px solid #e5e7eb;
+    z-index: 99999;
+    flex-direction: column;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+    animation: slideIn 0.2s ease;
+  }
+  .panel.open { display: flex; }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+  }
+  .panel-count {
+    font-size: 12px;
+    font-weight: 500;
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .panel-close {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background 0.12s;
+  }
+  .panel-close:hover { background: #f3f4f6; color: #374151; }
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .panel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  .panel-right { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px 18px 16px; display:flex; flex-direction:column; min-height:0; min-width:0; overflow:visible; }
+  .panel-company-pills { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:14px; overflow:hidden; }
+  .panel-mode-header { margin-bottom:12px; }
+  .panel-mode-company { font-family:'DM Sans',sans-serif; font-weight:600; font-size:14px; color:#111827; }
+  .panel-mode-sub { font-size:11px; color:#6b7280; margin-top:2px; }
+  .panel-view-all { display:flex; align-items:center; gap:6px; padding:5px 8px; margin-top:6px; font-size:12px; font-weight:600; color:#16a34a; cursor:pointer; border-radius:6px; background:none; border:none; font-family:'DM Sans',sans-serif; transition:background .12s; }
+  .panel-view-all:hover { background:#f0fdf4; }
+  .panel-view-all-icon { width:18px; height:18px; border-radius:50%; background:#16a34a; color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; line-height:1; flex-shrink:0; }
+  .panel-btn-row{display:flex;gap:8px;margin-top:12px;}
+  .panel-btn{flex:1;padding:9px 6px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .12s;border:1.5px solid #166534;}
+  .panel-btn-outline{background:#fff;color:#166534;}
+  .panel-btn-outline:hover{background:#f0fdf4;}
+  .panel-btn-solid{background:#166534;color:#fff;}
+  .panel-btn-solid:hover{background:#14532d;}
+  .panel-btn:disabled{opacity:0.5;cursor:not-allowed;background:#f3f4f6;border-color:#d1d5db;color:#9ca3af;}
+  .overlay-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+  }
+  .overlay-backdrop.open { display: block; }
+  .profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(64px + 8px);
+    right: 24px;
+    width: 280px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 300;
+    overflow: hidden;
+    animation: fadeDown 0.15s ease;
+  }
+  .profile-dropdown.open { display: block; }
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .profile-avatar-lg {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .profile-name { font-size: 14px; font-weight: 600; color: #111827; }
+  .profile-email { font-size: 12px; color: #9ca3af; }
+  .profile-menu {
+    padding: 8px 0;
+  }
+  .profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .profile-menu-item:hover { background: #f9fafb; }
+  .profile-menu-item svg { color: #9ca3af; flex-shrink: 0; }
+  .profile-menu-divider {
+    height: 1px;
+    background: #f3f4f6;
+    margin: 4px 0;
+  }
+  .profile-menu-item.danger { color: #ef4444; }
+  .profile-menu-item.danger svg { color: #ef4444; }
+  .notif-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+    position: relative;
+  }
+  .notif-item:hover { background: #f9fafb; }
+  .notif-item.unread { background: #f0fdf4; }
+  .notif-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .notif-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .notif-icon.ai { background: #eff6ff; color: #1d4ed8; }
+  .notif-icon.task { background: #f0fdf4; color: #15803d; }
+  .notif-icon.doc { background: #fffbeb; color: #b45309; }
+  .notif-icon.alert { background: #fef2f2; color: #ef4444; }
+  .notif-content { flex: 1; min-width: 0; }
+  .notif-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 3px;
+  }
+  .notif-time {
+    font-size: 11px;
+    color: #9ca3af;
+  }
+  .msg-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid #f9fafb;
+  }
+  .msg-item:hover { background: #f9fafb; }
+  .msg-item.unread { background: #f0fdf4; }
+  .msg-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .msg-content { flex: 1; min-width: 0; }
+  .msg-name { font-size: 13px; font-weight: 500; color: #111827; }
+  .msg-preview {
+    font-size: 12px;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .msg-time { font-size: 11px; color: #9ca3af; }
+  .view-all-btn {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #15803d;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .view-all-btn:hover { background: #f0fdf4; }
+  .unread { background: #f0fdf4; }
+  .unread::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+  }
+  .online-dot {
+    position: absolute;
+    bottom: 1px; right: 1px;
+    width: 9px; height: 9px;
+    background: #22c55e;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+
+  /* Override any conflicting rules with high specificity */
+  #notifPanel.open, #msgPanel.open { display: flex !important; }
+  #profileDropdown.open { display: block !important; }
+  #notifPanel { z-index: 99999 !important; }
+  #msgPanel { z-index: 99999 !important; }
+  #profileDropdown { z-index: 99999 !important; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href='admin-dashboard.html' class="logo">Arka</a>
+  <div class="topbar-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" placeholder="Search clients, reports, team...">
+  </div>
+  <div class="topbar-actions" style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+    <button class="icon-btn" id="notifBtn" aria-label="Notifications" onclick="event.stopPropagation();if(window.togglePanel)window.togglePanel('notifPanel',this);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="notif-dot"></span></button>
+    <button class="icon-btn" id="msgBtn" aria-label="Messages" onclick="event.stopPropagation();if(window.togglePanel)window.togglePanel('msgPanel',this);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+    <div style="position:relative;"><button class="avatar-btn" id="profileBtn" onclick="event.stopPropagation();if(window.toggleDropdown)window.toggleDropdown('profileDropdown');">AX</button></div>
+  </div>
+  </header>
+<div class="profile-dropdown" id="profileDropdown">
+  <div class="profile-header">
+    <div class="profile-avatar-lg">AX</div>
+    <div>
+      <div class="profile-name">Alex Chen</div>
+      <div class="profile-email">alex.chen@arka.com</div>
+    </div>
+  </div>
+  <div class="profile-menu">
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      View Profile
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      My Reports
+    </div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Privacy & Security
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      Help Center
+    </div>
+    <div class="profile-menu-divider"></div>
+    <div class="profile-menu-item danger">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
+    <div class="profile-menu-item" onclick="resetPrototype()" style="color:#dc2626;border-top:1px solid #f3f4f6;margin-top:4px;padding-top:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      Reset Prototype
+    </div>
+  </div>
+</div>
+<div class="overlay-backdrop" id="notifBackdrop" onclick="closePanel('notifPanel', 'notifBtn')"></div>
+<div class="panel" id="notifPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Notifications</span>
+      <span class="panel-count">4 new</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('notifPanel', 'notifBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="notif-item unread" onclick="window.location.href='admin-completed-assessment.html'">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Assessment Completed</div>
+        <div class="notif-desc">Innovate Solutions — gap analysis ready for your review.</div>
+        <div class="notif-time">10:30 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-client-detail.html'">
+      <div class="notif-icon doc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Documents Uploaded</div>
+        <div class="notif-desc">TechStarter Inc. uploaded 3 new documents — review required.</div>
+        <div class="notif-time">9:40 AM · Today</div>
+      </div>
+    </div>
+    <div class="notif-item unread" onclick="window.location.href='admin-calendar.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Interview Summary Ready</div>
+        <div class="notif-desc">Quantum Labs — AI generated interview summary available.</div>
+        <div class="notif-time">Yesterday · 4:15 PM</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-view-documents.html'">
+      <div class="notif-icon alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Document Re-uploaded</div>
+        <div class="notif-desc">Stellar Industries — client re-uploaded the compliance file for review.</div>
+        <div class="notif-time">2 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-client-detail-gw.html'">
+      <div class="notif-icon task">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">Survey Milestone Reached</div>
+        <div class="notif-desc">GlobalWorks Ltd — 80% of employees completed the survey.</div>
+        <div class="notif-time">3 days ago</div>
+      </div>
+    </div>
+    <div class="notif-item" onclick="window.location.href='admin-dashboard.html'"">
+      <div class="notif-icon ai">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-title">New Client Onboarded</div>
+        <div class="notif-desc">Vista Group has been assigned to you — account setup complete.</div>
+        <div class="notif-time">Apr 28, 2026</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MESSAGE PANEL -->
+
+<div class="overlay-backdrop" id="msgBackdrop" onclick="closePanel('msgPanel', 'msgBtn')"></div>
+<div class="panel" id="msgPanel">
+  <div class="panel-header">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="panel-title">Messages</span>
+      <span class="panel-count">2 unread</span>
+    </div>
+    <button class="panel-close" onclick="closePanel('msgPanel', 'msgBtn')">✕</button>
+  </div>
+  <div class="panel-body">
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">SC <span class="online-dot"></span></div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Sarah Chen</span>
+          <span class="msg-time">3m ago</span>
+        </div>
+        <div class="msg-preview">Can we review the Q3 report before the client call?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;" unread">
+      <div class="msg-avatar">MJ</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Mike Johnson</span>
+          <span class="msg-time">35m ago</span>
+        </div>
+        <div class="msg-preview">Updated the presentation for Zenith Partners</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">AL</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">Anna Lee</span>
+          <span class="msg-time">2h ago</span>
+        </div>
+        <div class="msg-preview">Meeting moved to 2pm tomorrow — confirmed?</div>
+      </div>
+    </div>
+    <div class="msg-item" onclick="closePanel('msgPanel','msgBtn');window.location.href='admin-chat.html'" style="cursor:pointer;"">
+      <div class="msg-avatar">DP</div>
+      <div class="msg-content">
+        <div class="msg-top">
+          <span class="msg-name">David Park</span>
+          <span class="msg-time">Yesterday</span>
+        </div>
+        <div class="msg-preview">HR forms for Innovate Solutions need your signature</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="view-all-btn" onclick="window.location.href='admin-chat.html'">Open Messages →</button>
+  </div>
+</div>
+<script>
+(function(){
+  if (window.__arkaAdminPanelsV2) return;
+  window.__arkaAdminPanelsV2 = true;
+
+  function closeAllPanels() {
+    ['notifPanel','msgPanel'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBackdrop','msgBackdrop'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.remove('open'); el.classList.remove('xopen'); }
+    });
+    ['notifBtn','msgBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    });
+    const pd = document.getElementById('profileDropdown');
+    if (pd) pd.classList.remove('open');
+  }
+
+  function togglePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    // btnRef can be a string ID or a DOM element (TV2 passes the element directly)
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    const isOpen = panel.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) {
+      panel.classList.add('open');
+      panel.classList.add('xopen');  // for pages using xopen convention
+      backdrop && backdrop.classList.add('open');
+      btn && btn.classList.add('active');
+    }
+  }
+
+  function closePanel(panelId, btnRef) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    panel.classList.remove('open');
+    const backdrop = document.getElementById(panelId.replace('Panel', 'Backdrop'));
+    backdrop && backdrop.classList.remove('open');
+    const btn = (btnRef && typeof btnRef === 'string') ? document.getElementById(btnRef) : (btnRef || null);
+    btn && btn.classList.remove('active');
+  }
+
+  // Mutual exclusion: closing other panels before opening new one
+  
+
+  function toggleDropdown(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isOpen = el.classList.contains('open');
+    closeAllPanels();
+    if (!isOpen) el.classList.add('open');
+  }
+
+  // Mutual exclusion for profile dropdown
+  var _origToggleDropdown = toggleDropdown;
+  toggleDropdown = function(id) {
+    // Close panels first
+    ['notifPanel','msgPanel'].forEach(function(pid) {
+      var el = document.getElementById(pid);
+      var bd = document.getElementById(pid.replace('Panel','Backdrop'));
+      if (el && el.classList.contains('open')) {
+        el.classList.remove('open');
+        if (bd) bd.classList.remove('open');
+      }
+    });
+    _origToggleDropdown(id);
+  };
+
+  window.togglePanel = togglePanel;
+  window.closePanel = closePanel;
+  window.toggleDropdown = toggleDropdown;
+})();
+</script>
+
+<aside class="ark-sidebar-fixed">
+  <div class="ark-nav-item" onclick="window.location.href='admin-dashboard.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-chat.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-calendar.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendar</div>
+  <div class="ark-nav-item active" onclick="window.location.href='admin-new-request.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Create Request</div>
+  <div class="ark-nav-item" onclick="window.location.href='admin-completed-assessment.html'"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Completed Assessment</div>
+  <div class="nav-divider"></div>
+  <div class="nav-section-label">My Clients</div>
+  <div class="client-acc">
+    <div class="acc-header req-client req-active" data-client="techcorp" onclick="selectCompanyFromSidebar('techcorp')" style="cursor:pointer;">
+      <span class="acc-name">TechCorp Inc.<span class="acc-star">★</span></span>
+    </div>
+  </div>
+  <div class="client-acc">
+    <div class="acc-header req-client" data-client="crestline" onclick="selectCompanyFromSidebar('crestline')" style="cursor:pointer;">
+      <span class="acc-name">Crestline Retail<span class="acc-star">★</span></span>
+    </div>
+  </div>
+  <div class="client-acc">
+    <div class="acc-header req-client" data-client="globalworks" onclick="selectCompanyFromSidebar('globalworks')" style="cursor:pointer;">
+      <span class="acc-name">GlobalWorks Ltd.</span>
+    </div>
+  </div>
+  <div class="client-acc">
+    <div class="acc-header req-client" data-client="innovate" onclick="selectCompanyFromSidebar('innovate')" style="cursor:pointer;">
+      <span class="acc-name">Innovate Solutions</span>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="breadcrumb">
+    <a href='admin-dashboard.html'>Dashboard</a>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span class="current">Create Request</span>
+  </div>
+
+  <div class="page-header">
+    <div class="page-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+    </div>
+    <div>
+      <div class="page-title">Create Request</div>
+    </div>
+  </div>
+
+  <!-- COMPANY HEADER TABS -->
+  <div class="co-tabs" id="coTabs">
+    <button class="co-tab active" onclick="selectCompany('techcorp',this)">TechCorp Inc. <span class="co-badge">8</span></button>
+    <button class="co-tab" onclick="selectCompany('crestline',this)">Crestline Retail <span class="co-badge">21</span></button>
+    <button class="co-tab" onclick="selectCompany('globalworks',this)">GlobalWorks Ltd. <span class="co-badge">0</span></button>
+    <button class="co-tab" onclick="selectCompany('innovate',this)">Innovate Solutions <span class="co-badge">0</span></button>
+  </div>
+
+  <!-- SELECTED COMPANY OVERVIEW -->
+  <div class="co-overview">
+    <div class="co-meta">
+      <span class="co-name" id="coName">TechCorp Inc.</span>
+      <span class="co-chip" id="coIndustry">Technology</span>
+      <span class="co-chip" id="coStatus">In progress</span>
+    </div>
+    <div class="summary-bar" id="summaryBar"></div>
+  </div>
+
+  <!-- REQUESTED DOCUMENTS + SUBMISSION STATUS -->
+  <div class="list-header">
+    
+  </div>
+
+  <!-- SPLIT: new request (left) + request history (right) -->
+  <div class="split-wrap split-open" id="splitWrap">
+  <div class="new-req-panel" id="newReqPanel">
+    <section class="card" style="margin-top:0">
+      <div class="card-head" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+        <div>
+          <div class="card-title" id="nrpTitle">New request</div>
+          <div class="card-sub" id="nrpSub">This will be sent to <b id="newReqCo2">TechCorp Inc.</b> and appear in their client portal.</div>
+        </div>
+        <button onclick="toggleNewReq()" title="Close" style="border:none;background:var(--gray-100);color:var(--gray-500);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:18px;line-height:1;flex-shrink:0">&times;</button>
+      </div>
+      <div class="card-body">
+
+        <div class="req-type-fixed">
+          <div class="req-type-fixed-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div><div class="req-type-fixed-title">Document Request</div><div class="req-type-fixed-desc">Ask the client to upload a file. Fill in the details below and add it to the draft list — publish when the list is complete.</div></div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label class="label">Title<span class="req">*</span></label>
+            <input class="input" id="reqSubject" placeholder="e.g. Upload Payroll &amp; Compensation records" value="">
+          </div>
+
+          <div class="field full">
+            <label class="label">Accepted file types</label>
+            <div class="filetype-row" id="reqFileTypes">
+              <label class="filetype-chip"><input type="checkbox" value="PDF" checked> PDF</label>
+              <label class="filetype-chip"><input type="checkbox" value="DOCX" checked> DOCX</label>
+              <label class="filetype-chip"><input type="checkbox" value="XLSX"> XLSX</label>
+              <label class="filetype-chip"><input type="checkbox" value="CSV"> CSV</label>
+              <label class="filetype-chip"><input type="checkbox" value="Image"> Image</label>
+            </div>
+            <div class="hint">Which formats the client is allowed to upload for this document.</div>
+          </div>
+
+          <div class="field full">
+            <label class="label">Summary</label>
+            <input class="input" id="reqSummary" placeholder="One line describing what this document is / why it's needed">
+          </div>
+
+          <div class="field full">
+            <label class="label">Message to client</label>
+            <textarea class="textarea" id="reqBody" style="min-height:110px" placeholder="Optional note shown to the client alongside this request">Hi there,
+
+Please upload this document to your Arka client portal when ready. Reach out via the messaging portal if you have any questions.
+
+— Arka HR Solutions Team</textarea>
+            <div class="hint">This message will appear in the client's portal once the request is published.</div>
+          </div>
+
+          <div class="field">
+            <label class="label">Publish time <span class="opt">(optional)</span></label>
+            <input class="input" type="text" id="reqPublishAt" placeholder="e.g. Jun 20, 2026 09:00" onfocus="this.type='text'" onblur="if(!this.value)this.type='text'">
+            <div class="hint">Leave empty to publish manually. If set, this request unlocks to the client at that time.</div>
+          </div>
+          <div class="field">
+            <label class="label">Due date</label>
+            <input class="input" type="text" id="reqDue" placeholder="e.g. Jun 20, 2026" onfocus="this.type='text'" onblur="if(!this.value)this.type='text'">
+            <div class="hint">When the client should submit by.</div>
+          </div>
+        </div>
+
+        <div class="section-label" style="margin-top:22px">Reference file <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--gray-400);font-size:11px">(optional)</span></div>
+        <div class="attach-zone" onclick="addMockAttachment()">
+          <div class="attach-zone-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+          <div class="attach-zone-title">Attach a sample or reference file</div>
+          <div class="attach-zone-sub">PDF, DOCX, XLSX — up to 25MB. The client will see this alongside the request as a guide.</div>
+        </div>
+        <div class="attach-list" id="attachList"></div>
+
+      </div>
+      <div class="footer-actions">
+        <button class="btn btn-outline" onclick="addRequest(false)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add to draft list
+        </button>
+        <button class="btn btn-green" onclick="addRequest(true)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Add &amp; publish now
+        </button>
+      </div>
+    </section>
+  </div>
+  <div id="reqTableWrap" class="split-left"></div>
+  </div>
+</main>
+
+<div class="toast" id="toast">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastText"></span>
+</div>
+
+<div class="cdlg-backdrop" id="cdlgBackdrop">
+  <div class="cdlg" role="dialog" aria-modal="true">
+    <div class="cdlg-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+    <div class="cdlg-title" id="cdlgTitle">Edit a completed request?</div>
+    <div class="cdlg-msg" id="cdlgMsg"></div>
+    <div class="cdlg-actions">
+      <button class="btn btn-outline" id="cdlgCancel">Cancel</button>
+      <button class="btn btn-green" id="cdlgOk">Continue editing</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var activeFilter = 'all';
+// Each entry = a REQUEST/TASK. published:false = DRAFT (client can't see). published:true = visible to client.
+// status (only meaningful once published): 'awaiting' | 'completed' | 'overdue'
+var COMPANIES = {
+  techcorp: { name:'TechCorp Inc.', industry:'Technology', status:'In progress', statusClass:'',
+    tasks:[
+      {title:'Upload Performance Review Process', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 01, 2026', published:true},
+      {title:'Upload Performance Appraisal Forms', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 02, 2026', published:true},
+      {title:'Upload Records of Performance Reviews', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 03, 2026', published:true},
+      {title:'Upload Performance Evaluation Policies', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 04, 2026', published:true},
+      {title:'Upload Training Schedules and Records', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 05, 2026', published:true},
+      {title:'Upload Records of Completed Training Sessions', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 06, 2026', published:true},
+      {title:'Upload Recruitment and Hiring Policies', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 07, 2026', published:true},
+      {title:'Upload Onboarding Process', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 08, 2026', published:true},
+      {title:'Upload Job Descriptions (Sample)', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 09, 2026', published:true},
+      {title:'Upload Employment Contracts / Offer Letter (Sample)', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 01, 2026', published:true},
+      {title:'Upload Proof of the Right to Work (I-9 Forms)', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 02, 2026', published:true},
+      {title:'Upload Organizational Chart', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 03, 2026', published:true},
+      {title:'Upload Employee Development Plans', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 04, 2026', published:true},
+      {title:'Upload HRIS System Export / Data Summary', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 05, 2026', published:true},
+      {title:'Upload Personnel Files (Sample)', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 06, 2026', published:true},
+      {title:'Upload Mission, Vision, and Values Statements', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 07, 2026', published:true},
+      {title:'Upload Summary Responses from Previous Surveys', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 08, 2026', published:true},
+      {title:'Upload Exit Interview Forms (Sample)', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 09, 2026', published:true},
+      {title:'Upload Employee Handbook Acknowledgment Forms', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 01, 2026', published:true},
+      {title:'Upload Benefits Guide', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 02, 2026', published:true},
+      {title:'Upload Compensation Policies', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 03, 2026', published:true},
+      {title:'Upload Records of Bonuses', type:'Document request', created:'Mar 28, 2026', sent:'Mar 28, 2026', due:'Apr 11, 2026', status:'completed', done:'Apr 04, 2026', published:true},
+      {title:'Upload Employee Handbook', type:'Document request', created:'Apr 08, 2026', sent:'Apr 08, 2026', due:'Apr 22, 2026', status:'awaiting', done:null, published:true},
+      {title:'Upload Equal Employment Opportunity Statement', type:'Document request', created:'Apr 08, 2026', sent:'Apr 08, 2026', due:'Apr 22, 2026', status:'awaiting', done:null, published:true},
+      {title:'Upload U.S. Department of Labor Posters', type:'Document request', created:'Apr 08, 2026', sent:'Apr 08, 2026', due:'Apr 22, 2026', status:'awaiting', done:null, published:true},
+      {title:'Upload Disciplinary Procedures', type:'Document request', created:'Apr 08, 2026', sent:'Apr 08, 2026', due:'Apr 22, 2026', status:'awaiting', done:null, published:true},
+      {title:'Upload Termination Procedures', type:'Document request', created:'Apr 08, 2026', sent:'Apr 08, 2026', due:'Apr 22, 2026', status:'awaiting', done:null, published:true},
+      {title:'Upload Health and Safety Compliance Records', type:'Document request', created:'Mar 25, 2026', sent:'Mar 25, 2026', due:'Apr 08, 2026', status:'overdue', done:null, published:true},
+      {title:'Upload Training Policies', type:'Document request', created:'Mar 25, 2026', sent:'Mar 25, 2026', due:'Apr 08, 2026', status:'overdue', done:null, published:true},
+      {title:'Upload Offboarding Process', type:'Document request', created:'Mar 25, 2026', sent:'Mar 25, 2026', due:'Apr 08, 2026', status:'overdue', done:null, published:true}
+    ]},
+  crestline: { name:'Crestline Retail', industry:'Retail', status:'In progress', statusClass:'',
+    tasks:[
+      {title:'Upload Mission and Values', type:'Document request', created:'May 2, 2026', sent:'May 2, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Updated Org Chart', type:'Document request', created:'May 3, 2026', sent:'May 3, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Employee Handbook', type:'Document request', created:'May 5, 2026', sent:'May 5, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Job Descriptions', type:'Document request', created:'May 8, 2026', sent:'May 8, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload I-9 Forms', type:'Document request', created:'May 11, 2026', sent:'May 11, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Employment Contracts', type:'Document request', created:'May 2, 2026', sent:'May 2, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Background Check Policy', type:'Document request', created:'May 3, 2026', sent:'May 3, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload EEOC Report 2025', type:'Document request', created:'May 5, 2026', sent:'May 5, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Food Safety Compliance', type:'Document request', created:'May 8, 2026', sent:'May 8, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Health & Safety Records', type:'Document request', created:'May 11, 2026', sent:'May 11, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload OSHA Logs', type:'Document request', created:'May 2, 2026', sent:'May 2, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Code of Conduct', type:'Document request', created:'May 3, 2026', sent:'May 3, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload PTO Policy', type:'Document request', created:'May 5, 2026', sent:'May 5, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload DEI Policy', type:'Document request', created:'May 8, 2026', sent:'May 8, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Remote Work Policy', type:'Document request', created:'May 11, 2026', sent:'May 11, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Anti-harassment Policy', type:'Document request', created:'May 2, 2026', sent:'May 2, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Disciplinary Procedures', type:'Document request', created:'May 3, 2026', sent:'May 3, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Code of Ethics', type:'Document request', created:'May 5, 2026', sent:'May 5, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Benefits Overview', type:'Document request', created:'May 8, 2026', sent:'May 8, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Salary Bands 2026', type:'Document request', created:'May 11, 2026', sent:'May 11, 2026', due:'—', status:'awaiting', done:null, published:false},
+      {title:'Upload Bonus Structure', type:'Document request', created:'May 2, 2026', sent:'May 2, 2026', due:'—', status:'awaiting', done:null, published:false}
+    ]},
+  globalworks: { name:'GlobalWorks Ltd.', industry:'Manufacturing', status:'Completed', statusClass:'',
+    tasks:[
+      {title:'Upload Organizational Chart', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 15, 2026', published:true},
+      {title:'Upload Mission, Vision and Values', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 16, 2026', published:true},
+      {title:'Upload Updated Org Chart', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 17, 2026', published:true},
+      {title:'Upload Employee Handbook', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 18, 2026', published:true},
+      {title:'Upload Employment Contracts (Sample)', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 19, 2026', published:true},
+      {title:'Upload I-9 Forms (Batch)', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 20, 2026', published:true},
+      {title:'Upload Job Descriptions', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 21, 2026', published:true},
+      {title:'Upload Personnel File Index', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 22, 2026', published:true},
+      {title:'Upload Health & Safety Records', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 23, 2026', published:true},
+      {title:'Upload OSHA Logs 2025', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 24, 2026', published:true},
+      {title:'Upload Compliance Certificate', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 25, 2026', published:true},
+      {title:'Upload EEOC Report', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 26, 2026', published:true},
+      {title:'Upload Workers Comp Records', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 15, 2026', published:true},
+      {title:'Upload Anti-harassment Policy', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 16, 2026', published:true},
+      {title:'Upload Code of Conduct', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 17, 2026', published:true},
+      {title:'Upload PTO Policy', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 18, 2026', published:true},
+      {title:'Upload Disciplinary Procedures', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 19, 2026', published:true},
+      {title:'Upload DEI Policy', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 20, 2026', published:true},
+      {title:'Upload Compensation Policy', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 21, 2026', published:true},
+      {title:'Upload Remote Work Policy', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 22, 2026', published:true},
+      {title:'Upload Salary Bands 2026', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 23, 2026', published:true},
+      {title:'Upload Bonus Structure', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 24, 2026', published:true},
+      {title:'Upload Benefits Overview', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 25, 2026', published:true},
+      {title:'Upload Equity Plan', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 26, 2026', published:true},
+      {title:'Upload Onboarding Program', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 15, 2026', published:true},
+      {title:'Upload Safety Training Records', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 16, 2026', published:true},
+      {title:'Upload Leadership Development Plan', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 17, 2026', published:true},
+      {title:'Upload Skills Matrix', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 18, 2026', published:true},
+      {title:'Upload Performance Review Template', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 19, 2026', published:true},
+      {title:'Upload Career Pathways', type:'Document request', created:'Apr 10, 2026', sent:'Apr 10, 2026', due:'Apr 24, 2026', status:'completed', done:'Apr 20, 2026', published:true}
+    ]},
+  innovate: { name:'Innovate Solutions', industry:'Finance', status:'New client', statusClass:'new', tasks:[] }
+};
+var current = 'techcorp';
+
+function syncCompanyControls(id){
+  document.querySelectorAll('.co-tab').forEach(function(t){
+    t.classList.remove('active');
+    var oc = t.getAttribute('onclick') || '';
+    if(oc.indexOf("'"+id+"'")>=0 || oc.indexOf('\"'+id+'\"')>=0) t.classList.add('active');
+  });
+  document.querySelectorAll('.req-client').forEach(function(x){
+    x.classList.toggle('req-active', x.getAttribute('data-client')===id);
+  });
+}
+
+function selectCompany(id, el){
+  current = id;
+  activeFilter = 'all';
+  syncCompanyControls(id);
+  if(el) el.classList.add('active');
+  // keep the two-column create-request workspace visible when switching companies
+  var sw = document.getElementById('splitWrap');
+  if(sw) sw.classList.add('split-open');
+  if(typeof resetForm==='function') resetForm();
+  render();
+}
+
+function selectCompanyFromSidebar(id){
+  selectCompany(id);
+}
+
+function setFilter(f){
+  activeFilter = (activeFilter === f) ? 'all' : f;
+  render();
+}
+
+function render(){
+  ensureSplitOpen();
+  var c = COMPANIES[current];
+  var publishedForGrey = (c.tasks || []).filter(function(t){ return t.published; });
+  var draftsForGrey = (c.tasks || []).filter(function(t){ return !t.published; });
+  var isCompletedCompany = publishedForGrey.length > 0 && draftsForGrey.length === 0 && publishedForGrey.every(function(t){ return t.status === 'completed'; });
+  document.body.classList.toggle('completed-request-company', isCompletedCompany);
+  document.getElementById('coName').textContent = c.name;
+  document.getElementById('coIndustry').textContent = c.industry;
+  var st = document.getElementById('coStatus');
+  st.textContent = c.status;
+  st.className = 'co-chip' + (c.statusClass ? ' '+c.statusClass : '');
+  var newReqCoEl = document.getElementById('newReqCo'); if(newReqCoEl) newReqCoEl.textContent = c.name;
+  var newReqCo2El = document.getElementById('newReqCo2'); if(newReqCo2El) newReqCo2El.textContent = c.name;
+
+  var all = c.tasks || [];
+  var published = all.filter(function(t){ return t.published; });
+  var drafts = all.filter(function(t){ return !t.published; });
+
+  // summary counts only PUBLISHED tasks
+  var awaiting=0, completed=0, overdue=0;
+  published.forEach(function(t){
+    if(t.status==='completed')completed++;
+    else if(t.status==='overdue')overdue++;
+    else awaiting++;
+  });
+
+  function pill(key,cls,num,lbl){
+    var sel = (activeFilter===key) ? ' sel' : '';
+    return '<div class="summary-pill '+cls+sel+'" onclick="setFilter(\''+key+'\')">'+
+      '<div class="sp-num">'+num+'</div><div class="sp-lbl">'+lbl+'</div></div>';
+  }
+  document.getElementById('summaryBar').innerHTML =
+    pill('awaiting','amber',awaiting,'Awaiting response')+
+    pill('completed','green',completed,'Completed')+
+    pill('overdue','red',overdue,'Overdue')+
+    pill('all','',published.length,'Published to client')+
+    buildProgressBlock(c, published, drafts, awaiting, completed, overdue);
+
+  // lock "New request" button when this client's assessment is fully complete
+  var newBtn = document.getElementById('newReqToggle');
+  if(newBtn){
+    var allDone = (published.length>0 && awaiting===0 && overdue===0 && drafts.length===0);
+    if(allDone){
+      newBtn.classList.add('locked');
+      newBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> New request for <span id="newReqCo">'+c.name+'</span>';
+      newBtn.onclick = function(){
+        confirmDialog(
+          'Assessment already complete',
+          [
+            c.name+' has completed all tasks.',
+            'New request will reopen client\u2019s assessment and notify client and all Arka consultants.',
+            'Do you want to create a new request?'
+          ],
+          function(){ newBtn.classList.remove('locked'); ensureSplitOpen(); resetForm(); }
+        );
+      };
+    } else {
+      newBtn.classList.remove('locked');
+      newBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New request for <span id="newReqCo">'+c.name+'</span>';
+      newBtn.onclick = function(){ ensureSplitOpen(); resetForm(); };
+    }
+  }
+
+  var wrap = document.getElementById('reqTableWrap');
+
+  // ----- DRAFTS section (not visible to client) -----
+  var draftHtml = '';
+  if(drafts.length){
+    var draftRows = drafts.map(function(t){
+      var gi = all.indexOf(t);
+      return '<label class="draft-row" for="dchk'+gi+'">'+
+        '<input type="checkbox" class="draft-chk" id="dchk'+gi+'" data-i="'+gi+'" checked onchange="updatePublishBtn()">'+
+        '<div class="req-file-ico draft-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'+
+        '<div style="flex:1;min-width:0"><div class="req-file-name">'+t.title+'</div><div class="req-file-cat">Draft \u00b7 created '+(t.created||t.sent||'\u2014')+'</div></div>'+
+        '<span class="st st-draft">Draft</span>'+
+        '<button class="draft-del" title="Delete draft" onclick="event.preventDefault();deleteDraft('+gi+')">\u00d7</button>'+
+      '</label>';
+    }).join('');
+    draftHtml =
+      '<div class="draft-box">'+
+        '<div class="draft-head">'+
+          '<div class="draft-head-left">'+
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2" style="flex-shrink:0;margin-top:2px"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>'+
+            '<div><div class="draft-head-title"><b>'+drafts.length+'</b> draft request'+(drafts.length>1?'s':'')+' \u2014 not visible to the client yet</div>'+
+            '<div class="draft-sub">Build the list across as many sessions as you need. When you publish, the selected documents unlock in the client portal all at once.</div></div>'+
+          '</div>'+
+          '<button class="publish-btn" id="publishBtn" onclick="publishSelected()">Publish selected (<span id="pubCount">'+drafts.length+'</span>) to client</button>'+
+        '</div>'+
+        '<div class="draft-list">'+draftRows+'</div>'+
+      '</div>';
+  }
+
+  // ----- empty / published table -----
+  if(!all.length){
+    wrap.innerHTML = '<div class="empty-note">'+
+      '<div class="en-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>'+
+      '<div class="en-title">No requests yet</div>'+
+      '<div class="en-sub">You haven\'t created any requests for '+c.name+' yet. Use \u201cNew request\u201d above to start building the list.</div></div>';
+    return;
+  }
+
+  var labelMap = {awaiting:'Awaiting response', completed:'Completed', overdue:'Overdue'};
+  var shown = published.filter(function(t){ return activeFilter==='all' || t.status===activeFilter; });
+
+  var note = '';
+  if(activeFilter!=='all'){
+    note = '<div class="filter-note">Showing <b>'+shown.length+'</b> '+labelMap[activeFilter].toLowerCase()+
+      ' of '+published.length+' published requests <a onclick="setFilter(\'all\')">Clear filter</a></div>';
+  }
+
+  var rows = shown.map(function(t){
+    var gi = all.indexOf(t);
+    var dateCell = '<span class="req-date">'+ (t.sent && t.sent!=='\u2014' ? t.sent : '\u2014') +'</span>';
+    var action = '<a onclick="event.stopPropagation();editTask('+gi+')">Edit</a>';
+    if(t.status!=='completed'){
+      action += '<a class="act-remind" onclick="event.stopPropagation();remind(\''+t.title+'\')">Remind</a>';
+    }
+    return '<div class="req-row" ondblclick="openTask('+gi+')" title="Double-click to open">'+
+      '<div class="req-file"><div class="req-file-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'+
+      '<div style="min-width:0"><div class="req-file-name">'+t.title+'</div><div class="req-file-cat">'+t.type+'</div></div></div>'+
+      '<div><span class="st st-'+t.status+'">'+labelMap[t.status]+'</span></div>'+
+      '<div>'+dateCell+'</div>'+
+      '<div class="req-action">'+action+'</div>'+
+    '</div>';
+  }).join('');
+
+  var thead = '<div class="req-thead"><div>Request</div><div>Status</div><div>Sent</div><div style="text-align:left">Action</div></div>';
+  var publishedHtml = '';
+  if(published.length){
+    var inner = (!shown.length)
+      ? thead + '<div style="padding:34px 18px;text-align:center;color:var(--gray-400);font-size:13.5px">No '+labelMap[activeFilter].toLowerCase()+' requests.</div>'
+      : thead + rows;
+    publishedHtml = '<div class="published-label">Published to client ('+published.length+')</div>' + note + '<div class="req-table">'+inner+'</div>';
+  } else if(drafts.length){
+    publishedHtml = '<div class="empty-note" style="margin-top:14px;padding:28px 24px">'+
+      '<div class="en-title">Nothing published yet</div>'+
+      '<div class="en-sub">These documents are still drafts \u2014 the client can\'t see them. Publish them above to unlock them in the client portal.</div></div>';
+  }
+
+  wrap.innerHTML = draftHtml + publishedHtml;
+}
+
+window.updatePublishBtn = function(){
+  var boxes = document.querySelectorAll('.draft-chk');
+  var n=0; boxes.forEach(function(b){ if(b.checked)n++; });
+  var cnt=document.getElementById('pubCount'); if(cnt)cnt.textContent=n;
+  var btn=document.getElementById('publishBtn'); if(btn)btn.disabled=(n===0);
+};
+
+window.publishSelected = function(){
+  var c = COMPANIES[current];
+  var boxes = document.querySelectorAll('.draft-chk:checked');
+  if(!boxes.length){ showToast('Select at least one draft to publish'); return; }
+  var idxs = Array.prototype.map.call(boxes, function(b){ return parseInt(b.getAttribute('data-i'),10); });
+  var today = 'Jun 5, 2026';
+  var n=0;
+  idxs.forEach(function(i){
+    if(c.tasks[i]){ c.tasks[i].published=true; c.tasks[i].status='awaiting'; c.tasks[i].sent=today; n++; }
+  });
+  showToast(n+' request'+(n>1?'s':'')+' published \u2014 now visible to '+c.name);
+  render();
+};
+
+window.deleteDraft = function(i){
+  var c = COMPANIES[current];
+  if(!c.tasks[i]) return;
+  c.tasks.splice(i,1);
+  render();
+  showToast('Draft removed');
+};
+
+function buildProgressBlock(c, published, drafts, awaiting, completed, overdue){
+  var total = published.length;
+  var pct = total ? Math.round(completed/total*100) : 0;
+
+  var ringColor = pct>=100 ? 'var(--green-600)' : (overdue>0 ? '#ef4444' : '#f59e0b');
+  if(total===0) ringColor = 'var(--gray-300)';
+  var R=22, C=2*Math.PI*R, off=C*(1-pct/100);
+
+  var actionHtml, labelHtml;
+  if(drafts.length && total===0){
+    labelHtml = 'Overall progress';
+    actionHtml = '<span class="pc-status amber">'+drafts.length+' drafts to publish</span>';
+  } else if(total===0){
+    labelHtml = 'Overall progress';
+    actionHtml = '<button class="pc-action grey">Not started</button>';
+  } else if(overdue>0 || awaiting>0){
+    labelHtml = 'Overall progress';
+    actionHtml = '<button class="pc-action amber" onclick="remindAll()">Send reminders ('+(overdue+awaiting)+')</button>';
+  } else {
+    labelHtml = 'Overall progress';
+    actionHtml = '<button class="pc-action grey">\u2713 All complete</button>';
+  }
+
+  return '<div class="summary-pill progress-pill">'+
+    '<div class="pc-ring"><svg width="58" height="58" viewBox="0 0 58 58">'+
+      '<circle cx="29" cy="29" r="24" fill="none" stroke="var(--gray-200)" stroke-width="5"/>'+
+      '<circle cx="29" cy="29" r="24" fill="none" stroke="'+ringColor+'" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+(2*Math.PI*24).toFixed(1)+'" stroke-dashoffset="'+((2*Math.PI*24)*(1-pct/100)).toFixed(1)+'" transform="rotate(-90 29 29)"/>'+
+      '</svg><div class="pc-ring-label"><div class="pc-ring-frac">'+completed+'/'+total+'</div><div class="pc-ring-sub">done</div></div></div>'+
+    '<div class="pc-body">'+
+      '<div class="sp-lbl" style="margin:0 0 7px">'+labelHtml+'</div>'+
+      actionHtml+
+    '</div>'+
+  '</div>';
+}
+
+function renderProgressCard_UNUSED(c, published, drafts, awaiting, completed, overdue){
+  var card = document.getElementById('progressCard');
+  if(!card) return;
+
+  var total = published.length;
+  var pct = total ? Math.round(completed/total*100) : 0;
+
+  var ringColor = pct>=100 ? 'var(--green-600)' : (overdue>0 ? '#ef4444' : '#f59e0b');
+  if(total===0) ringColor = 'var(--gray-300)';
+  var R=26, C=2*Math.PI*R, off=C*(1-pct/100);
+
+  var statHtml, actionHtml;
+  if(drafts.length && total===0){
+    statHtml = '<b>'+drafts.length+'</b> draft'+(drafts.length>1?'s':'')+' not published yet';
+    actionHtml = '<button class="pc-action amber" onclick="var d=document.querySelector(\'.draft-box\'); if(d) d.scrollIntoView({behavior:\'smooth\'})">Review &amp; publish</button>';
+  } else if(total===0){
+    statHtml = 'No requests created yet';
+    actionHtml = '<button class="pc-action green" onclick="toggleNewReq()">+ Create first request</button>';
+  } else if(overdue>0){
+    statHtml = '<b style="color:#b91c1c">'+overdue+'</b> overdue \u00b7 <b>'+awaiting+'</b> awaiting';
+    actionHtml = '<button class="pc-action amber" onclick="remindAll()">Send reminders ('+(overdue+awaiting)+')</button>';
+  } else if(awaiting>0){
+    statHtml = '<b>'+awaiting+'</b> awaiting client response';
+    actionHtml = '<button class="pc-action amber" onclick="remindAll()">Send reminders ('+awaiting+')</button>';
+  } else {
+    statHtml = 'All <b>'+total+'</b> requests completed';
+    actionHtml = '<button class="pc-action grey">\u2713 All complete</button>';
+  }
+
+  card.innerHTML =
+    '<div class="pc-ring"><svg width="62" height="62" viewBox="0 0 62 62">'+
+      '<circle cx="31" cy="31" r="26" fill="none" stroke="var(--gray-100)" stroke-width="6"/>'+
+      '<circle cx="31" cy="31" r="26" fill="none" stroke="'+ringColor+'" stroke-width="6" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/>'+
+      '</svg><div class="pc-ring-label"><div class="pc-ring-pct">'+pct+'%</div><div class="pc-ring-sub">DONE</div></div></div>'+
+    '<div class="pc-body">'+
+      '<div class="pc-title">'+c.name+'</div>'+
+      '<div class="pc-stat">'+statHtml+'</div>'+
+      actionHtml+
+    '</div>';
+}
+
+window.remindAll = function(){
+  var c = COMPANIES[current];
+  var n = (c.tasks||[]).filter(function(t){ return t.published && t.status!=='completed'; }).length;
+  showToast('Reminders sent to '+c.name+' for '+n+' open request'+(n>1?'s':''));
+};
+
+function ensureSplitOpen(){
+  var sw = document.getElementById('splitWrap');
+  if(sw && !sw.classList.contains('split-open')) sw.classList.add('split-open');
+}
+function toggleNewReq(){
+  ensureSplitOpen();
+  if(typeof resetForm==='function') resetForm();
+}
+
+var COPY = {
+  documents: {
+    subj: 'Documents needed to begin your assessment',
+    body: "Hi there,\n\nTo begin your HR assessment, we need a few documents uploaded to your Arka client portal.\n\nPlease upload the following when ready:\n\u2022 Employee Handbook\n\u2022 Payroll & compensation records\n\u2022 Current HR policies and procedures\n\nOnce these are submitted, we'll start the review and let you know the next steps.\n\n\u2014 Arka HR Solutions Team"
+  },
+  action: {
+    subj: 'Action required for your HR assessment',
+    body: "Hi there,\n\nAs part of your HR assessment, we need you to complete the following action:\n\n1. Review the items flagged in your client portal\n2. Confirm or update the relevant information\n3. Submit your response when ready\n\nThis must be completed before we can proceed.\n\n\u2014 Arka HR Solutions Team"
+  },
+  reference: {
+    subj: 'Reference material to help with your submission',
+    body: "Hi there,\n\nWe've attached reference material and an Arka-approved template to help guide your work.\n\nPlease use the attached file as a guide and submit your updated document through your client portal when ready.\n\n\u2014 Arka HR Solutions Team"
+  }
+};
+
+function selectType(el, type){
+  document.querySelectorAll('.type-card').forEach(function(x){x.classList.remove('active');});
+  el.classList.add('active');
+  var c = COPY[type]; if(!c) return;
+  document.getElementById('reqSubject').value = c.subj;
+  document.getElementById('reqBody').value = c.body;
+}
+
+function addMockAttachment(){
+  var list = document.getElementById('attachList');
+  var names = ['Arka_Document_Checklist_2026.pdf','Arka_Employee_Handbook_Template.docx','Arka_Compensation_Policy_Template.docx','MA_Equal_Pay_Act_Checklist.pdf'];
+  var sizes = ['0.4 MB','1.2 MB','0.8 MB','0.4 MB'];
+  var i = list.children.length % names.length;
+  var item = document.createElement('div');
+  item.className = 'attach-item';
+  item.innerHTML = '<div class="attach-item-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:12.5px;color:var(--gray-900);">'+names[i]+'</div><div style="font-size:11.5px;color:var(--gray-400);margin-top:1px;">Arka reference file \u00b7 '+sizes[i]+'</div></div><button class="attach-remove" onclick="this.closest(\'.attach-item\').remove()">\u00d7</button>';
+  list.appendChild(item);
+}
+
+function addRequest(publishNow){
+  var c = COMPANIES[current];
+  var titleEl = document.getElementById('reqSubject');
+  var title = (titleEl && titleEl.value.trim()) || '';
+  if(!title){ showToast('Please enter a title for the request'); if(titleEl) titleEl.focus(); return; }
+
+  var types = [];
+  document.querySelectorAll('#reqFileTypes input:checked').forEach(function(x){ types.push(x.value); });
+  var summary = (document.getElementById('reqSummary')||{}).value || '';
+  var body = (document.getElementById('reqBody')||{}).value || '';
+  var due = (document.getElementById('reqDue')||{}).value || '';
+  var publishAt = (document.getElementById('reqPublishAt')||{}).value || '';
+  var today = 'Jun 5, 2026';
+
+  var task = {
+    title: title,
+    type: 'Document request',
+    fileTypes: types,
+    summary: summary,
+    message: body,
+    created: today,
+    sent: publishNow ? today : '\u2014',
+    due: due || '\u2014',
+    publishAt: publishAt || '',
+    status: 'awaiting',
+    done: null,
+    published: !!publishNow
+  };
+  c.tasks.push(task);
+
+  // reset form
+  if(typeof resetForm==='function') resetForm();
+
+  render();
+  document.getElementById('splitWrap').classList.add('split-open');
+  if(publishNow){
+    showToast('\u201c'+title+'\u201d published \u2014 now visible to '+c.name);
+  } else {
+    showToast('Added to draft list \u2014 publish when your list is complete');
+    if(publishAt) showToast('Scheduled to publish on '+publishAt.replace('T',' '));
+  }
+}
+function remind(n){ showToast('Reminder sent for \u201c'+n+'\u201d'); }
+function viewDoc(n){ showToast('Opening \u201c'+n+'\u201d'); }
+var editingIndex = null;  // null = create mode; number = editing that task index
+
+window.openTask = function(i){
+  var c = COMPANIES[current]; var t = c.tasks[i];
+  if(!t) return;
+  showToast('Opening \u201c'+t.title+'\u201d');
+};
+window.editTask = function(i){
+  var c = COMPANIES[current]; var t = c.tasks[i];
+  if(!t) return;
+  if(t.published && t.status==='completed'){
+    confirmDialog(
+      'Edit a completed request?',
+      [
+        'This task has been reviewed and approved by Arka.',
+        'Any changing will reset it and send notifications to client and Arka consultants.',
+        'Do you want to continue editing?'
+      ],
+      function(){ doEditTask(i); }
+    );
+  } else {
+    doEditTask(i);
+  }
+};
+
+function doEditTask(i){
+  var c = COMPANIES[current]; var t = c.tasks[i];
+  if(!t) return;
+  editingIndex = i;
+
+  // fill fields with existing info
+  var setV=function(id,v){ var el=document.getElementById(id); if(el) el.value=v||''; };
+  setV('reqSubject', t.title || '');
+  setV('reqSummary', t.summary || '');
+  setV('reqBody', t.message || '');
+  setV('reqDue', (t.due && t.due!=='\u2014') ? t.due : '');
+  setV('reqPublishAt', t.publishAt || '');
+
+  // file types
+  var types = t.fileTypes || [];
+  document.querySelectorAll('#reqFileTypes input').forEach(function(x){ x.checked = types.indexOf(x.value)>=0; });
+
+  // mode UI
+  var pt=document.getElementById('nrpTitle'); if(pt) pt.textContent='Edit request';
+  var ps=document.getElementById('nrpSub');
+  if(ps){
+    var stTxt = t.published ? 'Published \u00b7 visible to '+c.name : 'Draft \u00b7 not yet visible to '+c.name;
+    ps.innerHTML = 'Editing an existing request \u2014 '+stTxt+'. Created '+(t.created||t.sent||'\u2014')+'.';
+  }
+  // footer buttons -> Save changes
+  setEditButtons(true, t.published);
+
+  document.getElementById('splitWrap').classList.add('split-open');
+};
+
+function setEditButtons(editing, isPublished){
+  var fa = document.querySelector('#newReqPanel .footer-actions');
+  if(!fa) return;
+  if(editing){
+    fa.innerHTML =
+      '<button class="btn btn-outline" onclick="resetForm();ensureSplitOpen()">Cancel</button>'+
+      '<button class="btn btn-green" onclick="saveEdit()">'+
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>'+
+        ' Save changes</button>';
+  } else {
+    fa.innerHTML =
+      '<button class="btn btn-outline" onclick="addRequest(false)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add to draft list</button>'+
+      '<button class="btn btn-green" onclick="addRequest(true)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Add &amp; publish now</button>';
+  }
+}
+
+window.saveEdit = function(){
+  if(editingIndex===null) return;
+  var c = COMPANIES[current]; var t = c.tasks[editingIndex];
+  if(!t){ resetForm(); return; }
+  var gv=function(id){ var el=document.getElementById(id); return el?el.value:''; };
+  var title = gv('reqSubject').trim();
+  if(!title){ showToast('Please enter a title'); return; }
+  var types=[]; document.querySelectorAll('#reqFileTypes input:checked').forEach(function(x){ types.push(x.value); });
+  t.title = title;
+  t.summary = gv('reqSummary');
+  t.message = gv('reqBody');
+  t.due = gv('reqDue') || '\u2014';
+  t.publishAt = gv('reqPublishAt') || '';
+  t.fileTypes = types;
+  showToast('Changes saved for \u201c'+title+'\u201d');
+  resetForm();
+  render();
+  document.getElementById('splitWrap').classList.add('split-open');
+};
+
+window.resetForm = function(){
+  editingIndex = null;
+  var setV=function(id,v){ var el=document.getElementById(id); if(el) el.value=v; };
+  setV('reqSubject',''); setV('reqSummary',''); setV('reqDue',''); setV('reqPublishAt','');
+  document.querySelectorAll('#reqFileTypes input').forEach(function(x){ x.checked = (x.value==='PDF'||x.value==='DOCX'); });
+  var pt=document.getElementById('nrpTitle'); if(pt) pt.textContent='New request';
+  var ps=document.getElementById('nrpSub'); if(ps) ps.innerHTML='This will be sent to <b id="newReqCo2">'+COMPANIES[current].name+'</b> and appear in their client portal.';
+  setEditButtons(false);
+  var list=document.getElementById('attachList'); if(list) list.innerHTML='';
+};
+
+function showToast(msg){
+  var t = document.getElementById('toast');
+  document.getElementById('toastText').textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+function confirmDialog(title, lines, onOk){
+  var bd = document.getElementById('cdlgBackdrop');
+  document.getElementById('cdlgTitle').textContent = title;
+  var html = Array.isArray(lines) ? lines.join('<br>') : String(lines);
+  document.getElementById('cdlgMsg').innerHTML = html;
+  bd.classList.add('open');
+  var ok = document.getElementById('cdlgOk');
+  var cancel = document.getElementById('cdlgCancel');
+  function close(){ bd.classList.remove('open'); ok.onclick=null; cancel.onclick=null; bd.onclick=null; }
+  ok.onclick = function(){ close(); if(onOk) onOk(); };
+  cancel.onclick = function(){ close(); };
+  bd.onclick = function(e){ if(e.target===bd) close(); };
+}
+
+// auto-select company if navigated here from a client page
+(function(){
+  try{
+    var target = localStorage.getItem('arkaCreateReqCompany');
+    if(target && COMPANIES[target]){
+      current = target;
+      localStorage.removeItem('arkaCreateReqCompany');
+    }
+  }catch(e){}
+})();
+
+// sync the active top tab and left My Clients selection to `current`
+(function(){
+  if(typeof syncCompanyControls === 'function') syncCompanyControls(current);
+})();
+
+render();
+var __defaultSplit = document.getElementById('splitWrap');
+if(__defaultSplit) __defaultSplit.classList.add('split-open');
+</script>
+
+<script>
+(function(){
+  setTimeout(function(){
+    try {
+      // Handle arkaShowNewRequest - auto-open new request panel
+      var showNew = localStorage.getItem('arkaShowNewRequest');
+      if (showNew) {
+        localStorage.removeItem('arkaShowNewRequest');
+        if (typeof ensureSplitOpen === 'function') ensureSplitOpen();
+      }
+      // Handle arkaHomeEditMoreCompany
+      var id = localStorage.getItem('arkaHomeEditMoreCompany');
+      if (!id) return;
+      localStorage.removeItem('arkaHomeEditMoreCompany');
+      var btn = document.querySelector('.co-tab[onclick*="' + id + '"]');
+      if (btn && typeof selectCompany === 'function') selectCompany(id, btn);
+    } catch(e) {}
+  }, 120);
+})();
+</script>
+
+<script>
+// Ensure panel buttons are always wired (safety net)
+(function(){
+  function rewire() {
+    var nb = document.getElementById('notifBtn');
+    var mb = document.getElementById('msgBtn');
+    var pb = document.getElementById('profileBtn');
+    if (nb && !nb.__arkaWired) {
+      nb.__arkaWired = true;
+      nb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('notifPanel', nb); };
+    }
+    if (mb && !mb.__arkaWired) {
+      mb.__arkaWired = true;
+      mb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('msgPanel', mb); };
+    }
+    if (pb && !pb.__arkaWired) {
+      pb.__arkaWired = true;
+      pb.onclick = function(e) { e.stopPropagation(); if(window.toggleDropdown) window.toggleDropdown('profileDropdown'); };
+    }
+  }
+  // Wire immediately and after TV2 replaces buttons
+  rewire();
+  setTimeout(rewire, 250);
+  setTimeout(rewire, 900);
+})();
+</script>
+<script>
+(function(){
+  function rewire() {
+    var nb = document.getElementById('notifBtn');
+    var mb = document.getElementById('msgBtn');
+    var pb = document.getElementById('profileBtn');
+    if (nb && !nb.__arkaWired) { nb.__arkaWired = true; nb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('notifPanel', nb); }; }
+    if (mb && !mb.__arkaWired) { mb.__arkaWired = true; mb.onclick = function(e) { e.stopPropagation(); if(window.togglePanel) window.togglePanel('msgPanel', mb); }; }
+    if (pb && !pb.__arkaWired) { pb.__arkaWired = true; pb.onclick = function(e) { e.stopPropagation(); if(window.toggleDropdown) window.toggleDropdown('profileDropdown'); }; }
+  }
+  rewire(); setTimeout(rewire, 250); setTimeout(rewire, 900);
+})();
+</script>
+</body>
+</html>

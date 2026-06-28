@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+// Multi-page navigation helper
+var __ARKA_ROUTES = {"login": "login.html", "signup-admin": "signup-admin.html", "signup-client": "signup-client.html", "landing": "landing.html", "admin-dashboard": "admin-dashboard.html", "admin-calendar": "admin-calendar.html", "admin-chat": "admin-chat.html", "admin-client-detail": "admin-client-detail.html", "admin-client-detail-gw": "admin-client-detail-gw.html", "admin-client-detail-is": "admin-client-detail-is.html", "admin-client-detail-cr": "admin-client-detail-cr.html", "admin-view-documents": "admin-view-documents.html", "client-portal": "client-portal.html", "admin-new-request": "admin-new-request.html", "admin-create-request": "admin-create-request.html", "admin-doc-request": "admin-doc-request.html", "admin-completed-assessment": "admin-completed-assessment.html"};
+function arkaNav(target) {
+  var fname = __ARKA_ROUTES[target];
+  if (fname) window.location.href = fname;
+}
+// Intercept any remaining parent.postMessage arka-nav calls
+window.parent = window.parent || {};
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arka HR Workflow Pages</title>
+<style>
+:root{--green:#0f5f3f;--light:#dff3ea;--bg:#f4f7fa;--text:#111827;--muted:#64748b;--line:#dce5ef;--red:#ef4444;--yellow:#f59e0b}*{box-sizing:border-box}body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;color:var(--text)}.tabs{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 28px;display:flex;gap:12px}.tabs a{text-decoration:none;color:#334155;padding:10px 16px;border-radius:999px;border:1px solid #cbd5e1;font-weight:700}.tabs a:hover{background:var(--light);color:var(--green)}.frame{width:1360px;height:850px;margin:28px auto 70px;border:1.6px solid #b9bec6;border-radius:18px;box-shadow:0 3px 8px #0002;overflow:hidden;position:relative;background:white}.shell{display:grid;grid-template-columns:250px 1fr;height:100%}.sidebar{padding:30px 0 0;background:#fff}.logo{font-size:28px;font-weight:800;color:var(--green);margin-left:45px;margin-bottom:58px}.nav{padding:18px 0 18px 76px;font-size:14px;font-weight:700;color:#334155}.nav.active{background:var(--light);color:var(--green);border-left:4px solid var(--green);padding-left:72px}.recent{margin:68px 0 0 45px;color:#94a3b8;font-size:14px;font-weight:800}.client{margin:20px 0 0 60px}.client b{display:block;font-size:14px}.client span{font-size:13px;color:var(--muted)}.main{background:var(--bg);position:relative;padding:116px 28px 36px}.topbar{position:absolute;left:0;top:0;height:88px;width:100%;background:#fff}.search{position:absolute;left:46px;top:28px;width:500px;height:38px;border-radius:22px;background:#e4f2ec;color:var(--muted);display:flex;align-items:center;gap:12px;padding-left:22px;font-size:13px;font-weight:700}.icons{position:absolute;right:32px;top:24px;display:flex;align-items:center;gap:18px;color:#64748b;font-size:26px}.avatar{width:46px;height:46px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:800}.back{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;width:max-content;font-size:13px;line-height:1;color:#1a4a30;margin-bottom:16px;background:rgba(255,255,255,0.72);border:1px solid rgba(26,74,48,0.18);border-radius:999px;padding:10px 15px;font-weight:700;box-shadow:0 2px 8px rgba(26,74,48,0.06);cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease}.back:hover{background:#e8f2ec;color:#1a4a30;border-color:rgba(26,74,48,0.32);transform:translateY(-1px);box-shadow:0 4px 12px rgba(26,74,48,0.10)}.pagehead{display:flex;align-items:center;margin-bottom:28px}.circle{width:68px;height:68px;border-radius:50%;background:#ddf3ea;margin-right:24px;display:grid;place-items:center;color:var(--green);font-weight:900;font-size:28px}.title{font-size:25px;font-weight:900}.sub{font-size:14px;color:var(--muted);font-weight:700;margin-top:8px}.btn{border:0;border-radius:8px;padding:13px 26px;font-weight:800;font-size:15px}.btn.green{background:var(--green);color:white}.btn.white{background:white;border:2px solid #cbd5e1;color:#111827}.row{display:flex;gap:22px}.card{background:white;border:2px solid var(--line);border-radius:14px}.metric{height:72px;display:flex;align-items:center;justify-content:space-around}.pill{padding:12px 40px;border-radius:8px;font-weight:800}.pill.green{background:#e0f2ea;color:var(--green)}.pill.yellow{background:#fff3d6;color:#b45309}.pill.red{background:#fee2e2;color:#dc2626}.progress{height:14px;width:285px;background:#e2e8f0;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:var(--green);width:47%;border-radius:10px}.doclist{width:470px;padding:18px 22px}.filters{float:right}.filter{border:1px solid #cbd5e1;border-radius:6px;padding:6px 10px;margin-left:8px;font-size:11px;font-weight:700}.doc{display:grid;grid-template-columns:38px 1fr 110px;gap:12px;align-items:center;padding:15px 0;border-bottom:1px solid #e5e7eb}.doc.selected{background:#e1f5ea;margin:12px -22px 0;padding:16px 22px;border-left:5px solid #10a36d}.box{width:34px;height:34px;border-radius:8px;background:#f8fafc}.status{border-radius:18px;padding:8px 14px;text-align:center;font-size:12px;font-weight:800}.status.complete{background:#dcfce7;color:#15803d}.status.missing{background:#fee2e2;color:#dc2626}.status.pending{background:#fef3c7;color:#b45309}.preview{flex:1;padding:18px 20px}.docfake{background:white;border-radius:8px;height:254px;border:1px solid #edf2f7;padding:25px}.line{height:10px;background:#cbd5e1;border-radius:20px;margin:13px 0}.line.dark{background:#2f7b61}.upload{border:2px dashed #99e0bf;background:#eefbf4;border-radius:10px;width:128px;height:105px;text-align:center;padding-top:35px;color:var(--green);font-weight:800}.issue{padding:18px;border-radius:10px;border:2px solid #e5e7eb;margin:14px 0}.issue.high{background:#fff1f2;border-color:#fecaca}.issue.med{background:#fffbeb;border-color:#fde68a}.dot{width:16px;height:16px;border-radius:50%;display:inline-block;margin-right:14px}.dot.red{background:#ef4444}.dot.yellow{background:#f59e0b}.dot.gray{background:#94a3b8}.formcard{width:635px;padding:28px}.sidecard{flex:1;padding:28px}.fieldlabel{font-size:14px;font-weight:800;color:#64748b;margin:22px 0 10px}.option{display:inline-flex;align-items:center;gap:10px;padding:13px 18px;border:1.5px solid #dce5ef;border-radius:10px;font-weight:800;margin-right:10px}.option.active{background:#e0f2ea;border-color:#b7e4d0;color:var(--green)}.input,.textarea{background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:8px;padding:14px;font-weight:700}.textarea{height:122px;line-height:1.7;font-weight:500}.two{display:grid;grid-template-columns:1fr 140px;gap:24px}.footer{display:flex;justify-content:space-between;margin-top:28px}.smallcard{background:#f8fafc;border:1.5px solid #dce5ef;border-radius:12px;padding:20px;margin:16px 0}.suggest{background:#e0f2ea;border-radius:12px;padding:20px;margin-top:18px}.page-actions{position:absolute;right:28px;top:84px;display:flex;gap:12px}.ai-metrics{display:grid;grid-template-columns:210px 210px 210px 1fr;gap:22px;margin-bottom:26px}.ai-metric{background:#fff;border-radius:12px;height:84px;padding:20px 26px}.score{font-size:34px;color:#f59e0b;font-weight:900}.issues{font-size:34px;color:#ef4444;font-weight:900}.page{scroll-margin-top:80px}
+
+.btn,.doc,.option,.filter,.upload,.back,.tabs a{cursor:pointer;transition:.18s ease}.btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px #0001}.page{display:none;margin-top:0}.page.active{display:block}.tabs a.active{background:var(--green);color:#fff;border-color:var(--green)}.toast{position:fixed;right:28px;bottom:28px;background:#0f5f3f;color:#fff;padding:16px 22px;border-radius:12px;font-weight:800;box-shadow:0 10px 30px #0003;z-index:99;display:none}.modal-bg{position:fixed;inset:0;background:#0005;display:none;align-items:center;justify-content:center;z-index:98}.modal{width:420px;background:#fff;border-radius:16px;padding:26px;box-shadow:0 20px 50px #0004}.modal h2{margin-top:0}.select-menu{position:fixed;background:#fff;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 14px 38px #0003;z-index:100;overflow:hidden;animation:drop .14s ease-out;max-height:260px;overflow-y:auto}.select-menu div{padding:12px 18px;font-weight:700;min-width:210px;color:#334155}.select-menu div:hover{background:#e0f2ea;color:#0f5f3f}.select-menu div.selected{background:#0f5f3f;color:#fff}.input.selectable,.filter{cursor:pointer;position:relative}.input.selectable::after,.filter::after{content:""}.input.selectable:hover,.filter:hover{border-color:#0f5f3f;background:#fff}.option{cursor:pointer}.date-pop{position:fixed;background:#fff;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 14px 38px #0003;z-index:101;padding:14px;animation:drop .14s ease-out}.date-pop input{padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-weight:700}@keyframes drop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.textarea[contenteditable="true"]{outline:0}.textarea[contenteditable="true"]:focus,.input:focus{border-color:#0f5f3f;background:#fff}
+
+/* Minimal responsive fixes: keep original visual style, only remove fixed canvas behavior */
+.frame{
+  width:min(1360px, calc(100vw - 32px));
+  height:auto;
+  min-height:850px;
+  margin:28px auto 70px;
+}
+.shell{min-height:850px;height:auto;}
+.row{flex-wrap:wrap;}
+.preview,.sidecard{min-width:0;}
+.doclist{width:min(470px, 100%);}
+.formcard{width:min(635px, 100%);}
+.ai-metrics{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
+.search{width:min(500px, calc(100vw - 520px));}
+@media (max-width:1100px){
+  .frame{margin:18px auto 48px;}
+  .shell{grid-template-columns:210px 1fr;}
+  .logo{margin-left:30px;}
+  .nav{padding-left:46px;}
+  .nav.active{padding-left:42px;}
+  .recent{margin-left:30px;}
+  .client{margin-left:38px;}
+  .main{padding:108px 20px 28px;}
+  .search{left:24px;width:360px;}
+  .metric{height:auto;min-height:72px;flex-wrap:wrap;padding:14px;gap:12px;}
+}
+@media (max-width:760px){
+  .tabs{padding:10px;overflow-x:auto;}
+  .tabs a{white-space:nowrap;padding:9px 12px;}
+  .shell{display:block;min-height:auto;}
+  .sidebar{display:flex;align-items:center;gap:8px;overflow-x:auto;padding:14px;background:#fff;border-bottom:1px solid #e5e7eb;}
+  .logo{margin:0 14px 0 0;font-size:24px;}
+  .nav,.nav.active{padding:9px 14px;border-left:0;border-radius:999px;white-space:nowrap;}
+  .recent,.client{display:none;}
+  .main{padding:96px 14px 24px;}
+  .topbar{height:74px;}
+  .search{left:14px;top:19px;width:calc(100% - 120px);}
+  .icons{right:12px;gap:8px;font-size:20px;}
+  .avatar{width:38px;height:38px;}
+  .page-actions{position:static;display:flex;justify-content:flex-end;margin:-48px 0 18px;}
+  .pagehead{align-items:flex-start;}
+  .circle{width:54px;height:54px;font-size:22px;margin-right:14px;}
+  .title{font-size:21px;}
+  .doc{grid-template-columns:34px 1fr;}.doc .status{grid-column:2;width:max-content;}
+  .two{grid-template-columns:1fr;}
+  .btn{padding:11px 16px;}
+  .ai-metrics{grid-template-columns:1fr;}
+}
+
+
+/* v24 hard fix: date fields must match full-width SaaS fields */
+input.text-date-field {
+  display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  height: 56px !important;
+  padding: 0 20px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 17px !important;
+  line-height: 56px !important;
+  color: #1f2937 !important;
+  background: #ffffff !important;
+  border: 1.5px solid #dfe5e2 !important;
+  border-radius: 14px !important;
+}
+
+input.text-date-field::placeholder {
+  color: #6b7280 !important;
+}
+
+.filter-date-row,
+.date-filter-row,
+.last-updated-row,
+.filter-date-wrap,
+.date-field,
+.filter-field,
+.filter-section .field {
+  display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
+
+
+
+/* v41 fix: Admin home filter dropdown follows the Filter button instead of drifting over the table */
+#filterDropdown.filter-dropdown.open {
+  display: block !important;
+  right: auto !important;
+  transform: none !important;
+}
+#filterDropdown .filter-range-date input.text-date-field,
+#filterDropdown .filter-range-date input.filter-date {
+  height: 44px !important;
+  line-height: 44px !important;
+  font-size: 14px !important;
+  padding: 0 14px !important;
+}
+
+</style>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<script>
+(function(){
+  if (window.__arkaBridgeInstalled) return;
+  window.__arkaBridgeInstalled = true;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (!href || href === '#' || href.charAt(0) === '#' || /^https?:/.test(href) || /^javascript:/.test(href) || /^mailto:/.test(href)) return;
+    var clean = href.split('?')[0].split('#')[0].split('/').pop();
+    var map = window.__arkaRouteMap || {};
+    if (map[clean]) { e.preventDefault(); arkaNav(map[clean]); }
+  }, true);
+})();
+</script>
+
+<body>
+
+<section id="files" class="page frame"><div class="shell"><aside class="sidebar"><div class="logo">Arka</div><div class="nav">Dashboard</div><div class="nav">Messages</div><div class="nav active">Clients</div><div class="recent">RECENT CLIENTS</div><div class="client"><b>TechStart Inc.</b><span>Technology</span></div><div class="client"><b>TechCorp Inc.</b><span>Technology</span></div><div class="client"><b>GlobalWorks Ltd</b><span>Consulting</span></div><div class="client"><b>Innovate Solutions</b><span>SaaS</span></div><div class="client"><b>Zenith Partners</b><span>Finance</span></div></aside><main class="main"><div class="topbar"><div class="search">⌕ Search clients, reports, documents...</div><div class="icons">✉ ♧ <div class="avatar">AL</div></div></div><div class="page-actions"><button class="btn green">+ Upload</button></div><button class="back" type="button">← Back</button><div class="pagehead"><div class="circle"></div><div><div class="title">TechCorp Inc. &gt; Files</div><div class="sub">Manage uploaded, missing, and pending files for TechCorp Inc.</div></div></div><div class="card metric"><div class="pill green">Completed <b style="font-size:26px;margin-left:35px;color:#111827">14/30</b></div><div class="pill yellow">Pending Review <b style="font-size:26px;margin-left:45px;color:#111827">5</b></div><div class="pill red">Missing <b style="font-size:26px;margin-left:45px;color:#111827">11</b></div><span style="color:#64748b">Completion</span><div><b style="color:#0f5f3f">47%</b><div class="progress"><i></i></div></div></div><div class="row" style="margin-top:22px"><div class="card doclist"><b style="color:#94a3b8">DOCUMENT LIST</b><span class="filters"><span class="filter" data-menu="company">Company: All ▼</span><span class="filter" data-menu="status">Status ▼</span><span class="filter" data-menu="updated">Last Updated ▼</span></span><div class="doc selected"><div class="box"></div><div><b>Employee Handbook</b><div class="sub">Compliance · Uploaded Apr 18</div></div><div class="status complete">● Complete</div></div><div class="doc"><div class="box"></div><div><b>Payroll Records</b><div class="sub">Compensation · Finance Team</div></div><div class="status missing">● Missing</div></div><div class="doc"><div class="box"></div><div><b>Offer Letter Templates</b><div class="sub">Recruitment · Uploaded Apr 20</div></div><div class="status pending">● Pending</div></div><div class="doc"><div class="box"></div><div><b>Benefits Plan Summary</b><div class="sub">Benefits · HR Manager</div></div><div class="status missing">● Missing</div></div><div class="doc"><div class="box"></div><div><b>Employee Relations Policy</b><div class="sub">Employee Relations · Apr 16</div></div><div class="status complete">● Complete</div></div><center><b style="color:#0f5f3f">View More</b></center></div><div class="card preview"><b>PREVIEW</b><button class="btn white" style="float:right;padding:8px 14px">Print</button><button class="btn green" style="float:right;padding:9px 20px;margin-right:8px">AI Analyze</button><center><h2>Employee Handbook</h2><div class="sub">Compliance · Uploaded by HR Team · Apr 18, 2024</div></center><div class="row" style="margin-top:12px"><div class="docfake" style="flex:1"><div class="line dark" style="width:80px"></div><div class="line" style="width:210px"></div><div class="line" style="width:175px"></div><div class="line" style="width:215px"></div><div class="line" style="width:188px"></div><br><div class="line" style="width:125px"></div><div class="line" style="width:210px"></div><div class="line" style="width:170px"></div></div><div><div class="upload">Upload New<br><small>PDF, DOCX, CSV</small></div><div class="smallcard"><b>File details</b><p>Size <b style="float:right">2.4 MB</b></p><p>Type <b style="float:right">PDF</b></p><p>Status <b style="float:right;color:#15803d">Approved</b></p></div></div></div></div></div></main></div></section>
+
+<section id="analysis" class="page frame"><div class="shell"><aside class="sidebar"><div class="logo">Arka</div><div class="nav">Dashboard</div><div class="nav">Messages</div><div class="nav active">Clients</div><div class="recent">RECENT CLIENTS</div><div class="client"><b>TechStart Inc.</b><span>Technology</span></div><div class="client"><b>TechCorp Inc.</b><span>Technology</span></div><div class="client"><b>GlobalWorks Ltd</b><span>Consulting</span></div><div class="client"><b>Innovate Solutions</b><span>SaaS</span></div><div class="client"><b>Zenith Partners</b><span>Finance</span></div></aside><main class="main"><div class="topbar"><div class="search">⌕ Search clients, reports, documents...</div><div class="icons">✉ ♧ <div class="avatar">AL</div></div></div><div class="page-actions"><button class="btn white">Print</button><button class="btn green">Export</button></div><button class="back" type="button">← Back</button><div class="pagehead"><div class="circle">AI</div><div><div class="title">TechCorp Inc. &gt; File &gt; AI Analysis</div><div class="sub">Employee Handbook · Compliance · Uploaded by HR Team · Apr 18, 2024</div></div></div><div class="ai-metrics"><div class="ai-metric"><b style="color:#64748b">AI Score</b><br><span class="score">72%</span> <span class="muted">Needs review</span></div><div class="ai-metric"><b style="color:#64748b">Risk Level</b><br><div class="pill yellow" style="display:inline-block;margin-top:10px;padding:8px 34px">Medium</div></div><div class="ai-metric"><b style="color:#64748b">Issues Found</b><br><span class="issues">4</span> <span>requires action</span></div><div class="ai-metric" style="background:#e0f2ea"><b style="color:#0f5f3f">Recommended Next Step</b><br><br><b>Request updates to compliance section</b></div></div><div class="row"><div class="card" style="width:340px;padding:26px"><h3>DOCUMENT PREVIEW</h3><div class="docfake" style="height:280px;background:#f8fafc"><div class="line dark" style="width:95px"></div><div class="line" style="width:205px"></div><div class="line" style="width:175px"></div><div class="line" style="width:215px"></div><div class="line" style="width:170px"></div><br><div class="line" style="width:135px"></div><div class="line" style="width:215px"></div><div class="line" style="width:175px"></div></div><p class="sub">Selected document</p><h3>Employee Handbook.pdf</h3></div><div class="card" style="flex:1;padding:26px"><h2>AI Findings</h2><p class="sub">Auto-detected risks and missing policy areas from the uploaded document.</p><div class="issue high"><span class="dot red"></span><b>Missing harassment reporting process</b><b style="float:right;color:#dc2626">High</b><br><span class="sub" style="margin-left:32px">The handbook mentions conduct rules but does not explain how employees can report issues.</span></div><div class="issue med"><span class="dot yellow"></span><b>Outdated leave policy language</b><b style="float:right;color:#b45309">Medium</b><br><span class="sub" style="margin-left:32px">Several sections should be reviewed against current company policy and local requirements.</span></div><div class="issue"><span class="dot gray"></span><b>Employee acknowledgment not included</b><b style="float:right;color:#64748b">Low</b><br><span class="sub" style="margin-left:32px">Consider adding a signature page or digital acknowledgment workflow.</span></div><div class="row" style="margin-top:22px"><div class="suggest" style="flex:1;margin:0"><b style="color:#0f5f3f">Suggested Action</b><br>Send update request to HR Team with highlighted issues.</div><button class="btn green" style="width:198px">Create Request</button></div></div></div></main></div></section>
+
+<section id="request" class="page frame"><div class="shell"><aside class="sidebar"><div class="logo">Arka</div><div class="nav">Dashboard</div><div class="nav">Messages</div><div class="nav active">Clients</div><div class="recent">RECENT CLIENTS</div><div class="client"><b>TechStart Inc.</b><span>Technology</span></div><div class="client"><b>TechCorp Inc.</b><span>Technology</span></div><div class="client"><b>GlobalWorks Ltd</b><span>Consulting</span></div><div class="client"><b>Innovate Solutions</b><span>SaaS</span></div><div class="client"><b>Zenith Partners</b><span>Finance</span></div></aside><main class="main"><div class="topbar"><div class="search">⌕ Search clients, reports, documents...</div><div class="icons">✉ ♧ <div class="avatar">AL</div></div></div><button class="back" type="button">← Back</button><div class="pagehead"><div class="circle">RQ</div><div><div class="title">TechCorp Inc. &gt; File &gt; AI Analysis &gt; Create Request</div><div class="sub">Employee Handbook · Missing harassment reporting process · High priority</div></div></div><div class="row"><div class="card formcard"><h2>Request Details</h2><p class="sub">Create a follow-up request for the selected company document.</p><div class="fieldlabel">Request Type</div><div class="option active">Update Submission</div><div class="option">Leave Message</div><div class="option">Submit File</div><div class="two"><div><div class="fieldlabel">Related Issue</div><div class="input selectable" data-menu="issue">Missing harassment reporting process ▼</div></div><div><div class="fieldlabel">Priority</div><div class="input selectable" data-menu="priority" style="background:#fff3d6;color:#b45309">High ▼</div></div></div><div class="fieldlabel">Message to Client</div><div class="textarea">Please update the Employee Handbook to include a clear harassment reporting process, including reporting channels, responsible contacts, anonymous complaint options, and escalation steps.</div><div class="two"><div><div class="fieldlabel">Attach Reference</div><div class="input" data-action="attach">Upload reference file or add reference link</div></div><div><div class="fieldlabel">Due Date</div><div class="input selectable" data-menu="date">May 10, 2026</div></div></div><div class="fieldlabel">Assign To</div><div class="input selectable" data-menu="assign" style="width:230px">HR Team ▼</div><div class="footer"><button class="btn white">Save as Draft</button><button class="btn green">Send Request</button></div></div><div class="card sidecard"><h2>Request Context</h2><div class="smallcard"><b>Employee Handbook.pdf</b><p class="sub">Uploaded by HR Team · Apr 18, 2024</p><p>Type <b style="float:right">PDF</b></p><p>Status <b style="float:right;color:#15803d">Approved</b></p></div><div class="issue high"><span class="dot red"></span><b>Missing harassment reporting process</b><b style="float:right;color:#dc2626">High</b><p class="sub" style="margin-left:32px">The current handbook mentions conduct rules but does not define how employees should report harassment or escalation issues.</p></div><div class="suggest"><b style="color:#0f5f3f">AI Suggested Action</b><p>Request update to include reporting channels, anonymous complaint options, responsible contacts, and escalation steps.</p></div><div class="smallcard"><b>After sending</b><p class="sub">This request will be sent to the company HR team and saved under the document activity history.</p></div></div></div></main></div></section>
+
+<div class="toast" id="toast"></div>
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2 id="modalTitle">Request Sent</h2>
+    <p id="modalText" class="sub">The request has been sent to HR Team and saved in the document activity history.</p>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px">
+      <button class="btn white" id="modalClose">Close</button>
+      <button class="arka-files-new-request-btn" type="button" onclick="arkaOpenNewRequestForCurrentCompany()">
+              <span style="font-size:16px;line-height:1;">+</span>
+              New Request
+            </button>
+            <button class="btn green" id="modalGoFiles">← Back to Files</button>
+    </div>
+  </div>
+</div>
+<script>
+const pages=['files','analysis','request'];
+const tabs=[];
+function showPage(id){
+  pages.forEach(p=>document.getElementById(p).classList.toggle('active',p===id));
+  tabs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display='none',2200)}
+function modal(title,text){document.getElementById('modalTitle').textContent=title;document.getElementById('modalText').textContent=text;document.getElementById('modalBg').style.display='flex'}
+document.getElementById('modalClose').onclick=()=>document.getElementById('modalBg').style.display='none';
+document.getElementById('modalGoFiles').onclick=()=>{document.getElementById('modalBg').style.display='none';showPage('files')};
+
+[...document.querySelectorAll('button')].forEach(btn=>{
+  const txt=btn.textContent.trim();
+  if(txt==='AI Analyze') btn.onclick=()=>showPage('analysis');
+  if(txt==='Create Request') btn.onclick=()=>showPage('request');
+  if(txt==='Cancel') btn.onclick=()=>showPage('analysis');
+  if(txt==='Send Request') btn.onclick=()=>modal('Request Sent','The update request has been sent to HR Team with the selected issue, priority, due date, and message.');
+  if(txt==='Save as Draft') btn.onclick=()=>toast('Draft saved.');
+  if(txt==='Print') btn.onclick=()=>toast('Print preview opened.');
+  if(txt==='Export') btn.onclick=()=>toast('AI analysis exported.');
+  if(txt.includes('Upload')) btn.onclick=()=>toast('Upload dialog opened.');
+});
+[...document.querySelectorAll('.back')].forEach((b,i)=>b.onclick=()=>{ if(i===0) toast('Returned to client dashboard.'); if(i===1) showPage('files'); if(i===2) showPage('analysis'); });
+[...document.querySelectorAll('.doc')].forEach(doc=>doc.onclick=()=>{document.querySelectorAll('.doc').forEach(d=>d.classList.remove('selected'));doc.classList.add('selected');toast(doc.querySelector('b').textContent+' selected.');});
+[...document.querySelectorAll('.option')].forEach(opt=>opt.onclick=()=>{opt.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));opt.classList.add('active');toast(opt.textContent.replace('●','').trim()+' selected.');});
+[...document.querySelectorAll('.textarea')].forEach(t=>t.setAttribute('contenteditable','true'));
+const menus={
+  company:['Company: All','Company: TechCorp Inc.','Company: TechStart Inc.','Company: GlobalWorks Ltd','Company: Innovate Solutions','Company: Zenith Partners'],
+  status:['Status: All','Status: Complete','Status: Pending Review','Status: Missing'],
+  updated:['Last Updated','Newest First','Oldest First','Uploaded This Week','Uploaded This Month'],
+  issue:['Missing harassment reporting process','Outdated leave policy language','Employee acknowledgment not included','Benefits policy needs review'],
+  priority:['High','Medium','Low'],
+  assign:['HR Team','Compliance Team','Legal Team','Company Admin','Document Owner']
+};
+function cleanValue(text){return text.replace('▼','').trim()}
+function selectMenu(el,items){
+  document.querySelectorAll('.select-menu,.date-pop').forEach(m=>m.remove());
+  const r=el.getBoundingClientRect();
+  const m=document.createElement('div');
+  m.className='select-menu';
+  m.style.left=r.left+'px';
+  m.style.top=(r.bottom+6)+'px';
+  const current=cleanValue(el.textContent);
+  items.forEach(item=>{
+    const d=document.createElement('div');
+    d.textContent=item;
+    if(item===current || current.includes(item.replace('Company: ','').replace('Status: ',''))) d.classList.add('selected');
+    d.onclick=(ev)=>{
+      ev.stopPropagation();
+      const keepArrow=el.textContent.includes('▼') || el.dataset.menu;
+      el.textContent=item+(keepArrow?' ▼':'');
+      if(el.dataset.menu==='priority'){
+        el.style.background=item==='High'?'#fff3d6':item==='Medium'?'#fffbeb':'#f8fafc';
+        el.style.color=item==='High'?'#b45309':item==='Medium'?'#92400e':'#334155';
+      }
+      m.remove();
+      toast(item+' selected.');
+    };
+    m.appendChild(d);
+  });
+  document.body.appendChild(m);
+}
+function datePicker(el){
+  document.querySelectorAll('.select-menu,.date-pop').forEach(m=>m.remove());
+  const r=el.getBoundingClientRect();
+  const box=document.createElement('div');
+  box.className='date-pop';
+  box.style.left=r.left+'px';
+  box.style.top=(r.bottom+6)+'px';
+  box.innerHTML='<input type="text" inputmode="numeric" placeholder="YYYY-MM-DD" lang="en" value="2026-05-10" class="filter-date text-date-field"><button class="btn green" style="padding:10px 16px;margin-left:8px">Apply</button>';
+  box.querySelector('button').onclick=(ev)=>{
+    ev.stopPropagation();
+    const v=box.querySelector('input').value;
+    const d=new Date(v+'T00:00:00');
+    const label=d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    el.textContent=label;
+    box.remove();
+    toast('Due date set to '+label+'.');
+  };
+  document.body.appendChild(box);
+}
+document.querySelectorAll('[data-menu]').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    const key=el.dataset.menu;
+    if(key==='date') return datePicker(el);
+    selectMenu(el, menus[key] || ['All']);
+  });
+});
+document.querySelectorAll('[data-action="attach"]').forEach(el=>el.onclick=()=>toast('Choose upload file or paste reference link.'));
+document.addEventListener('click',e=>{if(!e.target.closest('.select-menu')&&!e.target.closest('.date-pop')&&!e.target.closest('[data-menu]'))document.querySelectorAll('.select-menu,.date-pop').forEach(m=>m.remove())});
+showPage('files');
+</script>
+</body>
+</html>

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+// Multi-page navigation helper
+var __ARKA_ROUTES = {"login": "login.html", "signup-admin": "signup-admin.html", "signup-client": "signup-client.html", "landing": "landing.html", "admin-dashboard": "admin-dashboard.html", "admin-calendar": "admin-calendar.html", "admin-chat": "admin-chat.html", "admin-client-detail": "admin-client-detail.html", "admin-client-detail-gw": "admin-client-detail-gw.html", "admin-client-detail-is": "admin-client-detail-is.html", "admin-client-detail-cr": "admin-client-detail-cr.html", "admin-view-documents": "admin-view-documents.html", "client-portal": "client-portal.html", "admin-new-request": "admin-new-request.html", "admin-create-request": "admin-create-request.html", "admin-doc-request": "admin-doc-request.html", "admin-completed-assessment": "admin-completed-assessment.html"};
+function arkaNav(target) {
+  var fname = __ARKA_ROUTES[target];
+  if (fname) window.location.href = fname;
+}
+// Intercept any remaining parent.postMessage arka-nav calls
+window.parent = window.parent || {};
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>.ark-attn-header,.ark-attn-item,.ark-attn-count,.ark-rc-tag,.ark-recent{display:none!important}</style>
+<title>Arka — Sign In</title>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark: #1a4a30;
+    --green-mid: #2d6b47;
+    --green-light: #c8ddd0;
+    --green-pale: #e8f2ec;
+    --text-dark: #1a3024;
+    --text-mid: #4a6657;
+    --text-muted: #8aab97;
+    --border: #ccddd5;
+    --white: #ffffff;
+    --red: #c0392b;
+    --red-pale: #fef2f2;
+    --input-bg: #fafdfc;
+    --shadow: 0 8px 40px rgba(26,74,48,0.10);
+    --client-blue: #2563eb;
+    --client-blue-pale: #eff6ff;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #c8ddd0 0%, #e8f2ec 40%, #f5faf7 70%, #dceee4 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 10% 60%, rgba(45,107,71,0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 90% 30%, rgba(200,221,208,0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .back-login { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; width: max-content; color: #1a4a30; text-decoration: none; font-size: 13px; line-height: 1; font-weight: 700; background: rgba(255,255,255,0.72); border: 1px solid rgba(26,74,48,0.18); padding: 10px 15px; border-radius: 999px; margin-bottom: 16px; cursor: pointer; font-family: 'DM Sans', sans-serif; box-shadow: 0 2px 8px rgba(26,74,48,0.06); transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; appearance: none; -webkit-appearance: none; }
+  .back-login:hover { background: #e8f2ec; border-color: rgba(26,74,48,0.32); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,74,48,0.10); }
+
+  .logo-bar {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo {
+    font-family: 'Sora', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    letter-spacing: 0.01em;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 44px 44px 36px;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(200,221,208,0.5);
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.5s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .card-sub {
+    font-size: 0.92rem;
+    color: var(--text-mid);
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .secure-bar {
+    background: var(--green-pale);
+    border: 1px solid rgba(200,221,208,0.7);
+    border-radius: 10px;
+    padding: 9px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 26px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Detected role indicator */
+  .role-detect {
+    background: var(--green-pale);
+    border: 1px solid rgba(200,221,208,0.8);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    animation: slideIn 0.3s cubic-bezier(.16,1,.3,1) both;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .role-detect.active { display: flex; }
+  .role-detect.client {
+    background: var(--client-blue-pale);
+    border-color: rgba(37,99,235,0.25);
+    color: #1e40af;
+  }
+  .role-detect.admin {
+    background: var(--green-pale);
+    border-color: rgba(200,221,208,0.8);
+    color: var(--green-dark);
+  }
+  .role-detect-icon {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .role-detect.client .role-detect-icon {
+    background: var(--client-blue); color: white;
+  }
+  .role-detect.admin .role-detect-icon {
+    background: var(--green-dark); color: white;
+  }
+  .role-detect-text {
+    flex: 1;
+    line-height: 1.4;
+  }
+  .role-detect-text strong {
+    font-weight: 600;
+  }
+
+  .field-group {
+    margin-bottom: 18px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+
+  .req {
+    color: var(--red);
+    margin-left: 2px;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--text-muted);
+    pointer-events: none;
+    display: flex;
+  }
+
+  .input-wrap input {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px 12px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s;
+  }
+
+  .input-wrap input:focus {
+    border-color: var(--green-mid);
+    box-shadow: 0 0 0 3px rgba(45,107,71,0.10);
+  }
+
+  .input-wrap input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .eye-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    transition: color 0.15s;
+  }
+
+  .eye-btn:hover { color: var(--green-mid); }
+
+  .row-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    margin-top: -4px;
+  }
+
+  .remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.84rem;
+    color: var(--text-mid);
+  }
+
+  .remember input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--green-dark);
+    cursor: pointer;
+  }
+
+  .forgot-link {
+    font-size: 0.84rem;
+    color: var(--green-dark);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+
+  .forgot-link:hover {
+    color: var(--green-mid);
+    text-decoration: underline;
+  }
+
+  .btn-submit {
+    width: 100%;
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-submit:hover {
+    background: var(--green-mid);
+    box-shadow: 0 4px 20px rgba(26,74,48,0.22);
+    transform: translateY(-1px);
+  }
+
+  .btn-submit .btn-arrow {
+    width: 22px; height: 22px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 22px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Sign up section */
+  .signup-section {
+    text-align: center;
+  }
+
+  .signup-prompt {
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    margin-bottom: 12px;
+  }
+
+  .signup-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .signup-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 11px;
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.18s;
+  }
+
+  .signup-btn:hover {
+    border-color: var(--green-mid);
+    background: var(--green-pale);
+    color: var(--green-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26,74,48,0.08);
+  }
+
+  .signup-btn-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--green-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--green-dark);
+    transition: all 0.18s;
+  }
+
+  .signup-btn:hover .signup-btn-icon {
+    background: var(--green-dark);
+    color: white;
+  }
+
+  .signup-btn-label {
+    line-height: 1.2;
+  }
+
+  .signup-btn-sublabel {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Demo hints */
+  .demo-hint {
+    margin-top: 22px;
+    padding: 12px 14px;
+    background: rgba(252, 248, 227, 0.6);
+    border: 1px dashed rgba(180, 100, 0, 0.25);
+    border-radius: 10px;
+    font-size: 0.74rem;
+    color: #74510a;
+    line-height: 1.5;
+  }
+  .demo-hint strong { font-weight: 600; }
+  .demo-hint code {
+    background: rgba(255,255,255,0.7);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-family: 'SF Mono', Menlo, monospace;
+  }
+
+  .security-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 22px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .error-msg {
+    color: var(--red);
+    background: var(--red-pale);
+    border: 1px solid rgba(192,57,43,0.2);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .error-msg.show { display: flex; }
+
+  /* Routing modal */
+  .route-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,40,28,0.55);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .route-overlay.show {
+    display: flex;
+    opacity: 1;
+  }
+
+  .route-card {
+    background: white;
+    border-radius: 18px;
+    padding: 36px 40px;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    animation: popIn 0.4s cubic-bezier(.16,1,.3,1) both;
+  }
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .route-icon-ring {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    border: 2.5px solid;
+  }
+  .route-icon-ring.admin {
+    background: var(--green-pale);
+    border-color: var(--green-light);
+    color: var(--green-dark);
+  }
+  .route-icon-ring.client {
+    background: var(--client-blue-pale);
+    border-color: rgba(37,99,235,0.3);
+    color: var(--client-blue);
+  }
+
+  .route-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .route-title.admin { color: var(--green-dark); }
+  .route-title.client { color: var(--client-blue); }
+
+  .route-msg {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    line-height: 1.55;
+    margin-bottom: 22px;
+  }
+
+  .route-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 6px;
+    vertical-align: -2px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+/* v24 hard fix: date fields must match full-width SaaS fields */
+input.text-date-field {
+  display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  height: 56px !important;
+  padding: 0 20px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 17px !important;
+  line-height: 56px !important;
+  color: #1f2937 !important;
+  background: #ffffff !important;
+  border: 1.5px solid #dfe5e2 !important;
+  border-radius: 14px !important;
+}
+
+input.text-date-field::placeholder {
+  color: #6b7280 !important;
+}
+
+.filter-date-row,
+.date-filter-row,
+.last-updated-row,
+.filter-date-wrap,
+.date-field,
+.filter-field,
+.filter-section .field {
+  display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
+
+
+
+/* v41 fix: Admin home filter dropdown follows the Filter button instead of drifting over the table */
+#filterDropdown.filter-dropdown.open {
+  display: block !important;
+  right: auto !important;
+  transform: none !important;
+}
+#filterDropdown .filter-range-date input.text-date-field,
+#filterDropdown .filter-range-date input.filter-date {
+  height: 44px !important;
+  line-height: 44px !important;
+  font-size: 14px !important;
+  padding: 0 14px !important;
+}
+
+</style>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<script>
+(function(){
+  if (window.__arkaBridgeInstalled) return;
+  window.__arkaBridgeInstalled = true;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (!href || href === '#' || href.charAt(0) === '#' || /^https?:/.test(href) || /^javascript:/.test(href) || /^mailto:/.test(href)) return;
+    var clean = href.split('?')[0].split('#')[0].split('/').pop();
+    var map = window.__arkaRouteMap || {};
+    if (map[clean]) { e.preventDefault(); arkaNav(map[clean]); }
+  }, true);
+})();
+</script>
+
+<body>
+
+<!-- Routing Modal -->
+<div class="route-overlay" id="routeOverlay">
+  <div class="route-card">
+    <div class="route-icon-ring" id="routeIconRing">
+      <svg id="routeIcon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M22 11l-3-3m0 0-3 3m3-3v12"/>
+      </svg>
+    </div>
+    <div class="route-title" id="routeTitle">Welcome back</div>
+    <p class="route-msg" id="routeMsg">
+      <span class="route-spinner"></span>
+      Redirecting you to your dashboard...
+    </p>
+  </div>
+</div>
+
+<div class="logo-bar">
+  <span class="logo">Arka</span>
+</div>
+
+<div class="card">
+  <h1 class="card-title">Welcome back</h1>
+  <p class="card-sub">Sign in to access your Arka workspace.</p>
+
+  <div class="secure-bar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Secure &amp; Trusted
+  </div>
+
+  <div class="error-msg" id="errorMsg">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span id="errorMsgText">Please enter both your email and password.</span>
+  </div>
+
+  <!-- Email -->
+  <div class="field-group">
+    <label class="field-label" for="emailInput">Email <span class="req">*</span></label>
+    <div class="input-wrap">
+      <span class="input-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+      </span>
+      <input type="email" id="emailInput" placeholder="name@company.com" oninput="detectRole()" autocomplete="email">
+    </div>
+  </div>
+
+  <!-- Detected role indicator -->
+  <div class="role-detect" id="roleDetect">
+    <div class="role-detect-icon" id="roleIconBox">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="role-detect-text" id="roleDetectText">
+      Detected as <strong>Admin</strong> — you'll sign in to the consultant workspace.
+    </div>
+  </div>
+
+  <!-- Password -->
+  <div class="field-group">
+    <label class="field-label" for="passwordInput">Password <span class="req">*</span></label>
+    <div class="input-wrap">
+      <span class="input-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </span>
+      <input type="password" id="passwordInput" placeholder="Enter your password" autocomplete="current-password">
+      <button class="eye-btn" onclick="togglePw('passwordInput',this)" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Remember + Forgot -->
+  <div class="row-between">
+    <label class="remember">
+      <input type="checkbox" id="rememberMe">
+      <span>Remember me</span>
+    </label>
+    <a href="#" class="forgot-link" onclick="return false;">Forgot password?</a>
+  </div>
+
+  <!-- Sign in button -->
+  <button class="btn-submit" type="button" onclick="handleSignIn()">
+    Sign In
+    <span class="btn-arrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </button>
+
+  <!-- Divider -->
+  <div class="divider">New to Arka?</div>
+
+  <!-- Sign up options -->
+  <div class="signup-section">
+    <div class="signup-buttons">
+      <a href="#client-registration" class="signup-btn" onclick="goToSignup('client'); return false;">
+        <div class="signup-btn-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>
+        </div>
+        <div class="signup-btn-label">
+          Sign up as Client
+          <div class="signup-btn-sublabel">For HR teams</div>
+        </div>
+      </a>
+      <a href="#admin-registration" class="signup-btn" onclick="goToSignup('admin'); return false;">
+        <div class="signup-btn-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div class="signup-btn-label">
+          Sign up as Admin
+          <div class="signup-btn-sublabel">For consultants</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Demo Hint -->
+  <div class="demo-hint">
+    <strong>Demo tip:</strong> Try <code>alex@arkahr.com</code> for admin portal, or any other email (e.g. <code>jane@techcorp.com</code>) for client portal. Any password works.
+  </div>
+
+  <div class="security-note">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2d6b47" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    Encrypted &amp; protected. We never share your data.
+  </div>
+</div>
+
+<script>
+  // ─── Role detection logic ────────────────────────────────────────
+  // Admin if email contains "admin" OR ends with @arkahr.com / @arka.com / @arka.hr
+  // Otherwise → client
+  function isAdminEmail(email) {
+    const lower = email.toLowerCase().trim();
+    if (!lower || !lower.includes('@')) return null;
+    const adminDomains = ['@arkahr.com', '@arka.com', '@arka.hr'];
+    if (adminDomains.some(d => lower.endsWith(d))) return true;
+    if (lower.startsWith('admin@') || lower.includes('admin') || lower.includes('consultant')) return true;
+    // Specific demo accounts
+    const adminAccounts = ['alex@arkahr.com', 'marcela@arkahr.com', 'andreina@arkahr.com'];
+    if (adminAccounts.includes(lower)) return true;
+    return false;
+  }
+
+  function detectRole() {
+    const email = document.getElementById('emailInput').value;
+    const detect = document.getElementById('roleDetect');
+    const text = document.getElementById('roleDetectText');
+    const iconBox = document.getElementById('roleIconBox');
+
+    // Hide if invalid email format
+    if (!email || !email.includes('@') || email.split('@')[1].length < 2) {
+      detect.classList.remove('active', 'admin', 'client');
+      return;
+    }
+
+    const isAdmin = isAdminEmail(email);
+    detect.classList.add('active');
+    detect.classList.remove('admin', 'client');
+
+    if (isAdmin) {
+      detect.classList.add('admin');
+      text.innerHTML = 'Detected as <strong>Admin</strong> — you\'ll sign in to the consultant workspace.';
+    } else {
+      detect.classList.add('client');
+      text.innerHTML = 'Detected as <strong>Client</strong> — you\'ll sign in to your company portal.';
+    }
+  }
+
+  function togglePw(id, btn) {
+    const inp = document.getElementById(id);
+    const isText = inp.type === 'text';
+    inp.type = isText ? 'password' : 'text';
+    btn.innerHTML = isText
+      ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+      : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+  }
+
+  function showError(msg) {
+    const err = document.getElementById('errorMsg');
+    document.getElementById('errorMsgText').textContent = msg;
+    err.classList.add('show');
+    setTimeout(() => err.classList.remove('show'), 4000);
+  }
+
+  function handleSignIn() {
+    const email = document.getElementById('emailInput').value.trim();
+    const password = document.getElementById('passwordInput').value;
+
+    if (!email || !password) {
+      showError('Please enter both your email and password.');
+      return;
+    }
+    if (!email.includes('@') || email.split('@')[1].length < 2) {
+      showError('Please enter a valid email address.');
+      return;
+    }
+    const isAdmin = isAdminEmail(email);
+    showRouteModal(isAdmin);
+  }
+
+  function showRouteModal(isAdmin) {
+    const overlay = document.getElementById('routeOverlay');
+    const ring = document.getElementById('routeIconRing');
+    const title = document.getElementById('routeTitle');
+    const msg = document.getElementById('routeMsg');
+    const icon = document.getElementById('routeIcon');
+
+    ring.classList.remove('admin', 'client');
+    title.classList.remove('admin', 'client');
+
+    if (isAdmin) {
+      ring.classList.add('admin');
+      title.classList.add('admin');
+      title.textContent = 'Welcome, Consultant';
+      msg.innerHTML = '<span class="route-spinner"></span> Loading your admin dashboard...';
+      icon.innerHTML = `
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="m9 12 2 2 4-4"/>`;
+    } else {
+      ring.classList.add('client');
+      title.classList.add('client');
+      title.textContent = 'Welcome';
+      msg.innerHTML = '<span class="route-spinner"></span> Loading your company portal...';
+      icon.innerHTML = `
+        <path d="M3 21h18"/>
+        <path d="M5 21V7l8-4v18"/>
+        <path d="M19 21V11l-6-4"/>
+        <path d="M9 9v.01"/>
+        <path d="M9 12v.01"/>
+        <path d="M9 15v.01"/>
+        <path d="M9 18v.01"/>`;
+    }
+
+    overlay.classList.add('show');
+    // Navigate to the appropriate page after a short pause for visual feedback
+    setTimeout(() => {
+      const target = isAdmin ? 'admin-dashboard' : 'client-portal';
+      msg.innerHTML = `Routing to <strong>${isAdmin ? 'Admin Dashboard' : 'Client Portal'}</strong>...`;
+      setTimeout(() => {
+        if (window.parent !== window) {
+          arkaNav(target);
+        } else {
+          // Standalone fallback (when opened directly outside the SPA shell)
+          window.location.href = isAdmin ? 'admin-dashboard.html' : 'client-portal.html';
+        }
+      }, 700);
+    }, 800);
+
+    overlay.addEventListener('click', () => overlay.classList.remove('show'), { once: true });
+  }
+
+  function goToSignup(role) {
+    const target = role === 'admin' ? 'signup-admin' : 'signup-client';
+    if (window.parent !== window) {
+      arkaNav(target);
+    } else {
+      window.location.href = role === 'admin' ? 'signup-admin.html' : 'signup-client.html';
+    }
+  }
+
+  // Allow Enter key to submit
+  document.getElementById('emailInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('passwordInput').focus();
+  });
+  document.getElementById('passwordInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSignIn();
+  });
+</script>
+
+
+</body>
+</html>
