@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A UX/UI case study for ARKA HR, focused on designing a workflow-centered scheduling module for an inherited HR platform prototype.">
+  <title>ARKA HR — Kexin Huang</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="monogram" href="index.html">gh</a>
+
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+    Menu
+  </button>
+
+  <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+    <a href="ux.html">UX/UI</a>
+    <a href="graphic.html">Graphic</a>
+    <a href="photography.html">Photography</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="resume/grace-huang-resume.pdf" target="_blank" rel="noopener">Resume</a>
+  </nav>
+</header>
+
+<main class="case-page">
+  <section class="case-hero case-hero-with-logo page-width">
+    <a class="back-link" href="ux.html">← UX/UI Design</a>
+
+    <div class="case-hero-grid">
+      <div class="case-hero-copy">
+        <p class="eyebrow">Client-Sponsored Capstone Project</p>
+        <h1>ARKA HR</h1>
+        <p class="case-subtitle">
+          Building on an inherited product prototype, I designed the missing scheduling
+          module and shaped it into a workflow-centered calendar system for an HR
+          management platform.
+        </p>
+      </div>
+
+      <figure class="case-logo-mark">
+        <img src="images/arka-logo.png" alt="Arka logo">
+      </figure>
+    </div>
+
+    <div class="case-meta-grid">
+      <div>
+        <span>Role</span>
+        <p>UX/UI Designer</p>
+      </div>
+      <div>
+        <span>Timeline</span>
+        <p>Jan 2026 – Jul 2026</p>
+      </div>
+      <div>
+        <span>Tools</span>
+        <p>Figma, HTML, CSS, JavaScript</p>
+      </div>
+      <div>
+        <span>Focus</span>
+        <p>Scheduling workflow, event management, admin/client interfaces</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-visual page-width">
+    <img src="images/arka-admin-calendar.jpg" alt="ARKA HR admin calendar interface">
+  </section>
+
+  <section class="case-section page-width two-column-section">
+    <div>
+      <p class="eyebrow">Project Overview</p>
+      <h2>Defining a missing module within an existing product system</h2>
+    </div>
+    <div class="case-copy">
+      <p>
+        ARKA HR is an HR management platform designed to support consultants and
+        clients through hiring, documentation, communication, and project
+        coordination. Our team inherited an existing Figma prototype from a
+        previous project group. Most core pages had already been drafted, but
+        the calendar module was still undefined.
+      </p>
+      <p>
+        Since scheduling is essential to an HR workflow, I focused on designing
+        a calendar experience that could support ARKA’s broader product flow
+        rather than functioning as a generic date-tracking tool.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-visual page-width case-visual-captioned">
+    <img src="images/arka-inherited-figma.jpg" alt="Inherited Figma file overview showing individual design explorations from the team">
+    <p>Inherited Figma context and early individual design explorations.</p>
+  </section>
+
+  <section class="case-section page-width two-column-section">
+    <div>
+      <p class="eyebrow">My Role</p>
+      <h2>Designing the calendar as a workflow hub</h2>
+    </div>
+    <div class="case-copy">
+      <p>
+        I led the design of the calendar-centered workflow, including the admin
+        calendar, client calendar, event detail panel, add-event flow, and the
+        connections between events, meetings, attachments, related chats, and
+        follow-up actions.
+      </p>
+      <p>
+        I also translated selected Figma screens into responsive HTML, CSS, and
+        JavaScript for the interactive demo.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-section page-width two-column-section">
+    <div>
+      <p class="eyebrow">Challenge</p>
+      <h2>What should “calendar” mean inside ARKA?</h2>
+    </div>
+    <div class="case-copy">
+      <p>
+        A basic calendar could show dates and events, but ARKA needed something
+        more connected to its workflow. Events needed to relate to client
+        projects, interviews, document requests, meetings, deadlines, and
+        communication.
+      </p>
+      <p>
+        The goal was to create a scheduling experience that helped users
+        understand what needed attention and move into the next action quickly.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-section page-width two-column-section">
+    <div>
+      <p class="eyebrow">Research &amp; References</p>
+      <h2>Learning from familiar scheduling tools</h2>
+    </div>
+    <div class="case-copy">
+      <p>
+        To understand how different scheduling systems support work, I reviewed
+        patterns from tools such as Microsoft Teams, Outlook Calendar, Calendly,
+        and Northeastern’s calendar experience.
+      </p>
+      <p>
+        I compared how these tools handled event creation, meeting details,
+        status visibility, calendar views, and action entry points. This helped
+        me identify what should stay familiar, what needed stronger context, and
+        how ARKA’s calendar could serve the platform’s HR-specific workflow.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-visual page-width case-visual-captioned">
+    <img src="images/arka-early-calendar.jpg" alt="Early ARKA calendar design exploration">
+    <p>Early calendar exploration before the workflow was simplified and reorganized.</p>
+  </section>
+
+  <section class="case-visual page-width">
+    <img src="images/arka-event-details.jpg" alt="ARKA HR event detail panel with meeting information, attachments, related chat, and action buttons">
+  </section>
+
+  <section class="case-section page-width two-column-section">
+    <div>
+      <p class="eyebrow">Design Direction</p>
+      <h2>A platform-native scheduling layer, not a generic calendar</h2>
+    </div>
+    <div class="case-copy">
+      <p>
+        For the admin side, I created a monthly calendar view with event status
+        indicators, project-related events, deadline visibility, and a right-side
+        detail panel. The detail panel brings together meeting information,
+        attachments, related chat, and key actions such as rescheduling or adding
+        the event to a personal calendar.
+      </p>
+      <p>
+        For the client side, I simplified the experience so clients could view
+        interviews, deadlines, and important dates without seeing the full
+        complexity of the admin workflow.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-visual page-width">
+    <img src="images/arka-add-event.jpg" alt="ARKA HR add event drawer over the calendar page">
+  </section>
+
+  <section class="case-section page-width two-column-section">
+    <div>
+      <p class="eyebrow">Final Solution</p>
+      <h2>Connecting events, context, and follow-up actions</h2>
+    </div>
+    <div class="case-copy">
+      <p>
+        The final design includes an admin calendar view for managing meetings,
+        deadlines, and project-related events; an event detail panel connecting
+        event information with attachments, related chat, and follow-up actions;
+        an add-event drawer that lets users create events without leaving the
+        calendar context; and a client calendar view focused on scheduled
+        interviews and upcoming deadlines.
+      </p>
+      <p>
+        This structure allows the calendar to support ARKA’s workflow while
+        remaining familiar to users who already understand common calendar tools.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-visual page-width">
+    <img src="images/arka-client-calendar.jpg" alt="ARKA HR client calendar interface">
+  </section>
+
+  <section class="case-section page-width two-column-section">
+    <div>
+      <p class="eyebrow">Future Integration</p>
+      <h2>Designed with external calendar tools in mind</h2>
+    </div>
+    <div class="case-copy">
+      <p>
+        In the future, ARKA may integrate with existing calendar tools such as
+        Outlook or Teams, depending on the client’s workplace system. The current
+        design serves as a platform-native scheduling layer that can later
+        connect with external calendar tools.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-section page-width two-column-section">
+    <div>
+      <p class="eyebrow">Outcome</p>
+      <h2>Turning an undefined feature area into a structured workflow</h2>
+    </div>
+    <div class="case-copy">
+      <p>
+        This project helped turn an undefined feature area into a structured
+        scheduling workflow. It also strengthened my ability to build on an
+        existing product system, identify missing workflow logic, and design
+        interfaces that connect product features rather than treating each page
+        as an isolated screen.
+      </p>
+      <div class="case-actions">
+        <a class="button button-dark" href="https://9rac3h.github.io/portfolio/arka_final_version/login.html" target="_blank" rel="noopener">View interactive demo</a>
+        <a class="button" href="ux.html">Back to UX work</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer page-width">
+  <a class="monogram" href="index.html" aria-label="Back to home">gh</a>
+  <p>© 2026 Kexin Huang (Grace)</p>
+  <a href="mailto:grce071@gmail.com">grce071@gmail.com</a>
+</footer>
+<script src="js/script.js"></script>
+</body>
+</html>
