@@ -133,3 +133,10 @@ V23 CONTACT FIX
 - Updated the homepage contact section.
 - Email Me now opens a Gmail compose window.
 - Added a visible email address and Copy Email button as a fallback.
+
+
+V24 APP DESIGN STRUCTURE UPDATE
+- Removed Photography from the homepage and primary navigation.
+- Added an App Design overview page following the Website Design overview structure.
+- Linked MoodNote from the App Design overview.
+- Reorganized MoodNote into a traditional case-study sequence with placeholders for sitemap, workflow, wireframes, and iterations.

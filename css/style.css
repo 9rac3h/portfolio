@@ -1334,3 +1334,76 @@ h1 span {
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }
+
+
+/* ---------- MoodNote case study ---------- */
+.moodnote-case { --moodnote-clay:#b87453; --moodnote-cream:#f2e7d8; --moodnote-ink:#4f3329; }
+.moodnote-hero { padding-top: 34px; padding-bottom: 90px; }
+.moodnote-hero-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(300px,.55fr); gap:80px; align-items:center; padding-top:42px; }
+.moodnote-hero .case-meta-grid { margin-top:48px; }
+.moodnote-hero-visual { margin:0; max-width:390px; justify-self:end; filter:drop-shadow(0 24px 34px rgba(79,51,41,.16)); }
+.moodnote-screen-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:38px; padding:20px 0 120px; }
+.moodnote-screen-row figure,.moodnote-decision figure,.moodnote-pair figure { margin:0; }
+.moodnote-screen-row img { max-height:650px; width:auto; margin:auto; filter:drop-shadow(0 18px 26px rgba(40,30,25,.12)); }
+.moodnote-screen-row figcaption { text-align:center; margin-top:14px; color:var(--muted); font-size:13px; text-transform:uppercase; letter-spacing:.08em; }
+.moodnote-decision { display:grid; grid-template-columns:minmax(0,.75fr) minmax(320px,1.25fr); gap:80px; align-items:center; padding:85px 0; border-top:1px solid var(--soft-line); }
+.moodnote-decision-reverse { grid-template-columns:minmax(320px,1.25fr) minmax(0,.75fr); }
+.moodnote-decision-reverse .moodnote-decision-copy { order:2; }
+.moodnote-decision-copy h2 { font-size:clamp(34px,4vw,56px); font-weight:400; line-height:1.08; letter-spacing:-.04em; }
+.moodnote-decision-copy p:last-child { font-size:18px; line-height:1.65; color:#46433f; }
+.moodnote-decision > figure img { max-height:720px; width:auto; margin:auto; }
+.moodnote-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; align-items:end; }
+.moodnote-pair img { max-height:650px; width:auto; margin:auto; filter:drop-shadow(0 18px 28px rgba(40,30,25,.1)); }
+.moodnote-review-visual { background:var(--moodnote-cream); padding:55px; border-radius:28px; }
+.moodnote-review-visual img { max-height:760px; width:auto; margin:auto; }
+.moodnote-process-placeholder { margin-top:100px; padding:70px; background:#eee9e2; border-radius:24px; }
+@media (max-width:900px){.moodnote-hero-grid,.moodnote-decision,.moodnote-decision-reverse{grid-template-columns:1fr}.moodnote-hero-visual{justify-self:center;max-width:330px}.moodnote-decision-reverse .moodnote-decision-copy{order:0}.moodnote-screen-row{gap:16px}.moodnote-process-placeholder{padding:36px}}
+@media (max-width:640px){.moodnote-screen-row{grid-template-columns:1fr}.moodnote-screen-row img{max-height:620px}.moodnote-pair{grid-template-columns:1fr}.moodnote-decision{padding:65px 0;gap:42px}.moodnote-review-visual{padding:24px}.moodnote-process-placeholder{margin-top:55px;padding:28px}}
+
+
+/* ---------- App overview and MoodNote traditional case-study flow ---------- */
+.moodnote-screen-row-four { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.moodnote-screen-row-two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 930px; }
+.moodnote-process-slot { margin-top: 42px; padding: 64px 70px; background: #f1ede7; border-radius: 24px; }
+@media (max-width: 900px) {
+  .moodnote-screen-row-four, .moodnote-screen-row-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .moodnote-process-slot { padding: 40px; }
+}
+@media (max-width: 640px) {
+  .moodnote-screen-row-four, .moodnote-screen-row-two { grid-template-columns: 1fr; }
+  .moodnote-process-slot { padding: 28px; }
+}
+
+/* MoodNote final-design storytelling */
+.moodnote-screen-row-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.moodnote-screen-row-flow { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.moodnote-screen-row-flow img { max-height: 590px; }
+@media (max-width: 1000px) {
+  .moodnote-screen-row-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .moodnote-screen-row-three, .moodnote-screen-row-flow { grid-template-columns: 1fr; }
+}
+
+/* MoodNote process assets and transparent device artwork */
+.moodnote-case .case-visual img {
+  background: transparent;
+  border: 0;
+}
+.moodnote-process-image {
+  padding: 28px;
+  background: #f7f4ef;
+  border-radius: 24px;
+}
+.moodnote-process-image img {
+  width: 100%;
+  max-height: none;
+  object-fit: contain;
+}
+.moodnote-review-visual img {
+  background: transparent !important;
+  border: 0 !important;
+}
+@media (max-width: 640px) {
+  .moodnote-process-image { padding: 12px; border-radius: 16px; }
+}
