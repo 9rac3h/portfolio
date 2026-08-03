@@ -154,7 +154,9 @@
     <div class="comparison-card">
       <p class="eyebrow">Before</p>
       <h3>Long destination list</h3>
-      <img src="images/odynovo-before-dropdown.jpg" alt="Original Odynovo destination dropdown">
+      <div class="comparison-image-frame comparison-image-crop-browser">
+        <img src="images/odynovo-before-dropdown.jpg" alt="Original Odynovo destination dropdown, cropped to the website interface">
+      </div>
       <p>
         The original dropdown exposed many destinations at once, making browsing
         feel broad but less guided.
@@ -191,8 +193,8 @@
     </div>
   </section>
 
-  <section class="case-visual page-width case-visual-captioned">
-    <img src="images/odynovo-destination-2026.jpg" alt="Redesigned destination page with a visual region hierarchy and featured destination entry point">
+  <section class="case-visual case-visual-framed page-width case-visual-captioned">
+    <img class="case-full-page" src="images/odynovo-destination-2026.jpg" alt="Redesigned destination page with a visual region hierarchy and featured destination entry point">
     <p>Destination discovery module with a featured pick and regional entry points.</p>
   </section>
 
@@ -203,42 +205,52 @@
     </div>
     <div class="case-copy">
       <p>
-        I reframed tours as starting points rather than fixed products. The new
-        cards prioritize journey type, destination, duration, and a light arrow
-        affordance, allowing the imagery and essential information to do most of
-        the work without repeating heavy buttons across the grid.
-      </p>
-      <p>
-        A quieter filter and customization message support users who want to
-        narrow the list or use an existing itinerary as the basis for a
-        tailor-made trip.
+        I reframed tours as flexible starting points and reduced competing
+        interface elements so travelers could judge fit more quickly.
       </p>
     </div>
   </section>
 
-  <section class="before-after page-width">
-    <div class="comparison-card">
-      <p class="eyebrow">Before</p>
-      <h3>Dense tour cards</h3>
+  <section class="journey-decision-showcase page-width" aria-label="Annotated journey browsing redesign">
+    <div class="journey-before-evidence">
+      <div class="journey-before-copy">
+        <p class="eyebrow">Previous Design</p>
+        <h3>Useful information, but too much competing for attention</h3>
+        <p>Repeated buttons, long summaries, and equal visual weight made the collection harder to scan.</p>
+      </div>
       <div class="comparison-image-frame comparison-image-crop-browser">
         <img src="images/odynovo-before-tours.jpg" alt="Original Odynovo tour cards">
       </div>
-      <p>
-        Tour cards included useful information, but the repeated structure made
-        the section feel crowded and harder to compare quickly.
-      </p>
     </div>
-    <div class="comparison-card">
-      <p class="eyebrow">After</p>
-      <h3>Editorial journey browsing</h3>
-      <div class="comparison-image-frame comparison-image-fill">
+
+    <div class="annotated-design-board">
+      <div class="annotated-design-screen">
+        <p class="eyebrow">New Design · Destination Browsing</p>
         <img src="images/odynovo-journeys-2026.jpg" alt="Redesigned journey browsing grid with a quiet filter, large photography, essential trip information, and arrow affordances">
       </div>
-      <p>
-        I simplified each card and reduced repeated interface chrome, making the
-        collection easier to scan while keeping customization visible at the
-        section level.
-      </p>
+      <aside class="design-notes" aria-label="Design notes">
+        <article class="design-note">
+          <span>01</span>
+          <div>
+            <h4>Quiet filters</h4>
+            <p>Filtering remains available without becoming the first thing users see.</p>
+          </div>
+        </article>
+        <article class="design-note">
+          <span>02</span>
+          <div>
+            <h4>Faster comparison</h4>
+            <p>Large imagery and a consistent information order make each journey easier to scan.</p>
+          </div>
+        </article>
+        <article class="design-note">
+          <span>03</span>
+          <div>
+            <h4>Flexible by default</h4>
+            <p>A section-level customization path presents every itinerary as a starting point.</p>
+          </div>
+        </article>
+      </aside>
     </div>
   </section>
 
@@ -263,7 +275,7 @@
   </section>
 
   <section class="case-visual page-width">
-    <img class="case-long-page" src="images/odynovo-asia-2026.jpg" alt="Odynovo Asia landing page with a regional hero, featured journeys, destination highlights, and travel stories">
+    <img class="case-long-page case-full-page" src="images/odynovo-asia-2026.jpg" alt="Odynovo Asia landing page with a regional hero, featured journeys, destination highlights, and travel stories">
     <p class="case-visual-note">Asia landing page: the same discovery system extends from featured journeys to destination highlights and planning content.</p>
   </section>
 
