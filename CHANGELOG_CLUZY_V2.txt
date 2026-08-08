@@ -1,0 +1,32 @@
+Cluzy Case Study V2 — 2026-08-07
+
+BASE VERSION
+- Grace_Portfolio_MoodNote_CaseStudy_V2.zip
+
+MODIFIED FILES
+- cluzy.html
+- app.html
+- css/style.css
+
+UNCHANGED / VERIFIED
+- moodnote.html is byte-for-byte identical to the MoodNote Case Study V2 base version.
+- images/moodnote/ is unchanged.
+- The MoodNote HMW remains:
+  “How might we design an emotional wellness experience that feels supportive without becoming another source of pressure?”
+- MoodNote 20260807 high-fidelity asset paths remain intact.
+- No Cluzy image files were replaced; the existing final designs and wireframes are reused.
+
+CLUZY V2 DIRECTION
+- Reframed around limited attention at live events.
+- Added prominent HMW challenge statement.
+- Condensed research into four evidence-led findings from 3 x 30-minute interviews.
+- Reframed the case study around design decisions instead of a generic UX-process sequence.
+- Added 10 → 6 question reduction as a concrete interaction simplification.
+- Added user-goal vs business-goal framing for reward redemption and optional registration.
+- Added trust-without-friction section.
+- Added compact end-to-end flow and next-validation criteria.
+- Updated App Design project description for Cluzy.
+
+QA
+- All local image/link references in cluzy.html and app.html resolve.
+- MoodNote V2 lock markers and assets verified after the Cluzy edit.

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A UX research and interaction design case study for Cluzy's QR-based event check-in experience.">
+  <meta name="description" content="A UX research and interaction design case study for Cluzy's reward-led event check-in experience.">
   <title>Cluzy Event Check-In — Kexin Huang</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260807-cluzy2">
 </head>
 <body>
 <header class="site-header">
@@ -21,104 +21,148 @@
   </nav>
 </header>
 
-<main class="case-page cluzy-case">
-  <section class="case-hero page-width">
+<main class="case-page cluzy-case cluzy-case-v2">
+  <section class="case-hero page-width cluzy-hero-v2">
     <a class="back-link" href="app.html">← App Design</a>
-    <p class="eyebrow">Six-Week Team Project</p>
+    <p class="eyebrow">Six-Week Team Project · UX Research · Interaction Design</p>
     <h1>Cluzy Event Check-In</h1>
-    <p class="case-subtitle">Designing a fast QR-based event check-in experience that connects a short survey, immediate reward redemption, and optional account registration.</p>
+    <p class="case-subtitle">Designing for limited attention at live events.</p>
+    <p class="cluzy-hero-note">A reward-led mobile flow that makes a short data exchange feel fast, clear, and worth the effort.</p>
     <div class="case-meta-grid">
-      <div><span>Role</span><p>UX Researcher &amp; Interaction Designer</p></div>
+      <div><span>Role</span><p>UX/UI Designer</p></div>
       <div><span>Timeline</span><p>6 weeks · Fall 2025</p></div>
       <div><span>Team</span><p>Team of 3</p></div>
-      <div><span>Focus</span><p>Event check-in, reward redemption, account onboarding</p></div>
+      <div><span>Focus</span><p>Research, check-in, reward &amp; conversion</p></div>
     </div>
   </section>
 
-  <section class="case-visual page-width cluzy-hero-visual">
+  <section class="case-visual page-width cluzy-hero-visual cluzy-hero-visual-v2">
     <img src="images/cluzy/cluzy-hero.jpg" alt="Three key screens from the Cluzy event check-in flow">
   </section>
 
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Project Context</p><h2>Connecting a physical event to a digital reward experience</h2></div>
-    <div class="case-copy">
-      <p>Cluzy helps event organizers collect lightweight audience feedback in exchange for an immediate reward. Attendees scan a QR code, complete a short check-in, receive a voucher, and then decide whether to create a Cluzy account.</p>
-      <p>Our team focused on making that moment fast enough for a busy event environment while keeping the reward, privacy expectations, and optional registration path clear.</p>
+  <section class="page-width cluzy-hmw" aria-labelledby="cluzy-hmw-title">
+    <p class="eyebrow">The Challenge</p>
+    <blockquote id="cluzy-hmw-title">How might we help event attendees complete a data check-in quickly enough that the reward still feels worth the effort?</blockquote>
+  </section>
+
+  <section class="case-section page-width">
+    <div class="cluzy-section-intro">
+      <p class="eyebrow">Research</p>
+      <h2>Three interviews pointed to one rule: make the value obvious and keep the effort low.</h2>
+      <p>We ran three 30-minute remote interviews with prototype walkthroughs, focusing on check-in speed, reward motivation, mood input, and privacy.</p>
+    </div>
+    <div class="cluzy-research-grid" aria-label="Cluzy research findings">
+      <article><span>01</span><h3>Speed was already a strength</h3><p>Participants consistently described the prototype as fast, simple, and easy to complete; one finished in about 30 seconds.</p></article>
+      <article><span>02</span><h3>The reward has to feel worth it</h3><p>Reward value and visibility affected willingness to scan. Participants wanted to know what they would receive upfront.</p></article>
+      <article><span>03</span><h3>Clarity matters more than novelty</h3><p>“Region” caused confusion, while emoji-only mood input felt ambiguous to some participants.</p></article>
+      <article><span>04</span><h3>Trust depends on restraint</h3><p>Users preferred minimal data collection and judged legitimacy largely through the event organizer and context.</p></article>
     </div>
   </section>
 
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Research</p><h2>Understanding what makes users scan, finish, and trust the flow</h2></div>
-    <div class="case-copy">
-      <p>We conducted three remote interviews with prototype walkthroughs. The sessions explored reactions to the check-in flow, reward expectations, mood-input clarity, and comfort with personal-data collection.</p>
-      <p>The strongest pattern was simple: attendees were willing to participate when the reward was visible, the form felt short, and registration remained optional.</p>
+  <section class="case-section page-width cluzy-decision-block">
+    <div class="cluzy-decision-copy">
+      <p class="eyebrow">Key Decision 01</p>
+      <h2>Show the value before asking for effort.</h2>
+      <p>The final landing page makes the $5 reward, expected time, privacy promise, and instant redemption scannable before the user commits to the form.</p>
+      <p class="cluzy-decision-note"><strong>Why:</strong> reward transparency was one of the clearest drivers of participation in interviews.</p>
+    </div>
+    <div class="cluzy-before-after">
+      <figure><span>Wireframe</span><img src="images/cluzy/wireframe/cluzy-wireframe-landing.png" alt="Cluzy reward landing wireframe"><figcaption>Reward introduced, but hierarchy still exploratory</figcaption></figure>
+      <div class="cluzy-iteration-arrow" aria-hidden="true">→</div>
+      <figure><span>Final</span><img src="images/cluzy/final/cluzy-final-1.png" alt="Final Cluzy reward landing screen"><figcaption>Reward + time + privacy visible at a glance</figcaption></figure>
     </div>
   </section>
 
-  <section class="cluzy-insights page-width" aria-label="Key research findings">
-    <article><span>01</span><h3>Show the reward upfront</h3><p>Users wanted to know what they would receive before committing to the check-in.</p></article>
-    <article><span>02</span><h3>Keep it quick</h3><p>The experience needed to feel completable in under a minute within a busy event setting.</p></article>
-    <article><span>03</span><h3>Reduce ambiguity</h3><p>Clear labels and direct questions were easier to understand than vague emoji-only inputs.</p></article>
-    <article><span>04</span><h3>Make registration optional</h3><p>Users were more comfortable when they could claim the reward before choosing whether to join.</p></article>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Wireframes</p><h2>Testing the structure before refining the visual system</h2></div>
-    <div class="case-copy">
-      <p>The early wireframes established the core path from reward discovery to survey completion, voucher redemption, and optional registration. They also revealed where the original concept felt crowded or asked users to make too many decisions at once.</p>
+  <section class="case-section page-width cluzy-decision-block">
+    <div class="cluzy-decision-copy">
+      <p class="eyebrow">Key Decision 02</p>
+      <h2>Cut the form from 10 questions to 6.</h2>
+      <p>The early check-in collected a broad set of demographic and behavioral data. I reduced the final flow to six questions and made identity optional so the interaction stayed closer to the speed users already valued.</p>
+      <div class="cluzy-number-shift" aria-label="Question count reduced from 10 to 6"><strong>10</strong><span>questions</span><i>→</i><strong>6</strong><span>questions</span></div>
+      <p class="cluzy-decision-note"><strong>Why:</strong> in a live event environment, every extra field competes with the user’s immediate goal.</p>
+    </div>
+    <div class="cluzy-before-after">
+      <figure><span>Earlier form</span><img src="images/cluzy/wireframe/cluzy-wireframe-checkin.png" alt="Earlier Cluzy check-in wireframe with ten questions"><figcaption>Broad data collection</figcaption></figure>
+      <div class="cluzy-iteration-arrow" aria-hidden="true">→</div>
+      <figure><span>Final form</span><img src="images/cluzy/final/cluzy-final-2.png" alt="Final Cluzy check-in screen with six questions"><figcaption>Shorter, clearer, reward-led</figcaption></figure>
     </div>
   </section>
 
-  <section class="cluzy-wireframe-grid page-width" aria-label="Selected Cluzy wireframes">
-    <figure><img src="images/cluzy/wireframe/cluzy-wireframe-landing.png" alt="Wireframe of the Cluzy reward landing screen"><figcaption>Reward landing</figcaption></figure>
-    <figure><img src="images/cluzy/wireframe/cluzy-wireframe-checkin.png" alt="Wireframe of the Cluzy quick check-in form"><figcaption>Quick check-in</figcaption></figure>
-    <figure><img src="images/cluzy/wireframe/cluzy-wireframe-voucher.png" alt="Wireframe combining voucher and account onboarding"><figcaption>Voucher and onboarding</figcaption></figure>
-    <figure><img src="images/cluzy/wireframe/cluzy-wireframe-register.png" alt="Wireframe of Cluzy registration options"><figcaption>Registration</figcaption></figure>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Design Evolution</p><h2>Separating reward redemption from account onboarding</h2></div>
-    <div class="case-copy">
-      <p>The original voucher screen also introduced membership benefits and registration actions. In the final flow, I separated these into distinct steps so users first receive the promised reward, then decide whether they want to continue with Cluzy.</p>
-      <p>This reduced cognitive load and made each screen responsible for one clear task.</p>
+  <section class="case-section page-width cluzy-goal-section">
+    <div class="cluzy-section-intro cluzy-section-intro-narrow">
+      <p class="eyebrow">Key Decision 03 · User Goal vs Business Goal</p>
+      <h2>Deliver the reward first. Ask for registration second.</h2>
+      <p>The attendee scanned for a reward; Cluzy wanted continued engagement. Instead of merging both goals, I separated them into a clear sequence.</p>
+    </div>
+    <div class="cluzy-goal-grid">
+      <article><span>User goal</span><h3>Claim the promised reward</h3><p>Complete the check-in and use the voucher immediately.</p></article>
+      <article><span>Business goal</span><h3>Create a reason to continue</h3><p>Explain Cluzy’s ongoing value and invite registration without blocking redemption.</p></article>
+    </div>
+    <div class="cluzy-conversion-compare">
+      <figure class="cluzy-wireframe-card"><span>Earlier approach</span><img src="images/cluzy/wireframe/cluzy-wireframe-voucher.png" alt="Cluzy wireframe combining reward and registration"><figcaption>Reward and onboarding compete on one screen</figcaption></figure>
+      <div class="cluzy-iteration-arrow" aria-hidden="true">→</div>
+      <div class="cluzy-final-pair">
+        <figure><span>Step 1 · Reward</span><img src="images/cluzy/final/cluzy-final-3.png" alt="Final Cluzy voucher screen"><figcaption>Finish the user’s task</figcaption></figure>
+        <figure><span>Step 2 · Conversion</span><img src="images/cluzy/final/cluzy-final-4.png" alt="Final Cluzy benefits screen"><figcaption>Then explain why joining is useful</figcaption></figure>
+      </div>
     </div>
   </section>
 
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Final Design</p><h2>A five-step experience organized around the user’s immediate goal</h2></div>
-    <div class="case-copy">
-      <p>The final design follows the order an attendee would experience it at an event: understand the incentive, complete the check-in, redeem the voucher, review the value of Cluzy, and register only if interested.</p>
+  <section class="case-section page-width cluzy-trust-section">
+    <div class="cluzy-section-intro cluzy-section-intro-narrow">
+      <p class="eyebrow">Trust Without Friction</p>
+      <h2>Privacy cues stay visible without turning the flow into legal copy.</h2>
+      <p>Research suggested that users cared about minimal information and legitimacy more than reading a long privacy policy. Short trust cues stay near the moments where data is requested.</p>
+    </div>
+    <div class="cluzy-trust-points">
+      <article><strong>30 Seconds</strong><span>sets an effort expectation</span></article>
+      <article><strong>100% Private</strong><span>makes the data promise visible</span></article>
+      <article><strong>Optional identity</strong><span>reduces unnecessary disclosure</span></article>
+      <article><strong>Maybe Later</strong><span>keeps registration voluntary</span></article>
     </div>
   </section>
 
-  <section class="cluzy-final-flow page-width" aria-label="Cluzy final design flow">
-    <article class="cluzy-flow-step">
-      <div class="cluzy-step-copy"><span>01</span><h3>Discover the reward</h3><p>The landing screen makes the incentive, expected time, and privacy promise immediately visible.</p></div>
-      <figure><img src="images/cluzy/final/cluzy-final-1.png" alt="Cluzy reward landing screen"></figure>
-    </article>
-    <article class="cluzy-flow-step cluzy-flow-step-reverse">
-      <div class="cluzy-step-copy"><span>02</span><h3>Complete a quick check-in</h3><p>Six concise questions are grouped into one centered form with clear progress and a direct reward CTA.</p></div>
-      <figure><img src="images/cluzy/final/cluzy-final-2.png" alt="Cluzy quick check-in form"></figure>
-    </article>
-    <article class="cluzy-flow-step">
-      <div class="cluzy-step-copy"><span>03</span><h3>Redeem the voucher</h3><p>The voucher confirms completion, displays the barcode and coupon code, and keeps account creation secondary.</p></div>
-      <figure><img src="images/cluzy/final/cluzy-final-3.png" alt="Cluzy free drink voucher"></figure>
-    </article>
-    <article class="cluzy-flow-step cluzy-flow-step-reverse">
-      <div class="cluzy-step-copy"><span>04</span><h3>Understand the value of joining</h3><p>A separate benefits screen explains what Cluzy offers without interrupting reward redemption.</p></div>
-      <figure><img src="images/cluzy/final/cluzy-final-4.png" alt="Cluzy account benefits screen"></figure>
-    </article>
-    <article class="cluzy-flow-step">
-      <div class="cluzy-step-copy"><span>05</span><h3>Register by phone or email</h3><p>Interested users can choose a familiar registration method while the privacy message remains visible.</p></div>
-      <figure><img src="images/cluzy/final/cluzy-final-5.png" alt="Cluzy registration screen"></figure>
-    </article>
+  <section class="case-section page-width cluzy-e2e">
+    <div class="cluzy-section-intro cluzy-section-intro-narrow">
+      <p class="eyebrow">End-to-End Experience</p>
+      <h2>Value → check-in → reward → optional conversion</h2>
+      <p>Each screen has one primary job, keeping the physical-event interaction short while still supporting Cluzy’s longer-term business goal.</p>
+    </div>
+    <div class="cluzy-flow-strip" aria-label="Cluzy end-to-end flow">
+      <span>See the reward</span><i>→</i><span>Answer 6 questions</span><i>→</i><span>Claim voucher</span><i>→</i><span>See Cluzy value</span><i>→</i><span>Register or leave</span>
+    </div>
+    <div class="cluzy-screen-row">
+      <figure><img src="images/cluzy/final/cluzy-final-1.png" alt="Cluzy reward landing screen"><figcaption>Value</figcaption></figure>
+      <figure><img src="images/cluzy/final/cluzy-final-2.png" alt="Cluzy six-question check-in"><figcaption>Check-in</figcaption></figure>
+      <figure><img src="images/cluzy/final/cluzy-final-3.png" alt="Cluzy voucher"><figcaption>Reward</figcaption></figure>
+      <figure><img src="images/cluzy/final/cluzy-final-4.png" alt="Cluzy benefits screen"><figcaption>Value proposition</figcaption></figure>
+      <figure><img src="images/cluzy/final/cluzy-final-5.png" alt="Cluzy registration screen"><figcaption>Optional registration</figcaption></figure>
+    </div>
   </section>
 
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Outcome</p><h2>A compact flow shaped by research and clear task separation</h2></div>
+  <section class="case-section page-width cluzy-validation-section">
+    <div class="cluzy-validation-grid">
+      <div>
+        <p class="eyebrow">What Testing Changed</p>
+        <h2>Research helped me decide what to simplify — not just what to restyle.</h2>
+        <p>Interview feedback reinforced speed as a strength while exposing ambiguity around reward details, data collection, and some input methods. The final iteration focused on a smaller form, clearer incentive, and cleaner task separation.</p>
+      </div>
+      <div class="cluzy-next-test">
+        <p class="eyebrow">Next Validation</p>
+        <ul>
+          <li><strong>Completion time</strong><span>Can users still finish comfortably in under a minute?</span></li>
+          <li><strong>Reward comprehension</strong><span>Do users understand the value before they start?</span></li>
+          <li><strong>Drop-off</strong><span>Where do attendees abandon the six-question flow?</span></li>
+          <li><strong>Optional conversion</strong><span>Can users distinguish voucher redemption from account registration?</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section page-width two-column-section cluzy-reflection">
+    <div><p class="eyebrow">Reflection</p><h2>Efficiency is about task order, not just fewer screens.</h2></div>
     <div class="case-copy">
-      <p>This project strengthened my ability to connect user research with interaction decisions. The final concept makes the incentive visible, keeps the survey focused, delivers the reward before onboarding, and gives users control over whether they continue.</p>
-      <p>The broader workflow diagram is being refined separately so the final case study can present it at a readable scale.</p>
+      <p>Cluzy taught me to balance immediate user value with a business conversion goal. The strongest improvement was not adding more guidance — it was deciding what the user needed to see now, and what could wait until after the reward.</p>
       <div class="case-actions"><a class="button" href="app.html">Back to App Design</a></div>
     </div>
   </section>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MoodNote is a mobile emotional wellness experience that helps users reflect, regulate, and receive gentle support without the pressure of traditional social media.">
+  <meta name="description" content="MoodNote case study — designing a low-pressure emotional wellness experience through gentle interaction, user control, UX writing, and an end-to-end reflection loop.">
   <title>MoodNote — Kexin Huang</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -20,154 +20,181 @@
     <a href="resume/grace-huang-resume.pdf" target="_blank" rel="noopener">Resume</a>
   </nav>
 </header>
-<main class="case-page moodnote-case">
-  <section class="case-hero page-width moodnote-hero">
+
+<main class="case-page moodnote-case moodnote-case-v2">
+  <section class="case-hero page-width moodnote-hero moodnote-hero-v2">
     <a class="back-link" href="app.html">← App Design</a>
     <div class="moodnote-hero-grid">
       <div class="case-hero-copy">
-        <p class="eyebrow">Independent Mobile App Design</p>
+        <p class="eyebrow">Independent Product Design · Emotional Wellness</p>
         <h1>MoodNote</h1>
-        <p class="case-subtitle">A gentle emotional wellness space for reflecting, regulating, and receiving support without the pressure of traditional social media.</p>
+        <p class="case-subtitle">Designing emotional wellness without adding emotional pressure.</p>
+        <p class="moodnote-hero-note">A mobile experience for reflection, gentle reset, and private or trusted sharing — designed for moments when users may have limited emotional bandwidth.</p>
         <div class="case-meta-grid">
           <div><span>Role</span><p>Product &amp; UI Designer</p></div>
-          <div><span>Timeline</span><p>Jul 2026</p></div>
+          <div><span>Timeline</span><p>Jul–Aug 2026</p></div>
           <div><span>Tools</span><p>Figma, Prototyping</p></div>
-          <div><span>Focus</span><p>Emotional reflection, supportive sharing, calm tools</p></div>
+          <div><span>Focus</span><p>Interaction, UX Writing, End-to-End Flow</p></div>
         </div>
       </div>
-      <figure class="moodnote-hero-visual"><img src="images/moodnote/moodnote-home-20260806.png" alt="MoodNote home screen"></figure>
+      <figure class="moodnote-hero-visual"><img src="images/moodnote/moodnote-home-20260807.png" alt="MoodNote home screen"></figure>
     </div>
   </section>
 
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Project Overview</p><h2>Creating a softer space for emotional wellbeing</h2></div>
+  <section class="case-section page-width two-column-section moodnote-challenge">
+    <div>
+      <p class="eyebrow">The Challenge</p>
+      <h2>Wellness shouldn’t feel like another task.</h2>
+    </div>
     <div class="case-copy">
-      <p>MoodNote is a mobile wellness concept that helps users record how they feel, reflect privately, share selected moments with trusted friends, and access short recharge activities.</p>
-      <p>The project explores how emotional care can feel supportive and personal without becoming overly clinical, task-driven, or socially performative.</p>
+      <p>People may open a wellness app when they are already stressed, tired, or overwhelmed. In those moments, long forms, too many choices, or achievement-focused language can add friction instead of support.</p>
+      <p>MoodNote explores how a product can help users reflect and take a small next step while asking for as little emotional effort as possible.</p>
     </div>
   </section>
 
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Problem &amp; Goal</p><h2>Balancing self-reflection with gentle connection</h2></div>
+  <section class="page-width moodnote-hmw" aria-label="Design challenge question">
+    <p class="eyebrow">How Might We</p>
+    <blockquote>How might we design an emotional wellness experience that feels supportive without becoming another source of pressure?</blockquote>
+  </section>
+
+  <section class="case-section page-width">
+    <div class="moodnote-section-intro">
+      <p class="eyebrow">Starting Point</p>
+      <h2>Designing for limited emotional bandwidth</h2>
+      <p class="moodnote-small-note">As a concept project without primary user research, I treated these as design assumptions to test — not research findings.</p>
+    </div>
+    <div class="moodnote-assumption-grid">
+      <article><span>01</span><h3>Starting can feel like work</h3><p>Reflection should be easy to begin without requiring a full journal entry, photo, or lengthy setup.</p></article>
+      <article><span>02</span><h3>Too many choices create pressure</h3><p>Multiple equally weighted actions can increase decision effort when users are already overwhelmed.</p></article>
+      <article><span>03</span><h3>Sharing needs control</h3><p>Wanting support does not mean wanting to share everything. Privacy should stay explicit and reversible.</p></article>
+      <article><span>04</span><h3>Language carries emotional weight</h3><p>Prompts and CTAs should invite action without judgment, urgency, or a “correct” way to feel.</p></article>
+    </div>
+  </section>
+
+  <section class="case-section page-width">
+    <div class="moodnote-section-intro">
+      <p class="eyebrow">Design Principles</p>
+      <h2>Three rules guided the experience</h2>
+    </div>
+    <div class="moodnote-principle-grid">
+      <article><p class="moodnote-principle-number">01</p><h3>Reduce the effort</h3><p>Keep required inputs light, use optional content, and offer manageable session lengths.</p></article>
+      <article><p class="moodnote-principle-number">02</p><h3>Preserve control</h3><p>Let users choose privacy, pace, duration, and whether to skip, pause, or stop.</p></article>
+      <article><p class="moodnote-principle-number">03</p><h3>Invite, don’t instruct</h3><p>Use neutral, non-judgmental language that supports without pushing users toward a behavior.</p></article>
+    </div>
+  </section>
+
+  <section class="case-section page-width">
+    <div class="moodnote-section-intro moodnote-section-intro-narrow">
+      <p class="eyebrow">Structure</p>
+      <h2>Reflection and support needed to connect without becoming one rigid path</h2>
+      <p>I mapped the product around distinct spaces for reflection, recharge, sharing, and review, then connected them through lightweight transitions.</p>
+    </div>
+    <div class="moodnote-process-grid">
+      <figure><img src="images/moodnote/moodnote-sitemap-20260806.jpg" alt="MoodNote sitemap"><figcaption>Information architecture</figcaption></figure>
+      <figure><img src="images/moodnote/moodnote-core-user-flow-20260806.jpg" alt="Early MoodNote reflection workflow"><figcaption>Early reflection workflow</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="case-section page-width moodnote-decision-block">
+    <div class="moodnote-decision-heading">
+      <p class="eyebrow">Key Decision 01</p>
+      <h2>Make reflection easy to start</h2>
+      <p>Photo upload became optional so the core task stays emotional reflection, not content creation. Mood tags offer a lower-effort alternative when writing feels like too much.</p>
+      <p class="moodnote-decision-note"><strong>Design goal:</strong> reduce interaction cost without removing expressive options.</p>
+    </div>
+    <div class="moodnote-pair moodnote-pair-tight">
+      <figure><img src="images/moodnote/moodnote-create-empty-20260807.png" alt="Create Moment screen before adding a photo"><figcaption>Start with reflection</figcaption></figure>
+      <figure><img src="images/moodnote/moodnote-create-with-photo-20260807.png" alt="Create Moment screen after adding a photo"><figcaption>Add context only if needed</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="case-section page-width moodnote-decision-block">
+    <div class="moodnote-decision-heading">
+      <p class="eyebrow">Key Decision 02</p>
+      <h2>Reduce choice pressure, not choice</h2>
+      <p>The earlier Recharge screen gave three activities nearly equal visual weight. I revised the hierarchy around one recommended option while keeping alternatives visible.</p>
+      <p class="moodnote-decision-note"><strong>Design goal:</strong> lower decision effort while preserving user control.</p>
+    </div>
+    <div class="moodnote-before-after">
+      <figure><span>Earlier iteration</span><img src="images/moodnote/moodnote-old-recharge-20260807.png" alt="Earlier MoodNote Recharge Zone design"><figcaption>Competing cards and repeated decisions</figcaption></figure>
+      <div class="moodnote-iteration-arrow" aria-hidden="true">→</div>
+      <figure><span>Current design</span><img src="images/moodnote/moodnote-recharge-zone-20260807.png" alt="Current MoodNote Recharge Zone design"><figcaption>Recommended action + quieter alternatives</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="case-section page-width moodnote-decision-block">
+    <div class="moodnote-decision-heading">
+      <p class="eyebrow">Key Decision 03</p>
+      <h2>Privacy is a choice, not a default</h2>
+      <p>MoodNote separates private reflection from trusted sharing at the moment of creation. The selected privacy state then stays visible after saving and inside the moment detail.</p>
+      <p class="moodnote-decision-note"><strong>Design goal:</strong> keep emotional sharing explicit, predictable, and user-controlled.</p>
+    </div>
+    <div class="moodnote-pair moodnote-pair-tight">
+      <figure><img src="images/moodnote/moodnote-create-with-photo-20260807.png" alt="Create Moment privacy selection"><figcaption>Choose where the moment lives</figcaption></figure>
+      <figure><img src="images/moodnote/moodnote-private-detail-20260807.png" alt="Private MoodNote moment detail"><figcaption>Private state stays clear</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="case-section page-width moodnote-language-section">
+    <div class="moodnote-language-copy">
+      <p class="eyebrow">Key Decision 04 · UX Writing</p>
+      <h2>Invite, don’t instruct.</h2>
+      <p>I treated interface language as part of the interaction design. Labels and CTAs avoid urgency, judgment, or implying that users need to “fix” how they feel.</p>
+    </div>
+    <div class="moodnote-copy-table" role="table" aria-label="MoodNote UX writing examples">
+      <div class="moodnote-copy-row moodnote-copy-header" role="row"><span role="columnheader">Pressure-prone wording</span><span role="columnheader">MoodNote approach</span></div>
+      <div class="moodnote-copy-row" role="row"><span>Complete your daily check-in</span><strong>How are you feeling today?</strong></div>
+      <div class="moodnote-copy-row" role="row"><span>Start your meditation</span><strong>Choose what you need right now.</strong></div>
+      <div class="moodnote-copy-row" role="row"><span>You did it!</span><strong>You made space for yourself.</strong></div>
+      <div class="moodnote-copy-row" role="row"><span>Skip</span><strong>Skip for now</strong></div>
+      <div class="moodnote-copy-row" role="row"><span>Complete the session</span><strong>You can pause or finish at any time.</strong></div>
+    </div>
+    <div class="moodnote-home-iteration">
+      <figure><span>Earlier navigation language</span><img src="images/moodnote/moodnote-old-home-20260807.png" alt="Earlier MoodNote home screen"><figcaption>“Today’s Reflection” / “Calming Zone”</figcaption></figure>
+      <figure><span>Current language</span><img src="images/moodnote/moodnote-home-20260807.png" alt="Current MoodNote home screen"><figcaption>“Reflect” / “Recharge” / “Understand Your Mood”</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="case-section page-width moodnote-e2e">
+    <div class="moodnote-section-intro moodnote-section-intro-narrow">
+      <p class="eyebrow">End-to-End Experience</p>
+      <h2>Reflection → action → understanding</h2>
+      <p>The product does not stop at logging a mood. It connects reflection to a manageable action, then closes the loop with an optional check-in and weekly pattern review.</p>
+    </div>
+    <div class="moodnote-flow-strip" aria-label="MoodNote end-to-end flow">
+      <span>Reflect</span><i>→</i><span>Create Moment</span><i>→</i><span>Choose Privacy</span><i>→</i><span>Recharge</span><i>→</i><span>Session</span><i>→</i><span>Check-in</span><i>→</i><span>Weekly Review</span>
+    </div>
+    <div class="moodnote-screen-row moodnote-screen-row-flow moodnote-e2e-screens">
+      <figure><img src="images/moodnote/moodnote-home-20260807.png" alt="MoodNote home screen"><figcaption>Reflect</figcaption></figure>
+      <figure><img src="images/moodnote/moodnote-recharge-zone-20260807.png" alt="MoodNote Recharge Zone"><figcaption>Choose a small next step</figcaption></figure>
+      <figure><img src="images/moodnote/moodnote-session-complete-20260807.png" alt="MoodNote post-session check-in"><figcaption>Check in without pressure</figcaption></figure>
+      <figure><img src="images/moodnote/moodnote-weekly-review-20260807.png" alt="MoodNote weekly review"><figcaption>Notice patterns over time</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="case-section page-width">
+    <div class="moodnote-section-intro">
+      <p class="eyebrow">How I’d Validate It</p>
+      <h2>Success should mean less friction, not more activity.</h2>
+      <p class="moodnote-small-note">The next step would be usability testing and measuring whether users can engage comfortably — not simply whether they spend more time in the app.</p>
+    </div>
+    <div class="moodnote-metric-grid">
+      <article><h3>Reflection completion</h3><p>Can users start and save a moment without unnecessary drop-off?</p></article>
+      <article><h3>Decision ease</h3><p>Can users choose a recharge option quickly and understand the recommendation?</p></article>
+      <article><h3>Privacy confidence</h3><p>Do users understand who can see a moment before and after saving?</p></article>
+      <article><h3>Return value</h3><p>Does Weekly Review help users recognize patterns worth returning for?</p></article>
+    </div>
+  </section>
+
+  <section class="case-section page-width two-column-section moodnote-reflection">
+    <div><p class="eyebrow">Reflection</p><h2>Calm is not only a visual style.</h2></div>
     <div class="case-copy">
-      <p>Many wellness apps emphasize tracking and completion, while social platforms often turn emotional sharing into a public interaction. MoodNote needed to support both private reflection and connection without making users feel evaluated.</p>
-      <p>The goal was to create one calm system where users could understand their emotions, choose the level of privacy they wanted, and take a small supportive action when needed.</p>
+      <p>This project shifted my focus from making calm-looking screens to designing calm interactions. Reducing pressure also meant considering pace, privacy, wording, and how much the product asks from a user in each moment.</p>
+      <div class="case-actions"><a class="button" href="app.html">Back to App Design</a></div>
     </div>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Information Architecture</p><h2>Organizing reflection, support, and recharge into one system</h2></div>
-    <div class="case-copy">
-      <p>The sitemap organizes MoodNote around five bottom-navigation destinations: Home, Recharge Zone, Create Moments, Moments, and Profile. Mood Review remains available from the global header so users can revisit emotional patterns from across the product.</p>
-      <p>This structure keeps private reflection, supportive sharing, and guided wellness activities distinct while still allowing them to connect naturally.</p>
-    </div>
-  </section>
-  <section class="case-visual page-width moodnote-process-image">
-    <img src="images/moodnote/moodnote-sitemap-20260806.jpg" alt="MoodNote sitemap showing the five bottom navigation areas and their related screens">
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Core User Flow</p><h2>Giving users control over how a moment is shared</h2></div>
-    <div class="case-copy">
-      <p>The primary reflection flow begins from Today’s Reflection and moves through writing, mood tagging, and photo selection. The key decision is whether a moment should remain private in My Space or be shared to Moments.</p>
-      <p>For shared moments, supportive interactions stay lightweight and can lead to private replies rather than a public comment thread.</p>
-    </div>
-  </section>
-  <section class="case-visual page-width moodnote-process-image">
-    <img src="images/moodnote/moodnote-core-user-flow-20260806.jpg" alt="MoodNote core user flow for creating, saving, or sharing a moment">
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Supporting Flow</p><h2>Turning the Recharge Zone into a flexible path</h2></div>
-    <div class="case-copy">
-      <p>The supporting flow maps how users browse meditation, workout, and journal options. Meditation and workout sessions include setup choices before the activity begins, while journaling reconnects users to the reflection flow.</p>
-      <p>The flow was designed to offer multiple exits and next steps, so completing a wellness activity never feels like a rigid requirement.</p>
-    </div>
-  </section>
-  <section class="case-visual page-width moodnote-process-image">
-    <img src="images/moodnote/moodnote-supporting-flow-20260806.jpg" alt="MoodNote supporting flow for meditation, workout, and journal sessions">
-  </section>
-
-  <section class="case-section page-width two-column-section moodnote-process-slot">
-    <div><p class="eyebrow">Wireframes</p><h2>Establishing structure before visual refinement</h2></div>
-    <div class="case-copy"><p>Low-fidelity screens will be added here to explain the hierarchy and interaction structure across the Home, Create Moment, Moments, and Recharge Zone experiences.</p></div>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Visual Direction</p><h2>A warm, gentle, and expressive interface</h2></div>
-    <div class="case-copy"><p>The visual system combines warm neutrals, muted mood colors, soft cards, and expressive illustration. Language such as “Reflection,” “Moment,” and “Recharge” helps the product feel invitational rather than demanding.</p></div>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Final Design 01</p><h2>Core product areas</h2></div>
-    <div class="case-copy">
-      <p>The bottom navigation gives users direct access to three primary areas: Home, Recharge Zone, and Moments. Together, they frame MoodNote around reflection, emotional regulation, and trusted connection.</p>
-      <p>Home acts as the personal starting point, Recharge Zone offers guided wellness activities, and Moments provides a calmer space for sharing with friends.</p>
-    </div>
-  </section>
-  <section class="moodnote-screen-row moodnote-screen-row-three page-width">
-    <figure><img src="images/moodnote/moodnote-home-20260806.png" alt="MoodNote home screen"><figcaption>Home</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-recharge-zone-20260806.png" alt="MoodNote Recharge Zone"><figcaption>Recharge Zone</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-moments-20260806.png" alt="MoodNote Moments feed"><figcaption>Moments</figcaption></figure>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Final Design 02</p><h2>Creating and sharing a moment</h2></div>
-    <div class="case-copy">
-      <p>The moment flow guides users from choosing a photo to writing a reflection, adding mood tags, and selecting a sharing preference. A moment can remain private or appear in Moments for trusted friends.</p>
-      <p>After sharing, users can view the post in context and send support or reply privately without creating a public comment thread.</p>
-    </div>
-  </section>
-  <section class="moodnote-screen-row moodnote-screen-row-flow page-width">
-    <figure><img src="images/moodnote/moodnote-photo-picker-20260806.png" alt="MoodNote photo selection"><figcaption>Choose a Photo</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-create-moment-20260806.png" alt="MoodNote create moment screen"><figcaption>Create a Moment</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-moment-saved-20260806.png" alt="MoodNote moment saved confirmation"><figcaption>Moment Saved</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-moment-detail-20260806.png" alt="MoodNote shared moment detail"><figcaption>Moment Detail</figcaption></figure>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Final Design 03</p><h2>Guided recharge experience</h2></div>
-    <div class="case-copy">
-      <p>The Recharge Zone presents meditation, journaling, and gentle movement as flexible options rather than required tasks. Users can choose what feels manageable and review recommendations before beginning.</p>
-      <p>The flow continues from a lightweight session setup into active guidance and a post-session check-in, including duration, background music, voice guidance, and reflection after completion.</p>
-    </div>
-  </section>
-  <section class="moodnote-screen-row moodnote-screen-row-flow page-width">
-    <figure><img src="images/moodnote/moodnote-recharge-zone-20260806.png" alt="MoodNote Recharge Zone"><figcaption>Recharge Zone</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-session-detail-20260806.png" alt="MoodNote meditation setup"><figcaption>Session Detail</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-active-session-20260806.png" alt="MoodNote active meditation session"><figcaption>Active Session</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-session-complete-20260806.png" alt="MoodNote meditation completion check-in"><figcaption>Session Complete</figcaption></figure>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Final Design 04</p><h2>Reflection and progress</h2></div>
-    <div class="case-copy"><p>The weekly review summarizes mood patterns, moments created, and completed sessions. It helps users notice emotional patterns over time without turning wellbeing into a competitive score.</p></div>
-  </section>
-  <section class="case-visual page-width moodnote-review-visual"><img src="images/moodnote/moodnote-weekly-review-20260806.png" alt="MoodNote weekly emotional review"></section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Final Design 05</p><h2>Personalized reminders and account controls</h2></div>
-    <div class="case-copy">
-      <p>Notifications surface timely reflections, weekly reviews, and friend activity without turning emotional care into constant engagement.</p>
-      <p>Profile and reminder settings give users clear control over privacy, schedules, quiet hours, and the kinds of prompts they want to receive.</p>
-    </div>
-  </section>
-  <section class="moodnote-screen-row moodnote-screen-row-three page-width">
-    <figure><img src="images/moodnote/moodnote-notifications-20260806.png" alt="MoodNote notifications screen"><figcaption>Notifications</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-profile-20260806.png" alt="MoodNote profile screen"><figcaption>Profile</figcaption></figure>
-    <figure><img src="images/moodnote/moodnote-reminders-20260806.png" alt="MoodNote reminder settings"><figcaption>Reminders</figcaption></figure>
-  </section>
-
-  <section class="case-section page-width two-column-section moodnote-process-slot">
-    <div><p class="eyebrow">Iterations &amp; Key Decisions</p><h2>Refining hierarchy, language, and emotional tone</h2></div>
-    <div class="case-copy"><p>Selected iterations and annotated design decisions will be added here after the wireframes and workflow documentation are ready.</p></div>
-  </section>
-
-  <section class="case-section page-width two-column-section">
-    <div><p class="eyebrow">Outcome &amp; Reflection</p><h2>Expanding from website design into a connected mobile product</h2></div>
-    <div class="case-copy"><p>MoodNote helped me practice designing across a connected mobile experience rather than a collection of isolated screens. The project brought together information architecture, interaction choices, emotional language, data visualization, and a consistent visual system.</p><div class="case-actions"><a class="button" href="app.html">Back to App Design</a></div></div>
   </section>
 </main>
+
 <footer class="site-footer page-width"><a class="monogram" href="index.html" aria-label="Back to home">gh</a><p>© 2026 Kexin Huang (Grace)</p><a href="mailto:grce071@gmail.com">grce071@gmail.com</a></footer>
 <script src="js/script.js"></script>
 </body>

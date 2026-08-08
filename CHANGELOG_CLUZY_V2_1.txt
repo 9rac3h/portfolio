@@ -1,0 +1,16 @@
+Base: Grace_Portfolio_Cluzy_CaseStudy_V2.zip
+Update: Cluzy visual polish V2.1
+
+Changed site file:
+- css/style.css
+
+Adjustments:
+- Reduced The Challenge / HMW headline from max 66px to max 54px (responsive clamp reduced as well).
+- Unified all four research insight cards to one pale blue background (#f3f6fb).
+- Kept blue 01–04 numbering and all copy/layout unchanged.
+
+Unchanged:
+- cluzy.html content
+- app.html
+- moodnote.html and all MoodNote assets
+- all other case studies and images
